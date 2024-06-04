@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+html {
+  // Apply the dark theme by default
+  @include mat.core-theme(m3-theme.$dark-theme);
+  @include mat.toolbar-theme(m3-theme.$dark-theme);
+
+  // Apply the light theme only when the user prefers light themes.
+  @media (prefers-color-scheme: light) {
+    // Use the `-color` mixins to only apply color styles without reapplying the same
+    // typography and density styles.
+    @include mat.core-color(m3-theme.$light-theme);
+    @include mat.toolbar-color(m3-theme.$light-theme);
+  }
+}
