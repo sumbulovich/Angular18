@@ -3,4 +3,5 @@
     <mat-icon>menu</mat-icon>
   </button>
   <h1 class="example-app-name">Responsive App</h1>
+  <mat-slide-toggle #darkToggle [checked]="isDarkTheme" (change)="toggleDark($event.checked)"></mat-slide-toggle>
 </mat-toolbar>
