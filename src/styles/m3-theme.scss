@@ -142,8 +142,8 @@ $light-theme: mat.define-theme((
     tertiary: $_tertiary,
   ),
   typography: (
-    brand-family: "Roboto, sans-serif",
-    plain-family: "Roboto, sans-serif",
+    brand-family: #{"Roboto, sans-serif"},
+    plain-family: #{"Roboto, sans-serif"},
     bold-weight: 300,
     medium-weight: 200,
     regular-weight: 100,
@@ -159,8 +159,8 @@ $dark-theme: mat.define-theme((
     tertiary: $_tertiary,
   ),
   typography: (
-    brand-family: "Roboto, sans-serif",
-    plain-family: "Roboto, sans-serif",
+    brand-family: #{"Roboto, sans-serif"},
+    plain-family: #{"Roboto, sans-serif"},
     bold-weight: 300,
     medium-weight: 200,
     regular-weight: 100,

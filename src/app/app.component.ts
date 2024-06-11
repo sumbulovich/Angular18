@@ -13,7 +13,6 @@ import { MediaMatcher } from '@angular/cdk/layout';
 })
 export class AppComponent {
   mobileQuery: MediaQueryList;
-
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {

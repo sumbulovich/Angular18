@@ -1,19 +1,20 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, Output, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule],
+  imports: [CommonModule, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements AfterViewInit {
+  @Input() mobileQuery?: MediaQueryList;
   @Output() toggleSidenav = new EventEmitter<void>();
   @ViewChild('darkToggle', { read: ElementRef }) darkToggle?: ElementRef;
   isDarkTheme: boolean;
@@ -31,6 +32,7 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   toggleDark(value: boolean): void {
+    this.isDarkTheme = value;
     if (value) this.document.documentElement.setAttribute('dark-theme', '');
     else this.document.documentElement.removeAttribute('dark-theme');
   }

@@ -5,3 +5,8 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+[class*="border-"] {
+  border-style: solid;
+  border-color: var(--mat-divider-color);
+}

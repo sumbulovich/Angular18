@@ -7,6 +7,5 @@
 .mat-toolbar.mat-primary {
   // Apply the dark theme by default
   @include mixins.theme-color(primary, 80, background-color);
-  @include mixins.theme-typography(body-small, font);
+  @include mixins.theme-typography(body-large, font);
 }
-
