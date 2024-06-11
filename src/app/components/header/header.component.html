@@ -1,7 +1,12 @@
-<mat-toolbar>
-  <button mat-icon-button (click)="toggleSidenav.emit()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <h1 class="example-app-name">Responsive App</h1>
-  <mat-slide-toggle #darkToggle [checked]="isDarkTheme" (change)="toggleDark($event.checked)"></mat-slide-toggle>
+<mat-toolbar class="flex flex-row justify-between" color="primary">
+  <div class="flex flex-row items-center">
+    <button mat-icon-button (click)="toggleSidenav.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">Responsive App</h1>
+    <span>this is a text</span>
+  </div>
+  <div class="flex flex-row items-center">
+    <mat-slide-toggle #darkToggle [checked]="isDarkTheme" (change)="toggleDark($event.checked)"></mat-slide-toggle>
+  </div>
 </mat-toolbar>

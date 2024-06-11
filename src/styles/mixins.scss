@@ -1,0 +1,55 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+/// Gets a color from a theme object. This function can take 2 or 3 arguments. If 2 arguments are
+/// passed, the second argument is treated as the name of a color role. If 3 arguments are passed,
+/// the second argument is treated as the name of a color palette (primary, secondary, etc.) and the
+/// third is treated as the palette hue (10, 50, etc.)
+/// @param {Map} $theme The theme
+/// @param {String} $color-role-or-palette-name The name of the color role to get, or the name of a
+///   color palette.
+/// @param {Number} $hue The palette hue to get (passing this argument means the second argument is
+///   interpreted as a palette name).
+/// @return {Color} The requested theme color.
+@mixin color($theme, $color, $hue, $property) {
+  @if mat.theme-has($theme, color) {
+    #{$property}: mat.get-theme-color($theme, $color, $hue);
+  }
+}
+
+/// Gets a typography value from a theme object.
+/// @param {Map} $theme The theme
+/// @param {String} $typescale The typescale name.
+/// @param {String} $property The CSS font property to get
+///   (font, font-family, font-size, font-weight, line-height, or letter-spacing).
+/// @return {*} The value of the requested font property.
+@mixin typography($theme, $typescale, $property) {
+  @if mat.theme-has($theme, typography) {
+    #{$property}: mat.get-theme-typography($theme, $typescale, $property);
+  }
+}
+
+
+@mixin theme-color($color, $hue, $property) {
+   // Apply the dark theme by default
+   @include color(m3-theme.$dark-theme, $color, $hue, $property);
+
+   // Apply the light theme only when the user prefers light themes.
+   @media (prefers-color-scheme: light) {
+     &:not([dark-theme]) {
+       @include color(m3-theme.$light-theme, $color, $hue, $property);
+     }
+   }
+}
+
+@mixin theme-typography($typescale, $property) {
+  // Apply the dark theme by default
+  @include typography(m3-theme.$dark-theme, $typescale, $property);
+
+  // Apply the light theme only when the user prefers light themes.
+  @media (prefers-color-scheme: light) {
+    &:not([dark-theme]) {
+      @include typography(m3-theme.$light-theme, $typescale, $property);
+    }
+  }
+}
