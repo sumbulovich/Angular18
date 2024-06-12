@@ -1,9 +1,24 @@
 @use '@angular/material' as mat;
 @use './m3-theme';
 
+$base-theme: mat.define-theme((
+  typography: (
+    brand-family: #{"Roboto, sans-serif"},
+    plain-family: #{"Roboto, sans-serif"},
+    bold-weight: 300,
+    medium-weight: 200,
+    regular-weight: 100,
+  ),
+  density: (
+    scale: 0
+  ),
+));
+
 html {
   // Apply the dark theme by default
   @include mat.all-component-themes(m3-theme.$dark-theme);
+  @include mat.all-component-typographies($base-theme);
+  @include mat.all-component-densities($base-theme);
 
   // Apply the light theme only when the user prefers light themes.
   @media (prefers-color-scheme: light) {
@@ -11,8 +26,6 @@ html {
     // typography and density styles.
     &:not([dark-theme]) {
       @include mat.all-component-colors(m3-theme.$light-theme);
-      @include mat.all-component-typographies(m3-theme.$light-theme);
-      @include mat.all-component-densities(m3-theme.$light-theme);
     }
   }
 }

@@ -1,8 +1,8 @@
-<app-header (toggleSidenav)="sidenav.toggle()" [mobileQuery]="mobileQuery"></app-header>
+<app-header (toggleSidenav)="sidenav.toggle()" [mobileQuery]="mobileQuery" />
 <mat-sidenav-container class="flex-1">
   <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
     fixedTopGap="56" [opened]="!mobileQuery.matches">
-    <div class="h-full border-r">wefwefwefewfewfwe</div>
+    <div class="h-full border-r">sidenav</div>
   </mat-sidenav>
 
   <mat-sidenav-content>
