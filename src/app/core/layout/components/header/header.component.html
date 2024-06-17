@@ -1,11 +1,11 @@
 <mat-toolbar class="flex flex-row justify-between" color="primary">
   <div class="flex flex-row items-center">
-    <button mat-icon-button (click)="toggleSidenav.emit()" *ngIf="mobileQuery?.matches">
+    <button mat-icon-button (click)="toggleSidenav.emit()" *ngIf="showMenu">
       <mat-icon>menu</mat-icon>
     </button>
     <h1 class="example-app-name">Responsive App</h1>
   </div>
-  <div class="flex flex-row items-center">
+  <div class="flex flex-row items-center overflow-hidden">
     <span class="me-2">Mode:</span>
     <mat-slide-toggle #darkToggle [checked]="isDarkTheme" (change)="toggleDark($event.checked)"></mat-slide-toggle>
   </div>

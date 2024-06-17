@@ -1,0 +1,10 @@
+<div class="flex flex-row gap-4">
+  <aside class="flex flex-col gap-2">
+    @for (user of users; track user.id) {
+      <app-user [user]="user" (select)="selectedUser.set($event)"></app-user>
+    }
+  </aside>
+  <section class="flex-1">
+    {{ selectedUser().name }}
+  </section>
+</div>

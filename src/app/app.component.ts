@@ -12,11 +12,15 @@ import { MediaMatcher } from '@angular/cdk/layout';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  isDarkTheme: boolean;
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+  constructor(changeDetectorRef: ChangeDetectorRef, mediaMatcher: MediaMatcher) {
+    this.isDarkTheme = true; // mediaMatcher.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Toggle sidenav
+    this.mobileQuery = mediaMatcher.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
 
     if (this.mobileQuery?.addEventListener) {

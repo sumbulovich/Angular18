@@ -1,13 +1,11 @@
-<app-header (toggleSidenav)="sidenav.toggle()" [mobileQuery]="mobileQuery" />
+<app-header (toggleSidenav)="sidenav.toggle()" [showMenu]="mobileQuery.matches" [isDarkTheme]="isDarkTheme" />
 <mat-sidenav-container class="flex-1">
   <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
     fixedTopGap="56" [opened]="!mobileQuery.matches">
-    <div class="h-full border-r">sidenav</div>
+    <div class="h-full p-4" [class.border-r]="!mobileQuery.matches">sidenav</div>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <h1 class="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+  <mat-sidenav-content class="p-4">
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
