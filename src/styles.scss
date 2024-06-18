@@ -15,8 +15,3 @@ html {
   --mat-app-text-color: red;
 }
 
-.__hover:hover {
-  $color: rgba(white, 0.04);
-  background-image: linear-gradient($color, $color);
-}
-

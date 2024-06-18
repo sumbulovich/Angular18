@@ -1,0 +1,5 @@
+@use '/src/styles/mixins';
+
+.user.user__selected {
+  @include mixins.theme-color(background-color, primary, 80, 0.5);
+}

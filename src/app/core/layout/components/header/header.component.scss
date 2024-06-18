@@ -1,11 +1,6 @@
-@use 'sass:map';
-@use '@angular/material' as mat;
 @use '/src/styles/mixins';
 
-
-
 .mat-toolbar.mat-primary {
-  // Apply the dark theme by default
-  @include mixins.theme-color(primary, 80, background-color);
-  @include mixins.theme-typography(body-large, font);
+  @include mixins.theme-color(background-color, primary, 80);
+  @include mixins.theme-typography(font, body-large);
 }

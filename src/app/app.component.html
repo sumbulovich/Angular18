@@ -1,8 +1,8 @@
-<app-header (toggleSidenav)="sidenav.toggle()" [showMenu]="mobileQuery.matches" [isDarkTheme]="isDarkTheme" />
+<app-header (toggleSidenav)="sidenav.toggle()" [showMenu]="mobileMediaQuery.matches" [darkTheme]="darkMediaQuery.matches" />
 <mat-sidenav-container class="flex-1">
-  <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-    fixedTopGap="56" [opened]="!mobileQuery.matches">
-    <div class="h-full p-4" [class.border-r]="!mobileQuery.matches">sidenav</div>
+  <mat-sidenav #sidenav [mode]="mobileMediaQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileMediaQuery.matches"
+    fixedTopGap="56" [opened]="!mobileMediaQuery.matches">
+    <div class="h-full p-4" [class.border-r]="!mobileMediaQuery.matches">sidenav</div>
   </mat-sidenav>
 
   <mat-sidenav-content class="p-4">

@@ -13,9 +13,9 @@
 ///   interpreted as a palette name).
 /// @param {String} $property The CSS font property to get
 /// @return {Color} The requested theme color.
-@mixin color($theme, $color, $hue, $property) {
+@mixin color($theme, $color, $hue, $property, $opacity) {
   @if mat.theme-has($theme, color) {
-    #{$property}: mat.get-theme-color($theme, $color, $hue);
+    #{$property}: rgba(mat.get-theme-color($theme, $color, $hue), $opacity);
   }
 }
 
@@ -31,19 +31,19 @@
   }
 }
 
-@mixin theme-color($color, $hue, $property) {
+@mixin theme-color($property, $color, $hue, $opacity: 1) {
    // Apply the dark theme by default
-   @include color(m3-theme.$dark-theme, $color, 100 - $hue, $property);
+   @include color(m3-theme.$dark-theme, $color, 100 - $hue, $property, $opacity);
 
    // Apply the light theme only when the user prefers light themes.
    @media (prefers-color-scheme: light) {
     @at-root ::ng-deep html:not([dark-theme]) #{&} {
-       @include color(m3-theme.$light-theme, $color, $hue, $property);
+       @include color(m3-theme.$light-theme, $color, $hue, $property, $opacity);
      }
    }
 }
 
-@mixin theme-typography($typescale, $property) {
+@mixin theme-typography($property, $typescale,) {
   // Apply the dark theme by default
   @include typography(m3-theme.$dark-theme, $typescale, $property);
 
