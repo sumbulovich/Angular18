@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT, AsyncPipe } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, InputSignal, OutputEmitterRef, ViewChild, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +13,7 @@ import { LocalStorageService } from '@app/shared/services/local-storage.service'
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule],
+  imports: [AsyncPipe, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

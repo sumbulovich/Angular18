@@ -1,5 +1,4 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
@@ -8,7 +7,7 @@ import { HeaderComponent } from './core/layout/components/header/header.componen
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, HeaderComponent, MatSidenavModule],
+  imports: [RouterOutlet, HeaderComponent, MatSidenavModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

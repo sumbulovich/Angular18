@@ -1,15 +1,15 @@
-import { Component, Input, InputSignal, OutputEmitterRef, Signal, computed, input, output } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { Component, InputSignal, OutputEmitterRef, Signal, computed, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { User } from '../../models/user';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { layoutFeature } from '../../../../core/layout/state/layout.reducer';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [NgClass, AsyncPipe, MatCardModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })

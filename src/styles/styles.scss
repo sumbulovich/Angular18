@@ -1,6 +1,10 @@
 @use '@angular/material' as mat;
 @use './m3-theme';
 
+// Import CDK overlay styles
+@import '@angular/cdk/overlay-prebuilt.css';
+
+
 $base-theme: mat.define-theme((
   typography: (
     brand-family: #{"Roboto, sans-serif"},
@@ -15,10 +19,18 @@ $base-theme: mat.define-theme((
 ));
 
 html {
+  $colors: primary, secondary, tertiary, error;
+
   // Apply the dark theme by default
   @include mat.all-component-themes(m3-theme.$dark-theme);
   @include mat.all-component-typographies($base-theme);
   @include mat.all-component-densities($base-theme);
+
+  @each $color in $colors {
+    *.mat-#{$color} {
+      @include mat.button-color(m3-theme.$dark-theme, $color-variant: $color);
+    }
+  }
 
   // Apply the light theme only when the user prefers light themes.
   @media (prefers-color-scheme: light) {
@@ -26,6 +38,14 @@ html {
     // typography and density styles.
     &:not([dark-theme]) {
       @include mat.all-component-colors(m3-theme.$light-theme);
+
+      @each $color in $colors {
+        *.mat-#{$color} {
+          @include mat.button-color(m3-theme.$light-theme, $color-variant: $color);
+        }
+      }
     }
   }
+
+  @import './components';
 }

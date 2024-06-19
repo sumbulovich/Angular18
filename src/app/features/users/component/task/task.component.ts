@@ -1,13 +1,15 @@
-import { Component, InputSignal, input } from '@angular/core';
-import { User } from '../../models/user';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule, MatButtonModule, MatTooltipModule, EllipsisTooltipDirective],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss'
 })
 export class TaskComponent {
-  user: InputSignal<User> = input.required<User>()
 }

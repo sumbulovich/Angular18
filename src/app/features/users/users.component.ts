@@ -1,14 +1,13 @@
-import * as CryptoJS from 'crypto-js';
-import { Component, Signal, WritableSignal, computed, signal } from '@angular/core';
+import { Component, WritableSignal, signal } from '@angular/core';
 import { UserComponent } from './component/user/user.component';
 import { DUMMY_USERS } from './dummy-users';
 import { User } from './models/user';
-import { TaskComponent } from './component/task/task.component';
+import { TasksComponent } from './component/tasks/tasks.component';
 
 
 @Component({
   standalone: true,
-  imports: [UserComponent, TaskComponent],
+  imports: [UserComponent, TasksComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
