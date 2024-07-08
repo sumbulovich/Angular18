@@ -1,15 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, InputSignal, OutputEmitterRef, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
+import { Task } from '../../models/task.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatTooltipModule, EllipsisTooltipDirective],
+  imports: [MatCardModule, MatButtonModule, MatTooltipModule, EllipsisTooltipDirective, DatePipe],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss'
 })
 export class TaskComponent {
+  task: InputSignal<Task> = input.required<Task>();
+  delete: OutputEmitterRef<void> = output<void>()
+  complete: OutputEmitterRef<void> = output<void>()
 }

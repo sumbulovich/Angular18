@@ -2,5 +2,4 @@
 
 .mat-toolbar.mat-primary {
   @include mixins.theme-color(background-color, primary, 80);
-  @include mixins.theme-typography(font, body-large);
 }

@@ -1,4 +1,4 @@
-<mat-card class="user cursor-pointer" appearance="outlined" (click)="select.emit(user())"
+<mat-card class="user cursor-pointer" appearance="outlined" (click)="select.emit()"
   [ngClass]="(isDarkTheme$ | async) ? 'hover:bg-white/[0.04]' : 'hover:bg-primary/[0.04]'"
   [class.user__selected]="selectedUser().id === user().id">
   <mat-card-header>

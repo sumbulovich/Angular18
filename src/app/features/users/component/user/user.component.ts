@@ -1,7 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, InputSignal, OutputEmitterRef, Signal, computed, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { User } from '../../models/user';
+import { User } from '../../models/user.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { layoutFeature } from '../../../../core/layout/state/layout.reducer';
@@ -14,12 +14,12 @@ import { layoutFeature } from '../../../../core/layout/state/layout.reducer';
   styleUrl: './user.component.scss'
 })
 export class UserComponent {
-  // @Input({ required: true }) user!: User;
-  // @Output() select = new EventEmitter<User>();
+  // Use signals instead of @Input({ required: true }) @Output()
   user: InputSignal<User> = input.required<User>()
   selectedUser: InputSignal<User> = input.required<User>()
-  select: OutputEmitterRef<User> = output<User>()
-  imagePath: Signal<string> = computed(() => `https://ui-avatars.com/api/?name=${this.user().name}&background=random`)
+  select: OutputEmitterRef<void> = output<void>()
+  // Use computed signal instead of a getter
+  imagePath: Signal<string> = computed(() => `https://ui-avatars.com/api/?name=${this.user().name}&background=random`);
   isDarkTheme$: Observable<boolean>;
 
   constructor(private store: Store) {

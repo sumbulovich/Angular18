@@ -5,10 +5,10 @@
         <mat-icon>menu</mat-icon>
       </button>
     }
-    <h1 class="example-app-name">Responsive App</h1>
+    <span>Responsive App</span>
   </div>
   <div class="flex flex-row items-center overflow-hidden">
-    <span class="me-2">Mode:</span>
-    <mat-slide-toggle #darkToggle [checked]="isDarkTheme$ | async" (change)="toggleDark($event.checked)"></mat-slide-toggle>
+    <span class="mat-body-large me-2">Mode:</span>
+    <mat-slide-toggle #darkToggle color="primary" [checked]="isDarkTheme$ | async" (change)="toggleDark($event.checked)"></mat-slide-toggle>
   </div>
 </mat-toolbar>

@@ -1,8 +1,8 @@
 import { Component, WritableSignal, signal } from '@angular/core';
 import { UserComponent } from './component/user/user.component';
-import { DUMMY_USERS } from './dummy-users';
-import { User } from './models/user';
-import { TasksComponent } from './component/tasks/tasks.component';
+import { DUMMY_USERS } from './constants/dummy-users';
+import { User } from './models/user.model';
+import { TasksComponent } from '../tasks/tasks.component';
 
 
 @Component({
