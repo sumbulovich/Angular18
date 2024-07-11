@@ -3,13 +3,18 @@
     <mat-card-title>
       <div ellipsisTooltip matTooltip>{{ task().title }}</div>
     </mat-card-title>
-    <time>{{ task().dueDate | date }}</time>
+    <div
+      class="whitespace-nowrap"
+      [ngClass]="{'text-error dark:text-error-dark': task().dueDate < today, 'text-success dark:text-success-dark': task().dueDate > today }">
+      Due date: <time>{{ task().dueDate | date: 'shortDate' }}</time>
+    </div>
   </mat-card-header>
   <mat-card-content>
     {{ task().summary }}
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-flat-button class="secondary" class="me-2" (click)="complete.emit()">Complete</button>
-    <button mat-flat-button color="warn" (click)="delete.emit()">Delete</button>
+    <button mat-flat-button class="primary" class="ms-2" (click)="complete.emit()">Complete</button>
+    <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()">Edit</button>
+    <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()">Delete</button>
   </mat-card-actions>
 </mat-card>

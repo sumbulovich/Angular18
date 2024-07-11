@@ -1,56 +1,57 @@
-import { Component, InputSignal, OnInit, Signal, computed, effect, inject, input } from '@angular/core';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { Component, InputSignal, effect, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
 import { User } from '../users/models/user.model';
-import { TaskComponent } from './components/task/task.component';
-import { Task } from './models/task.model';
-import { DUMMY_TASKS } from './constants/dummy-tasks';
-import { JsonPipe } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
 import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
+import { TaskComponent } from './components/task/task.component';
+import { DUMMY_TASKS } from './constants/dummy-tasks';
+import { Task } from './models/task.model';
+import { TasksService } from './services/tasks.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule, MatTooltipModule, EllipsisTooltipDirective, TaskComponent, JsonPipe],
+  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatTooltipModule, EllipsisTooltipDirective, TaskComponent, JsonPipe],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent {
   user: InputSignal<User> = input.required<User>();
-  completedTasks: Task[] = [];
-  deletedTasks: Task[] = [];
-  tasks: Task[] = [];
+  tasks$?: Observable<Task[]>;
   readonly dialog = inject(MatDialog);
 
-  constructor() {
-    effect(() => {
-      this.tasks = DUMMY_TASKS.filter((f) => f.userId === this.user().id);
-    })
+  constructor(private tasksService: TasksService) {
+    effect(() => this.tasks$ = this.tasksService.getUserTask(this.user().id));
   }
 
   completeTask(task: Task): void {
-    this.completedTasks.push(task);
-    this.tasks = this.tasks.filter((f) => f.id !== task.id);
+    this.tasksService.completeTask(task);
   }
 
   deleteTask(task: Task): void {
-    this.deletedTasks.push(task);
-    this.tasks = this.tasks.filter((f) => f.id !== task.id);
+    this.tasksService.deleteTask(task);
   }
 
-  addTask(task: Task): void {
-    this.tasks.push(task);
-  }
-
-  openAddTaskDialog(): void {
-    const dialogRef = this.dialog.open(AddTaskDialogComponent, {
-      data: { userId: this.user().id, id: DUMMY_TASKS.length + 1 }
+  openAddTaskDialog(editTask?: Task): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: editTask || { userId: this.user().id, id: DUMMY_TASKS.length + 1 },
     });
+    dialogRef.componentInstance.dialogData = {
+      component: AddTaskDialogComponent,
+      title: `${editTask ? 'Edit' : 'New'} Task`,
+      content: `${this.user().name}'s task:`,
+      btnText: `${editTask ? 'Save' : 'Add'}`
+    };
     dialogRef.afterClosed().subscribe((task?: Task) => {
-      if (task) this.addTask(task)
+      if (!task) return;
+      if (editTask) this.tasksService.editTask(task);
+      else this.tasksService.addTask(task);
     });
   }
 }

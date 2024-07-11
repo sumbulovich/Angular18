@@ -20,8 +20,6 @@ $base-theme: mat.define-theme((
 ));
 
 html {
-  $colors: primary, secondary, tertiary, error;
-
   // Apply the dark theme by default
   @include mat.all-component-themes(m3-theme.$dark-theme);
   @include mat.all-component-typographies($base-theme);

@@ -43,7 +43,7 @@
    }
 }
 
-@mixin theme-typography($property, $typescale,) {
+@mixin theme-typography($property, $typescale) {
   // Apply the dark theme by default
   @include typography(m3-theme.$dark-theme, $typescale, $property);
 

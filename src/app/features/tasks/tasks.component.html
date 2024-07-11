@@ -1,17 +1,17 @@
 <mat-card class="example-card" appearance="outlined">
   <mat-card-header class="flex flex-row justify-between items-center mb-3">
     <mat-card-title>
-      <div ellipsisTooltip matTooltip>{{ user().name }}'s Task</div>
+      <div ellipsisTooltip matTooltip>{{ user().name }}'s Tasks</div>
     </mat-card-title>
     <button mat-stroked-button (click)="openAddTaskDialog()" class="whitespace-nowrap">Add Task</button>
   </mat-card-header>
   <mat-card-content>
-    @for (task of tasks; track task.id) {
+    @for (task of tasks$ | async; track task.id) {
       <section class="mb-3">
-        <app-task [task]="task" (complete)="completeTask(task)" (delete)="deleteTask(task)"/>
+        <app-task [task]="task" (complete)="completeTask(task)" (edit)="openAddTaskDialog(task)" (delete)="deleteTask(task)"/>
       </section>
     }
-    @if (!tasks.length) {
+    @if (!(tasks$ | async)?.length) {
       <i>No task assigned for this user</i>
     }
   </mat-card-content>

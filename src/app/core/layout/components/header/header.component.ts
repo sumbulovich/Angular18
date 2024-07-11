@@ -1,5 +1,5 @@
 import { DOCUMENT, AsyncPipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, InputSignal, OutputEmitterRef, ViewChild, input, output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, InputSignal, OutputEmitterRef, ViewChild, ViewEncapsulation, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
