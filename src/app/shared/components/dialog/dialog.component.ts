@@ -1,3 +1,4 @@
+import { NgComponentOutlet } from '@angular/common';
 import { Component, EventEmitter } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -8,7 +9,7 @@ import { DialogData } from '@app/shared/models/dialog-data.model';
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatIconModule, MatButtonModule, MatFormFieldModule],
+  imports: [NgComponentOutlet, MatDialogModule, MatIconModule, MatButtonModule, MatFormFieldModule],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss'
 })

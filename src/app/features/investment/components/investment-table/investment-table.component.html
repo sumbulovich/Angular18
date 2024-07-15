@@ -1,0 +1,46 @@
+<table mat-table [dataSource]="dataSource()">
+  <ng-container matColumnDef="year">
+    <th mat-header-cell *matHeaderCellDef class="!text-center">Year</th>
+    <td mat-cell *matCellDef="let element" class="!text-end">
+      {{ element.year }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="interest">
+    <th mat-header-cell *matHeaderCellDef class="!text-center">Interest</th>
+    <td mat-cell *matCellDef="let element" class="!text-end">
+      {{ element.interest | currency }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="valueEndOfYear">
+    <th mat-header-cell *matHeaderCellDef class="!text-center">Value end of year</th>
+    <td mat-cell *matCellDef="let element" class="!text-end">
+      {{ element.valueEndOfYear | currency }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="annualInvestment">
+    <th mat-header-cell *matHeaderCellDef class="!text-center">Annual investment</th>
+    <td mat-cell *matCellDef="let element" class="!text-end">
+      {{ element.annualInvestment | currency }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalInterest">
+    <th mat-header-cell *matHeaderCellDef class="!text-center">Total interest</th>
+    <td mat-cell *matCellDef="let element" class="!text-end">
+      {{ element.totalInterest | currency }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalAmountInvested">
+    <th mat-header-cell *matHeaderCellDef class="!text-center">Total amount invested</th>
+    <td mat-cell *matCellDef="let element" class="!text-end">
+      {{ element.totalAmountInvested | currency }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
