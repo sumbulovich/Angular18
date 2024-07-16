@@ -6,13 +6,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
-import { User } from '../users/models/user.model';
 import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
 import { TaskComponent } from './components/task/task.component';
 import { DUMMY_TASKS } from './constants/dummy-tasks';
 import { Task } from './models/task.model';
 import { TasksService } from './services/tasks.service';
 import { Observable } from 'rxjs';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-tasks',
