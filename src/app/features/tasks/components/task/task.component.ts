@@ -4,12 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
 import { Task } from '../../models/task.model';
-import { DatePipe, NgClass } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [NgClass, MatCardModule, MatButtonModule, MatTooltipModule, EllipsisTooltipDirective, DatePipe],
+  imports: [MatCardModule, MatButtonModule, MatTooltipModule, EllipsisTooltipDirective, DatePipe],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss'
 })

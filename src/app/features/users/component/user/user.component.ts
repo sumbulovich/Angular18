@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, InputSignal, OutputEmitterRef, Signal, computed, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { User } from '../../models/user.model';
@@ -9,7 +9,7 @@ import { layoutFeature } from '../../../../core/layout/state/layout.reducer';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [NgClass, AsyncPipe, MatCardModule],
+  imports: [AsyncPipe, MatCardModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })

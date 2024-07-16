@@ -10,7 +10,8 @@ import { layoutFeature } from './core/layout/state/layout.reducer';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), provideClientHydration(),
+    provideRouter(routes),
+    provideClientHydration(),
     provideAnimationsAsync(),
     provideStore(),
     provideState(layoutFeature)

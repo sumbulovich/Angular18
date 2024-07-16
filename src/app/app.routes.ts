@@ -13,9 +13,9 @@ export const routes: Routes = [
     loadComponent: () => import('./features/investment/investment.component').then(m => m.InvestmentComponent)
   },
   {
-    path: 'system',
-    data: { title: 'System' },
-    loadComponent: () => import('./features/system/system.component').then(m => m.SystemComponent)
+    path: 'dashboard',
+    data: { title: 'Dashboard' },
+    loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   // not found
 	{

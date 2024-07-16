@@ -4,8 +4,10 @@
       <div ellipsisTooltip matTooltip>{{ task().title }}</div>
     </mat-card-title>
     <div
-      class="whitespace-nowrap"
-      [ngClass]="{'text-error dark:text-error-dark': task().dueDate < today, 'text-success dark:text-success-dark': task().dueDate > today }">
+      [class]="
+        'whitespace-nowrap ' +
+        (task().dueDate < today ? 'text-error, dark:text-error-dark' : 'text-success, dark:text-success-dark')
+      ">
       Due date: <time>{{ task().dueDate | date: 'shortDate' }}</time>
     </div>
   </mat-card-header>
