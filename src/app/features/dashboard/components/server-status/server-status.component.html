@@ -4,6 +4,29 @@
     <mat-card-title>Server status</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <p>{{ status() }}</p>
+    <p>
+      Status:
+      <span
+        [ngClass]="{
+          'text-success dark:text-success-dark': status() === 'online',
+          'text-error dark:text-error-dark': status() === 'offline',
+          'opacity-50': status() === 'unknown'
+        }">
+        {{ status() }}
+      </span>
+    </p>
+    <p>
+    @switch (status()) {
+      @case ('online') {
+        All systems are operational.
+      }
+      @case ('offline') {
+        Functionality should be restored soon.
+      }
+      @default {
+        Fetching server status failed.
+      }
+    }
+    </p>
   </mat-card-content>
 </mat-card>

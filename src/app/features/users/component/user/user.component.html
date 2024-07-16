@@ -1,6 +1,6 @@
 <mat-card appearance="outlined" (click)="select.emit()"
-  [class]="['user', 'cursor-pointer', (isDarkTheme$ | async) ? 'hover:bg-white/[0.04]' : 'hover:bg-primary/[0.04]']"
-  [class.user__selected]="selectedUser().id === user().id">
+  [class]="['cursor-pointer', (isDarkTheme$ | async) ? 'hover:bg-white/[0.04]' : 'hover:bg-primary/[0.04]']"
+  [class._selected]="selectedUser().id === user().id">
   <mat-card-header>
     <img mat-card-avatar class="example-header-image" [src]="imagePath()" alt="User image" />
     <mat-card-title>{{ user().name }}</mat-card-title>

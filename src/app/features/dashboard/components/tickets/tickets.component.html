@@ -4,10 +4,18 @@
     <mat-card-title>Support tickets</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <app-test>
-      <p>hello</p>
-      <p ngProjectAs="hello">hello</p>
-      <input type="text">
-    </app-test>
+    <form (ngSubmit)="submit()" #form class="flex flex-col">
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput type="text" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Request</mat-label>
+        <textarea matInput type="text"></textarea>
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+      <button mat-stroked-button type="submit">Submit</button>
+    </form>
   </mat-card-content>
 </mat-card>

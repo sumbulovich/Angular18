@@ -27,7 +27,11 @@ export class TasksComponent {
   readonly dialog = inject(MatDialog);
 
   constructor(private tasksService: TasksService) {
-    effect(() => this.tasks$ = this.tasksService.getUserTask(this.user().id));
+    // Detect signal subscriptions
+    effect((onCleanup) => {
+      this.tasks$ = this.tasksService.getUserTask(this.user().id)
+      onCleanup(() => console.log('Signal Effects Cleanup executed'))
+    });
   }
 
   completeTask(task: Task): void {

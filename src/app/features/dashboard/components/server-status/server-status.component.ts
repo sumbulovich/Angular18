@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { AfterViewInit, Component, DestroyRef, OnDestroy, OnInit, WritableSignal, afterNextRender, afterRender, inject, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,7 +7,7 @@ import { Observable, Subscription, interval, map, timer } from 'rxjs';
 @Component({
   selector: 'app-server-status',
   standalone: true,
-  imports: [AsyncPipe, MatCardModule, MatIconModule],
+  imports: [NgClass, AsyncPipe, MatCardModule, MatIconModule],
   templateUrl: './server-status.component.html',
   styleUrl: './server-status.component.scss'
 })

@@ -1,5 +1,5 @@
 @use '/src/styles/mixins';
 
-.mat-toolbar.mat-primary {
+._header {
   @include mixins.theme-color(background-color, primary, 80);
 }
