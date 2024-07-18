@@ -6,6 +6,9 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideState, provideStore } from '@ngrx/store';
 import { layoutFeature } from './core/layout/state/layout.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { AuthEffects } from './core/auth/state/auth.effects';
+import { authFeature } from './core/auth/state/auth.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +16,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),
+    // root-level effects and features are registered here
     provideStore(),
-    provideState(layoutFeature)
-  ]
+    provideState(layoutFeature),
+    provideEffects()
+]
 };

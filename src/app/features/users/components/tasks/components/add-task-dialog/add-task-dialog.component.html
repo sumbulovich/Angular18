@@ -1,15 +1,15 @@
 <form [formGroup]="form" class="flex flex-col gap-2">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
     <input matInput formControlName="title" />
     <mat-error>Required</mat-error>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Summary</mat-label>
     <textarea matInput formControlName="summary"></textarea>
     <mat-error>Required</mat-error>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Choose a date</mat-label>
     <input matInput formControlName="dueDate" [matDatepicker]="picker" [min]="today">
     <mat-hint>MM/DD/YYYY</mat-hint>

@@ -20,9 +20,4 @@ export class UserComponent {
   select: OutputEmitterRef<void> = output<void>()
   // Use computed signal instead of a getter
   imagePath: Signal<string> = computed(() => `https://ui-avatars.com/api/?name=${this.user().name}&background=random`);
-  isDarkTheme$: Observable<boolean>;
-
-  constructor(private store: Store) {
-    this.isDarkTheme$ = this.store.select(layoutFeature.selectIsDarkTheme);
-  }
 }

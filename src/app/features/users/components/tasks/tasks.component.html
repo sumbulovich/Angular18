@@ -10,8 +10,7 @@
       <section class="mb-3">
         <app-task [task]="task" (complete)="completeTask(task)" (edit)="openAddTaskDialog(task)" (delete)="deleteTask(task)"/>
       </section>
-    }
-    @if (!(tasks$ | async)?.length) {
+    } @empty {
       <i>No task assigned for this user</i>
     }
   </mat-card-content>

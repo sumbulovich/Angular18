@@ -6,7 +6,7 @@
     <div
       [class]="
         'whitespace-nowrap ' +
-        (task().dueDate < today ? 'text-error, dark:text-error-dark' : 'text-success, dark:text-success-dark')
+        (task().dueDate < today ? 'text-error dark:!text-error-dark' : 'text-success dark:!text-success-dark')
       ">
       Due date: <time>{{ task().dueDate | date: 'shortDate' }}</time>
     </div>

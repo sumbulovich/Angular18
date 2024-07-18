@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" class="mb-4">
+<mat-card appearance="outlined" class="mb-4 w-full">
   <mat-card-header>
     <mat-icon mat-card-avatar>dns</mat-icon>
     <mat-card-title>Server status</mat-card-title>
@@ -8,14 +8,14 @@
       Status:
       <span
         [ngClass]="{
-          'text-success dark:text-success-dark': status() === 'online',
-          'text-error dark:text-error-dark': status() === 'offline',
+          'text-success dark:!text-success-dark': status() === 'online',
+          'text-error dark:!text-error-dark': status() === 'offline',
           'opacity-50': status() === 'unknown'
         }">
         {{ status() }}
       </span>
     </p>
-    <p>
+    <p class="mat-body-medium">
     @switch (status()) {
       @case ('online') {
         All systems are operational.

@@ -2,24 +2,24 @@
   <mat-card-content>
     <form [formGroup]="form" class="flex flex-col" (ngSubmit)="submit()">
       <div class="flex flex-row gap-4">
-        <mat-form-field class="flex-1">
+        <mat-form-field appearance="outline" class="flex-1">
           <mat-label>Initial investment</mat-label>
           <input matInput type="number" formControlName="initialInvestment" />
           <mat-error>Required</mat-error>
         </mat-form-field>
-        <mat-form-field class="flex-1">
+        <mat-form-field appearance="outline" class="flex-1">
           <mat-label>Annual investment</mat-label>
           <input matInput type="number" formControlName="annualInvestment" />
           <mat-error>Required</mat-error>
         </mat-form-field>
       </div>
       <div class="flex flex-row gap-4">
-        <mat-form-field class="flex-1">
+        <mat-form-field appearance="outline" class="flex-1">
           <mat-label>Expected return</mat-label>
           <input matInput type="number" formControlName="expectedReturn" />
           <mat-error>Required</mat-error>
         </mat-form-field>
-        <mat-form-field class="flex-1">
+        <mat-form-field appearance="outline" class="flex-1">
           <mat-label>Duration</mat-label>
           <input matInput type="number" formControlName="duration" />
           <mat-error>Required</mat-error>

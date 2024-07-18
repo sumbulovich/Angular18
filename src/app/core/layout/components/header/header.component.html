@@ -7,8 +7,8 @@
     }
     <span>Angular 18</span>
   </div>
-  <div class="flex flex-row items-center overflow-hidden">
-    <span class="mat-body-large me-2">Mode:</span>
+  <div class="flex flex-row items-center gap-3">
     <mat-slide-toggle #darkToggle color="primary" [checked]="isDarkTheme$ | async" (change)="toggleDark($event.checked)"></mat-slide-toggle>
+    <a routerLink="login" class="mat-body-large">Login</a>
   </div>
 </mat-toolbar>

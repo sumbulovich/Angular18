@@ -1,21 +1,30 @@
-<mat-card appearance="outlined" class="mb-4">
+<mat-card appearance="outlined" class="mb-4 w-full">
   <mat-card-header>
     <mat-icon mat-card-avatar>task</mat-icon>
     <mat-card-title>Support tickets</mat-card-title>
   </mat-card-header>
-  <mat-card-content>
-    <form (ngSubmit)="submit()" #form class="flex flex-col">
-      <mat-form-field>
-        <mat-label>Title</mat-label>
-        <input matInput type="text" />
-        <mat-error>Required</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Request</mat-label>
-        <textarea matInput type="text"></textarea>
-        <mat-error>Required</mat-error>
-      </mat-form-field>
-      <button mat-stroked-button type="submit">Submit</button>
-    </form>
+  <mat-card-content [class.!p-0]="tickets.length && !isAdding">
+    @if (isAdding) {
+    <app-add-ticket (create)="addTicket($event); toggleAdding()" (edit)="editTicket(); toggleAdding()" (cancel)="toggleAdding()" [(ticket)]="ticketEdited"/>
+    } @else {
+    <mat-accordion>
+      @for (ticket of tickets; track ticket.id) {
+      @if ($first) {
+      <mat-divider></mat-divider>
+      }
+      <app-ticket [ticket]="ticket" [className]="$even ? 'bg-primary/[.3]' : 'bg-primary/[.1]'" (close)="closeTicket(ticket)" (edit)="toggleAdding(ticket)"></app-ticket>
+      @if ($last) {
+      <mat-divider></mat-divider>
+      }
+      } @empty {
+      <p class="px-3">No tickets available</p>
+      }
+    </mat-accordion>
+    }
+    @if (!isAdding) {
+    <mat-card-actions>
+      <button mat-flat-button (click)="toggleAdding()">Add Ticket</button>
+    </mat-card-actions>
+    }
   </mat-card-content>
 </mat-card>

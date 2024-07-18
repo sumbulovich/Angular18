@@ -4,16 +4,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Store } from '@ngrx/store';
+import { Store, provideState } from '@ngrx/store';
 import { Observable, delay } from 'rxjs';
 import { setDarkTheme } from '../../state/layout.actions';
 import { layoutFeature } from '../../state/layout.reducer';
 import { LocalStorageService } from '@app/shared/services/local-storage.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [AsyncPipe, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule],
+  imports: [RouterModule, AsyncPipe, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

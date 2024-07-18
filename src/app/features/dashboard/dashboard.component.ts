@@ -1,4 +1,3 @@
-import { TrafficComponent } from './components/traffic/traffic.component';
 import { TicketsComponent } from './components/tickets/tickets.component';
 import { ServerStatusComponent } from './components/server-status/server-status.component';
 import { Component } from '@angular/core';
@@ -7,7 +6,7 @@ import { TasksComponent } from '../users/components/tasks/tasks.component';
 
 @Component({
   standalone: true,
-  imports: [ServerStatusComponent, TicketsComponent, TrafficComponent, MatToolbarModule, TasksComponent],
+  imports: [ServerStatusComponent, TicketsComponent, MatToolbarModule, TasksComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

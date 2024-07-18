@@ -1,0 +1,19 @@
+<mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto">
+  <mat-card-header>
+    <mat-card-title class="mb-3">Authentication form</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="flex flex-col">
+    <form class="flex flex-col" (ngSubmit)="submit()" #form="ngForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput name="email" ngModel [disabled]="authStore.inProgress()">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" ngModel [disabled]="authStore.inProgress()">
+      </mat-form-field>
+      <button mat-flat-button type="submit" [disabled]="authStore.inProgress()">Login</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+isAuth signals: {{ authStore.isAuth() }}<br>
