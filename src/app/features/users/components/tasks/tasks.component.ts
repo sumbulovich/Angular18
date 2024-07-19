@@ -46,7 +46,7 @@ export class TasksComponent {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: editTask || { userId: this.user().id, id: DUMMY_TASKS.length + 1 },
     });
-    dialogRef.componentInstance.dialogData = {
+    dialogRef.componentInstance.data = {
       component: AddTaskDialogComponent,
       title: `${editTask ? 'Edit' : 'New'} Task`,
       content: `${this.user().name}'s task:`,

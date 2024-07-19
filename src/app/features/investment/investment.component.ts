@@ -45,7 +45,7 @@ export class InvestmentComponent {
     return annualData;
   }
 
-  submit(): void {
+  onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
     const results = this.calculateInvestmentResults(this.form.value);

@@ -1,18 +1,18 @@
 <div mat-dialog-title class="flex flex-row">
-  <div [innerHTML]="dialogData?.title" class="flex-auto content-center"></div>
+  <div [innerHTML]="data?.title" class="flex-auto content-center"></div>
   <button mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <mat-dialog-content>
-  @if (dialogData?.content; as content) {
+  @if (data?.content; as content) {
   <p [innerHTML]="content"></p>
   }
-  <ng-container *ngComponentOutlet="dialogData?.component" />
+  <ng-container *ngComponentOutlet="data?.component" />
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button cdkFocusInitial [color]="dialogData?.btnColor" (click)="submit.emit()">
-    {{ dialogData?.btnText || 'Confirm' }}
+  <button mat-flat-button cdkFocusInitial [color]="data?.btnColor" (click)="onSubmit()">
+    {{ data?.btnText || 'Confirm' }}
   </button>
   <button mat-stroked-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

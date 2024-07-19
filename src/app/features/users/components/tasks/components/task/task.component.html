@@ -3,8 +3,7 @@
     <mat-card-title>
       <div ellipsisTooltip matTooltip>{{ task().title }}</div>
     </mat-card-title>
-    <div
-      [class]="
+    <div [class]="
         'whitespace-nowrap ' +
         (task().dueDate < today ? 'text-error dark:!text-error-dark' : 'text-success dark:!text-success-dark')
       ">
@@ -15,8 +14,17 @@
     {{ task().summary }}
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-flat-button class="primary" class="ms-2" (click)="complete.emit()">Complete</button>
-    <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()">Edit</button>
-    <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()">Delete</button>
+    <div matTooltip="Only available for logged users" [matTooltipDisabled]="authStore.permission() === 'user'">
+      <button mat-flat-button class="primary" class="ms-2" (click)="complete.emit()"
+        [disabled]="authStore.permission() !== 'user'">Complete</button>
+    </div>
+    <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
+      <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()"
+        [disabled]="authStore.permission() !== 'admin'">Edit</button>
+    </div>
+    <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
+      <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()"
+        [disabled]="authStore.permission() !== 'admin'">Delete</button>
+    </div>
   </mat-card-actions>
 </mat-card>

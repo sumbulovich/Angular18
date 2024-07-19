@@ -1,5 +1,5 @@
-import { computed, inject } from "@angular/core";
-import { patchState, signalState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { computed, effect, inject } from "@angular/core";
+import { getState, patchState, signalState, signalStore, signalStoreFeature, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { tapResponse } from "@ngrx/operators";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { createFeature, createReducer, on } from "@ngrx/store";
@@ -46,7 +46,31 @@ export const AuthStore = signalStore(
     logout(): void {
       patchState(store, { permission: 'guest' });
     },
-  }))
+  })),
+  withHooks({
+    onInit(store) {
+      console.log('AuthStore init', getState(store))
+    },
+    onDestroy(store) {
+      console.log('AuthStore destroy', getState(store));
+    },
+  }),
+  withCustomFeature('Auth')
 );
+
+export function withCustomFeature(name: any) {
+  return signalStoreFeature(
+    withState(initialSate),
+    withComputed(() => ({})),
+    withMethods(() => ({})),
+    withHooks({
+      onInit(store) {
+        effect(() => {
+          console.log(`${name} state changed`, getState(store));
+        });
+      },
+    })
+  );
+}
 
 

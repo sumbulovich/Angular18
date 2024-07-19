@@ -1,7 +1,7 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogData } from '@app/shared/models/dialog-data.model';
@@ -14,6 +14,12 @@ import { DialogData } from '@app/shared/models/dialog-data.model';
   styleUrl: './dialog.component.scss'
 })
 export class DialogComponent {
-  dialogData?: DialogData;
+  readonly dialogRef: MatDialogRef<DialogComponent> = inject(MatDialogRef<DialogComponent>);
+  data?: DialogData;
   submit: EventEmitter<void> = new EventEmitter<void>();
+
+  onSubmit(): void {
+    this.submit.emit();
+    if (!this.data?.component) this.dialogRef.close(true);
+  }
 }

@@ -3,7 +3,7 @@
     <mat-card-title class="mb-3">Authentication form</mat-card-title>
   </mat-card-header>
   <mat-card-content class="flex flex-col">
-    <form class="flex flex-col" (ngSubmit)="submit()" #form="ngForm">
+    <form class="flex flex-col" (ngSubmit)="onSubmit()" #form="ngForm">
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput name="email" ngModel [disabled]="authStore.inProgress()">

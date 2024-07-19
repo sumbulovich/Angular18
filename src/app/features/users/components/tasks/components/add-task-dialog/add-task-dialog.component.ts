@@ -33,11 +33,11 @@ export class AddTaskDialogComponent {
   });
 
   constructor() {
-    this.dialogRef.componentInstance.submit.subscribe(() => this.submit());
+    this.dialogRef.componentInstance.submit.subscribe(() => this.onSubmit());
     if (this.data.title) this.form.patchValue(this.data);
   }
 
-  submit(): void {
+  onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
     const task: Task = { ...this.data, ...this.form.value, date: this.data.date || new Date() };

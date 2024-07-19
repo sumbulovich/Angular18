@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Signal, effect, inject, viewChild } from '@angular/core';
+import { Component, Signal, inject, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,8 +12,7 @@ import { AuthStore } from './state/auth.store';
   selector: 'app-auth',
   standalone: true,
   imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
-  // Signal Stores can be are registered here if are not set on root level with { providedIn: 'root' }
-  // providers: [AuthStore],
+  // providers: [AuthStore], // Signal Stores registered here or on root level with { providedIn: 'root' }
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss'
 })
@@ -30,7 +29,7 @@ export class AuthComponent {
     setTimeout(() => this.form().setValue({ email: 'admin@example.com', password: 'admin' }));
   }
 
-  submit(): void {
+  onSubmit(): void {
     if (this.form().invalid) return;
     this.authStore.login(this.form().value);
   }

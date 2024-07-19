@@ -1,4 +1,4 @@
-<form (ngSubmit)="submit()" #form="ngForm" class="flex flex-col">
+<form (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col">
   <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
     <input matInput type="text" name="title" ngModel required />
@@ -10,13 +10,13 @@
     <mat-error>Required</mat-error>
   </mat-form-field>
   <div>
-    <button mat-stroked-button type="submit" class="me-2">
+    <button mat-stroked-button type="submit" class="me-2" saveChanges [saveChangesDisabled]="!!form.invalid || !(isFormUpdated$ | async)">
         @if (ticket()) {
         Save
       } @else {
         Create
       }
       </button>
-    <button mat-stroked-button type="button" color="warn" (click)="cancel.emit()">Cancel</button>
+    <button mat-stroked-button type="button" color="warn" discardChanges [discardChangesDisabled]="!(isFormUpdated$ | async)" (click)="cancel.emit()">Cancel</button>
   </div>
 </form>
