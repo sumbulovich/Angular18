@@ -31,7 +31,8 @@
 </mat-card>
 
 @if(dataSource().length) {
-<app-investment-table [dataSource]="dataSource()" />
+<app-currency-dropdown [currencies]="currencies" [(currency)]="currency"></app-currency-dropdown>
+<app-investment-table [currency]="currency" [currenciesValue]="currencyMap[currency]" [dataSource]="dataSource()" />
 } @else {
 <p class="text-center">Please enter some values and press "Calculate".</p>
 }

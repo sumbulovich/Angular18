@@ -9,6 +9,7 @@ import { layoutFeature } from './core/layout/state/layout.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './core/auth/state/auth.effects';
 import { authFeature } from './core/auth/state/auth.reducer';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     // root-level effects and features are registered here
     provideStore(),
     provideState(layoutFeature),
-    provideEffects()
+    provideEffects(),
+    provideHttpClient()
 ]
 };

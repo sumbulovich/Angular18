@@ -18,7 +18,6 @@ import { AsyncPipe, JsonPipe } from '@angular/common';
 })
 export class AddTicketComponent implements OnInit {
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');
-  private initialFormValue?: { [key: string]: any };
   isFormUpdated$?: Observable<boolean>;
   create: OutputEmitterRef<Ticket> = output<Ticket>();
   edit: OutputEmitterRef<void> = output<void>();
@@ -29,14 +28,9 @@ export class AddTicketComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       if (this.ticket()) this.form().setValue({ title: this.ticket()?.title, request: this.ticket()?.request });
-      this.initialFormValue = this.form().value
-      this.isFormUpdated$ = this.form().valueChanges?.pipe(map((m) => JSON.stringify(m) !== JSON.stringify(this.initialFormValue)))
+      const initialFormValue = { ...this.form().value }
+      this.isFormUpdated$ = this.form().valueChanges?.pipe(map((m) => JSON.stringify(m) !== JSON.stringify(initialFormValue)))
     });
-  }
-
-  isFormUpdated(): boolean {
-    console.log('aaa', JSON.stringify(this.form().value) !== JSON.stringify(this.initialFormValue))
-    return JSON.stringify(this.form().value) !== JSON.stringify(this.initialFormValue)
   }
 
   onSubmit(): void {

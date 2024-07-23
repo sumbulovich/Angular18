@@ -11,11 +11,12 @@ import { layoutFeature } from '../../state/layout.reducer';
 import { LocalStorageService } from '@app/shared/services/local-storage.service';
 import { RouterModule } from '@angular/router';
 import { AuthStore } from '@app/core/auth/state/auth.store';
+import { AuthDirective } from '@app/core/auth/directives/auth.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, AsyncPipe, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule],
+  imports: [RouterModule, AsyncPipe, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule, AuthDirective],
   // providers: [AuthStore],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

@@ -1,27 +1,41 @@
-import { Component, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { InvestmentTableComponent } from "./components/investment-table/investment-table.component";
+import { CurrencyDropdownComponent } from "./components/currency-dropdown/currency-dropdown.component";
+import { CurrencyService } from './services/currency.service';
+import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-investment',
   standalone: true,
-  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, InvestmentTableComponent],
+  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, InvestmentTableComponent, CurrencyDropdownComponent],
   templateUrl: './investment.component.html',
   styleUrl: './investment.component.scss'
 })
-export class InvestmentComponent {
+export class InvestmentComponent implements OnInit {
   form: FormGroup = new FormGroup({
-    initialInvestment: new FormControl<number>(0),
-    annualInvestment: new FormControl<number>(0),
-    expectedReturn: new FormControl<number>(0),
-    duration: new FormControl<number>(0)
+    initialInvestment: new FormControl<number>(5),
+    annualInvestment: new FormControl<number>(5),
+    expectedReturn: new FormControl<number>(5),
+    duration: new FormControl<number>(5)
   });
   // Use a signal with elements that have some impact on the UI when changes
   dataSource: WritableSignal<{ [key: string]: number }[]> = signal<{ [key: string]: number }[]>([]);
+  currencyService: CurrencyService = inject(CurrencyService);
+  currencies: string[] = [];
+  currency: string = 'EUR';
+  currencyMap: { [key: string]: number } = {};
+
+  ngOnInit(): void {
+    this.currencyService.getCurrency().pipe(take(1)).subscribe((currencyMap) => {
+      this.currencies = Object.keys(currencyMap);
+      this.currencyMap = currencyMap;
+    });
+  }
 
   calculateInvestmentResults({ initialInvestment, annualInvestment, expectedReturn, duration }: { [key: string]: number }) {
     const annualData = [];
