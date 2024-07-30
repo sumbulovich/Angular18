@@ -9,6 +9,7 @@ export const DUMMY_TASKS: Task[] = [
       'Learn all the basic and advanced features of Angular & how to apply them.',
     dueDate: new Date('2025-12-31'),
     date: new Date('2024-12-31'),
+     status: 'open'
   },
   {
     id: 2,
@@ -17,6 +18,7 @@ export const DUMMY_TASKS: Task[] = [
     summary: 'Build a first prototype of the online shop website',
     dueDate: new Date('2024-05-31'),
     date: new Date('2024-02-31'),
+     status: 'open'
   },
   {
     id: 3,
@@ -26,5 +28,6 @@ export const DUMMY_TASKS: Task[] = [
       'Prepare and describe an issue template which will help with project management',
     dueDate: new Date('2024-06-15'),
     date: new Date('2024-01-31'),
+    status: 'open'
   }
 ];

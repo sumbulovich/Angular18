@@ -1,12 +1,10 @@
 import { computed, effect, inject } from "@angular/core";
-import { getState, patchState, signalState, signalStore, signalStoreFeature, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { tapResponse } from "@ngrx/operators";
+import { getState, patchState, signalState, signalStore, signalStoreFeature, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { createFeature, createReducer, on } from "@ngrx/store";
 import { pipe, switchMap, tap } from "rxjs";
 import { Permission } from "../models/permission.model";
 import { AuthService } from "../services/auth.service";
-import { AuthActions } from "./auth.actions";
 
 
 type AuthState = {
@@ -15,7 +13,7 @@ type AuthState = {
   error: string | undefined;
 }
 
-const initialSate = signalState<AuthState> ({
+const initialSate = signalState<AuthState>({
   permission: 'guest',
   inProgress: false,
   error: undefined
@@ -35,8 +33,11 @@ export const AuthStore = signalStore(
         switchMap(({ email, password }) => {
           return authService.login(email, password).pipe(
             tapResponse({
-              next: (permission) => patchState(store, { permission }),
-              error: console.error,
+              next: (permission: Permission) => patchState(store, { permission }),
+              error: (error: string) => {
+                patchState(store, { inProgress: false, error });
+                console.error(error);
+              },
               finalize: () => patchState(store, { inProgress: false }),
             })
           );

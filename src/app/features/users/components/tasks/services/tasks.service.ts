@@ -1,46 +1,32 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { DUMMY_TASKS } from '../constants/dummy-tasks';
 import { Task } from '../models/task.model';
-import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
-  completedTasks: Task[] = [];
-  deletedTasks: Task[] = [];
-  tasks: Task[] = [];
-  $task: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
+  private deletedTasks: WritableSignal<Task[]> = signal<Task[]>([]);;
+  private tasks: WritableSignal<Task[]> = signal<Task[]>([]);
 
   constructor() {
-    this.tasks = DUMMY_TASKS;
-    this.$task.next(this.tasks);
+    this.tasks.set(DUMMY_TASKS);
   }
 
-  getUserTask(userId: number): Observable<Task[]> {
-    return this.$task.pipe(map((m) => m.filter((f) => f.userId === userId)));
-  }
-
-  completeTask(task: Task): void {
-    this.completedTasks.unshift(task);
-    this.tasks = this.tasks.filter((f) => f.id !== task.id);
-    this.$task.next(this.tasks);
+  getUserTask(userId: number): Task[] {
+    return this.tasks().filter((f) => f.userId === userId);
   }
 
   deleteTask(task: Task): void {
-    this.deletedTasks.unshift(task);
-    this.tasks = this.tasks.filter((f) => f.id !== task.id);
-    this.$task.next(this.tasks);
+    this.deletedTasks.update((tasks) => [...tasks, task]);;
+    this.tasks.update((tasks) => tasks.filter((f) => f.id !== task.id));
   }
 
   addTask(task: Task): void {
-    this.tasks.unshift(task);
-    this.$task.next(this.tasks);
+    this.tasks.update((tasks) => [...tasks, task]);
   }
 
   editTask(task: Task): void {
-    const index = this.tasks.findIndex((f) => f.id === task.id);
-    this.tasks[index] = task;
-    this.$task.next(this.tasks);
+    this.tasks.update((tasks) => tasks.map((m) => m.id === task.id ? task : m ));
   }
 }

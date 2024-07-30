@@ -3,12 +3,24 @@
     <mat-card-title>
       <div ellipsisTooltip matTooltip>{{ user().name }}'s Tasks</div>
     </mat-card-title>
-    <button mat-stroked-button (click)="openAddTaskDialog()" class="whitespace-nowrap">Add Task</button>
+    <div>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="small-4 me-2">
+        <mat-label>Filter by:</mat-label>
+        <!-- Use signals in ngModel -->
+        <mat-select [(ngModel)]="filter">
+          <mat-option value="all">All</mat-option>
+          <mat-option value="open">Open</mat-option>
+          <mat-option value="in progress">In progress</mat-option>
+          <mat-option value="done">Done</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-stroked-button (click)="openAddTaskDialog()" class="whitespace-nowrap">Add Task</button>
+    </div>
   </mat-card-header>
   <mat-card-content>
-    @for (task of tasks$ | async; track task.id) {
+    @for (task of tasks(); track task.id) {
       <section class="mb-3">
-        <app-task [task]="task" (complete)="completeTask(task)" (edit)="openAddTaskDialog(task)" (delete)="deleteTask(task)"/>
+        <app-task [task]="task" (taskChange)="editTask($event)" (edit)="openAddTaskDialog(task)" (delete)="deleteTask(task)"/>
       </section>
     } @empty {
       <i>No task assigned for this user</i>

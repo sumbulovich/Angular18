@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Signal, computed, inject, DestroyRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,8 @@ export class AddTaskDialogComponent {
   readonly dialogRef: MatDialogRef<DialogComponent> = inject(MatDialogRef<DialogComponent>);
   readonly data: Task = inject<Task>(MAT_DIALOG_DATA);
   readonly today: Date = new Date();
+  private destroyRef = inject(DestroyRef);
+  isEdit: Signal<boolean> = computed(() => !!this.data.title)
   form: FormGroup = new FormGroup({
     title: new FormControl<string>('', Validators.required),
     summary: new FormControl<string>('', Validators.required),
@@ -33,14 +35,19 @@ export class AddTaskDialogComponent {
   });
 
   constructor() {
-    this.dialogRef.componentInstance.submit.subscribe(() => this.onSubmit());
-    if (this.data.title) this.form.patchValue(this.data);
+    if (this.isEdit()) this.form.patchValue(this.data);
+    // Listen to submit event on DialogComponent
+    const subscription = this.dialogRef.componentInstance.submit.subscribe(() => this.onSubmit());
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
-    const task: Task = { ...this.data, ...this.form.value, date: this.data.date || new Date() };
+
+    let task: Task = { ...this.data, ...this.form.value };
+    if (!this.isEdit()) task = { ...task, date: new Date(), status: 'open' };
+
     this.dialogRef.close(task);
   }
 }

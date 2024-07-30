@@ -11,10 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './currency-dropdown.component.html',
   styleUrl: './currency-dropdown.component.scss'
 })
-export class CurrencyDropdownComponent implements OnInit {
+export class CurrencyDropdownComponent {
   currencies: InputSignal<string[]> = input.required<string[]>();
   currency: ModelSignal<string> = model.required<string>();
-
-  ngOnInit(): void {
-  }
 }

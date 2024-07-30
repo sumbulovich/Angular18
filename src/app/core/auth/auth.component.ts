@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Signal, inject, viewChild } from '@angular/core';
+import { Component, Signal, effect, inject, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from './services/auth.service';
 import { AuthStore } from './state/auth.store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -17,8 +18,8 @@ import { AuthStore } from './state/auth.store';
   styleUrl: './auth.component.scss'
 })
 export class AuthComponent {
-  authService: AuthService = inject(AuthService);
   readonly authStore = inject(AuthStore);
+  private router: Router = inject(Router);
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');
 
   // Regular Ngrx Store
@@ -26,7 +27,11 @@ export class AuthComponent {
   // this.store.dispatch(AuthActions.login(this.form().value));
 
   constructor() {
-    setTimeout(() => this.form().setValue({ email: 'admin@example.com', password: 'admin' }));
+    setTimeout(() => this.form().setValue({ email: 'user@example.com', password: 'user' }));
+    effect((onCleanup) => {
+      if (this.authStore.isAuth()) this.router.navigate(['tasks'])
+      onCleanup(() => console.log('Signal Effects Cleanup executed'))
+    });
   }
 
   onSubmit(): void {

@@ -15,5 +15,5 @@ export class InvestmentTableComponent {
   displayedColumns: string[] = ['year', 'interest', 'valueEndOfYear', 'annualInvestment', 'totalInterest', 'totalAmountInvested'];
   dataSource: InputSignal<{ [key: string]: number }[]> = input.required<{ [key: string]: number }[]>();
   currency: InputSignal<string> = input.required<string>();
-  currenciesValue: InputSignal<number> = input.required<number>();
+  currencyValue: InputSignal<number> = input.required<number>();
 }

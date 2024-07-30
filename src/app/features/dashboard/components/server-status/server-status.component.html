@@ -5,28 +5,27 @@
   </mat-card-header>
   <mat-card-content>
     <p>
-      Status:
-      <span
-        [ngClass]="{
+      Status <span class="mat-body-small">({{ interval() }}s)</span>:
+      <span [ngClass]="{
           'text-success dark:!text-success-dark': status() === 'online',
           'text-error dark:!text-error-dark': status() === 'offline',
           'opacity-50': status() === 'unknown'
         }">
-        {{ status() }}
+        {{ status$ | async }}  <!-- {{ status() }} -->
       </span>
     </p>
     <p class="mat-body-medium">
-    @switch (status()) {
+      @switch (status()) {
       @case ('online') {
-        All systems are operational.
+      All systems are operational.
       }
       @case ('offline') {
-        Functionality should be restored soon.
+      Functionality should be restored soon.
       }
       @default {
-        Fetching server status failed.
+      Fetching server status failed.
       }
-    }
+      }
     </p>
   </mat-card-content>
 </mat-card>

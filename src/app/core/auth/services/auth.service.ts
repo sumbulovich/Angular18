@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { Permission } from '../models/permission.model';
 import { Observable, delay, of } from 'rxjs';
 
@@ -6,7 +6,7 @@ import { Observable, delay, of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  activePermission = signal<Permission>('guest');
+  activePermission: WritableSignal<Permission> = signal<Permission>('guest');
 
   login(email: string, password: string): Observable<Permission> {
     let permission: Permission = 'guest'

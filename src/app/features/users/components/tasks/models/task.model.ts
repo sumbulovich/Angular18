@@ -1,3 +1,5 @@
+export type TaskStatus = 'open' | 'in progress' | 'done';
+
 export interface Task {
   id: number;
   userId: number;
@@ -5,4 +7,5 @@ export interface Task {
   summary: string;
   dueDate: Date;
   date: Date;
+  status: TaskStatus;
 }

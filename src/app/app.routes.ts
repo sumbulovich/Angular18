@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
-import { provideState } from '@ngrx/store';
-import { authFeature } from './core/auth/state/auth.reducer';
-import { provideEffects } from '@ngrx/effects';
-import { AuthEffects } from './core/auth/state/auth.effects';
+import { UnAuthGuard } from './core/auth/guards/unauth.guard';
 
 export const routes: Routes = [
   {
@@ -27,7 +24,8 @@ export const routes: Routes = [
     //   provideState(authFeature),
     //   provideEffects(AuthEffects)
     // ],
-    loadComponent: () => import('./core/auth/auth.component').then(m => m.AuthComponent)
+    loadComponent: () => import('./core/auth/auth.component').then(m => m.AuthComponent),
+    canMatch: [UnAuthGuard],
   },
   // not found
   {

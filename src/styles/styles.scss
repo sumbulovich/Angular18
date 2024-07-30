@@ -37,5 +37,14 @@ html {
     }
   }
 
+  // The density system is based on a density scale. The scale starts with the default density of 0.
+  // Each whole number step down (-1, -2, etc.) reduces the affected sizes by 4dp, down to the minimum
+  // size necessary for a component to render coherently.
+  @for $i from 0 through 5 {
+    .small-#{$i} {
+      @include mat.all-component-densities(-$i);
+    }
+  }
+
   @import './components';
 }

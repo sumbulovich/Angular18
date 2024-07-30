@@ -1,8 +1,9 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, OnDestroy, OnInit, WritableSignal, afterNextRender, afterRender, inject, signal } from '@angular/core';
+import { Component, DestroyRef, Signal, WritableSignal, inject, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable, Subscription, interval, map, timer } from 'rxjs';
+import { Observable, interval } from 'rxjs';
 
 @Component({
   selector: 'app-server-status',
@@ -12,23 +13,26 @@ import { Observable, Subscription, interval, map, timer } from 'rxjs';
   styleUrl: './server-status.component.scss'
 })
 export class ServerStatusComponent {
-  status: WritableSignal<'online' | 'offline' | 'unknown'> = signal('offline');
-  interval?: NodeJS.Timeout;
   private destroyRef: DestroyRef = inject(DestroyRef)
+  // Convert a Signal in to an Observable (it subscribes when signal changes)
+  status: WritableSignal<'online' | 'offline' | 'unknown'> = signal('offline');
+  status$: Observable<"online" | "offline" | "unknown"> = toObservable(this.status);
+  // Convert an Observable in to a Signal
+  interval$: Observable<number> = interval(1000)
+  interval: Signal<number> = toSignal(this.interval$, { initialValue: 0 });
 
   constructor() {
-    // Server Side Render (SSR) needs call this method to start interval on the client side only
-    afterNextRender(() => {
-      this.interval = setInterval(() => {
-        const rdm: number = Math.random();
-        if (rdm < .5) this.status.set('online');
-        else if (rdm < .9) this.status.set('offline');
-        else this.status.set('unknown');
-      }, 1000);
+    const subscription = this.interval$.subscribe(() => {
+      const rdm: number = Math.random();
+      if (rdm < .5) this.status.set('online');
+      else if (rdm < .9) this.status.set('offline');
+      else this.status.set('unknown');
     });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
 
-    this.destroyRef.onDestroy(() => {
-      clearInterval(this.interval)
-    });
+    // Server Side Render (SSR) needs call this method to start on the client side only
+    // afterNextRender(() => {
+    // setInterval(() => { ... })
+    // });
   }
 }

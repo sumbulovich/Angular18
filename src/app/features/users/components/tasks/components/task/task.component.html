@@ -13,18 +13,28 @@
   <mat-card-content>
     {{ task().summary }}
   </mat-card-content>
-  <mat-card-actions align="end">
-    <div matTooltip="Only available for logged users" [matTooltipDisabled]="authStore.permission() === 'user'">
-      <button mat-flat-button class="primary" class="ms-2" (click)="complete.emit()"
-        [disabled]="authStore.permission() !== 'user'">Complete</button>
+  <mat-card-actions class="justify-between">
+    <div class="flex">
+      <div matTooltip="Only available for logged users" [matTooltipDisabled]="authStore.permission() === 'user'">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="small-5">
+          <mat-label>Status</mat-label>
+          <mat-select [value]="task().status" [disabled]="authStore.permission() !== 'user'" (valueChange)="updateStatus($event)">
+            <mat-option value="open">Open</mat-option>
+            <mat-option value="in progress">In progress</mat-option>
+            <mat-option value="done">Done</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
-    <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
-      <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()"
-        [disabled]="authStore.permission() !== 'admin'">Edit</button>
-    </div>
-    <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
-      <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()"
-        [disabled]="authStore.permission() !== 'admin'">Delete</button>
+    <div class="flex">
+      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
+        <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()"
+          [disabled]="authStore.permission() !== 'admin'">Edit</button>
+      </div>
+      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
+        <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()"
+          [disabled]="authStore.permission() !== 'admin'">Delete</button>
+      </div>
     </div>
   </mat-card-actions>
 </mat-card>

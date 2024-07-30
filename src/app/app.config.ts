@@ -1,26 +1,25 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideState, provideStore } from '@ngrx/store';
-import { layoutFeature } from './core/layout/state/layout.reducer';
 import { provideEffects } from '@ngrx/effects';
-import { AuthEffects } from './core/auth/state/auth.effects';
-import { authFeature } from './core/auth/state/auth.reducer';
-import { provideHttpClient } from '@angular/common/http';
+import { provideState, provideStore } from '@ngrx/store';
+import { routes } from './app.routes';
+import { layoutFeature } from './core/layout/state/layout.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    // Disable ngZone if using signals (remove zone.js from polyfills in main.ts file)
+    // provideZoneChangeDetection({ eventCoalescing: true }),
+    // provideClientHydration(),
+    provideExperimentalZonelessChangeDetection(),
     provideRouter(routes),
-    provideClientHydration(),
     provideAnimationsAsync(),
+    provideHttpClient(withFetch()),
     // root-level effects and features are registered here
     provideStore(),
     provideState(layoutFeature),
     provideEffects(),
-    provideHttpClient()
-]
+  ]
 };

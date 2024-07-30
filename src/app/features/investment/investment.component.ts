@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { InvestmentTableComponent } from "./components/investment-table/investment-table.component";
 import { CurrencyDropdownComponent } from "./components/currency-dropdown/currency-dropdown.component";
 import { CurrencyService } from './services/currency.service';
-import { Observable, take } from 'rxjs';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-investment',
