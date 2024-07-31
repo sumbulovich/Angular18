@@ -21,12 +21,13 @@ export class SaveChangesDirective {
   openDialog(event: MouseEvent): void {
     if (this.saveChangesDisabled) return;
     event.preventDefault();
-    const dialogRef = this.dialog.open(DialogComponent);
-    dialogRef.componentInstance.data = {
-      title: 'Save changes',
-      content: this.saveChangesMessage,
-      btnText: 'Save'
-    };
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Save changes',
+        content: this.saveChangesMessage,
+        btnText: 'Save'
+      }
+    });
     dialogRef.afterClosed().subscribe((value: any) => {
       if (value) (this.el.nativeElement as any).click();
     });

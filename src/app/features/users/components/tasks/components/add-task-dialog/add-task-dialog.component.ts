@@ -1,13 +1,13 @@
-import { Component, OnInit, Signal, computed, inject, DestroyRef } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component, DestroyRef, InputSignal, OnInit, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
-import { Task } from '../../models/task.model';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { EMPTY } from 'rxjs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
+import { Task, TaskStatus } from '../../models/task.model';
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -17,37 +17,36 @@ import { EMPTY } from 'rxjs';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    JsonPipe
   ],
   templateUrl: './add-task-dialog.component.html',
   styleUrl: './add-task-dialog.component.scss'
 })
-export class AddTaskDialogComponent {
-  readonly dialogRef: MatDialogRef<DialogComponent> = inject(MatDialogRef<DialogComponent>);
-  readonly data: Task = inject<Task>(MAT_DIALOG_DATA);
-  readonly today: Date = new Date();
+export class AddTaskDialogComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  isEdit: Signal<boolean> = computed(() => !!this.data.title)
-  form: FormGroup = new FormGroup({
-    title: new FormControl<string>('', Validators.required),
-    summary: new FormControl<string>('', Validators.required),
-    dueDate: new FormControl<Date | null>(null, Validators.required)
+  readonly dialogRef: MatDialogRef<DialogComponent> = inject(MatDialogRef<DialogComponent>);
+  submit$ = this.dialogRef.componentInstance.submit.asObservable();
+  task: InputSignal<Task> = input.required<Task>();
+  today: Date = new Date();
+  form = new FormGroup({
+    title: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
+    summary: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
+    dueDate: new FormControl<Date | undefined>(undefined, { nonNullable: true, validators: Validators.required }),
+    status: new FormControl<TaskStatus>('open', { nonNullable: true })
   });
 
-  constructor() {
-    if (this.isEdit()) this.form.patchValue(this.data);
+  ngOnInit(): void {
+    this.form.patchValue(this.task());
     // Listen to submit event on DialogComponent
-    const subscription = this.dialogRef.componentInstance.submit.subscribe(() => this.onSubmit());
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    const subscription = this.submit$?.subscribe(() => this.onSubmit());
+    this.destroyRef.onDestroy(() => subscription?.unsubscribe());
   }
 
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
-
-    let task: Task = { ...this.data, ...this.form.value };
-    if (!this.isEdit()) task = { ...task, date: new Date(), status: 'open' };
-
-    this.dialogRef.close(task);
+    const date: Date = this.task().date || new Date(); // Set date if new task
+    this.dialogRef.close({ ...this.task(), ...this.form.value, date });
   }
 }

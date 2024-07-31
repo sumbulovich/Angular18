@@ -2,3 +2,9 @@
 .mat-mdc-card-header-text {
   overflow: hidden;
 }
+
+// MatSnackBar
+.mat-mdc-snackbar-surface {
+  overflow: hidden;
+  padding-right: 0;
+}

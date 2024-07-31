@@ -21,12 +21,13 @@ export class DiscardChangesDirective {
   openDialog(event: MouseEvent): void {
     if (this.discardChangesDisabled) return;
     event.preventDefault();
-    const dialogRef = this.dialog.open(DialogComponent);
-    dialogRef.componentInstance.data = {
-      title: 'Discard changes',
-      content: this.discardChangesMessage,
-      btnText: 'Discard'
-    };
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Discard changes',
+        content: this.discardChangesMessage,
+        btnText: 'Discard'
+      }
+    });
     dialogRef.afterClosed().subscribe((value: any) => {
       if (value) (this.el.nativeElement as any).click();
     });

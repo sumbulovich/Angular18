@@ -24,11 +24,11 @@ export class InvestmentComponent implements OnInit {
     duration: new FormControl<number>(5)
   });
   // Use a signal with elements that have some impact on the UI when changes
-  dataSource: WritableSignal<{ [key: string]: number }[]> = signal<{ [key: string]: number }[]>([]);
+  dataSource: WritableSignal<Record<string, number>[]> = signal<Record<string, number>[]>([]);
   currencyService: CurrencyService = inject(CurrencyService);
   currencies: string[] = [];
   currency: string = 'EUR';
-  currencyMap: { [key: string]: number } = {};
+  currencyMap: Record<string, number> = {};
 
   ngOnInit(): void {
     this.currencyService.getCurrency().pipe(take(1)).subscribe((currencyMap) => {
@@ -37,7 +37,7 @@ export class InvestmentComponent implements OnInit {
     });
   }
 
-  calculateInvestmentResults({ initialInvestment, annualInvestment, expectedReturn, duration }: { [key: string]: number }) {
+  calculateInvestmentResults({ initialInvestment, annualInvestment, expectedReturn, duration }: Record<string, number>) {
     const annualData = [];
     let investmentValue = initialInvestment;
 

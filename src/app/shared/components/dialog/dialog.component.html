@@ -8,7 +8,7 @@
   @if (data?.content; as content) {
   <p [innerHTML]="content"></p>
   }
-  <ng-container *ngComponentOutlet="data?.component" />
+  <ng-container *ngComponentOutlet="data?.component; inputs: data?.componentInputs" />
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-flat-button cdkFocusInitial [color]="data?.btnColor" (click)="onSubmit()">

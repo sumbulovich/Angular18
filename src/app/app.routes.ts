@@ -18,6 +18,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
+    path: 'places',
+    data: { title: 'Places' },
+    loadComponent: () => import('./features/places/places.component').then(m => m.PlacesComponent)
+  },
+  {
     path: 'login',
     // Feature-level effects and features are registered here
     // providers: [

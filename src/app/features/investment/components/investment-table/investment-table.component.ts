@@ -13,7 +13,7 @@ import { CurrencyService } from '../../services/currency.service';
 })
 export class InvestmentTableComponent {
   displayedColumns: string[] = ['year', 'interest', 'valueEndOfYear', 'annualInvestment', 'totalInterest', 'totalAmountInvested'];
-  dataSource: InputSignal<{ [key: string]: number }[]> = input.required<{ [key: string]: number }[]>();
+  dataSource: InputSignal<Record<string, number>[]> = input.required<Record<string, number>[]>();
   currency: InputSignal<string> = input.required<string>();
   currencyValue: InputSignal<number> = input.required<number>();
 }

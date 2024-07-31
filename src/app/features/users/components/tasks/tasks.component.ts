@@ -45,14 +45,16 @@ export class TasksComponent {
 
   openAddTaskDialog(editTask?: Task): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: editTask || { userId: this.user().id, id: DUMMY_TASKS.length + 1 },
+      data: {
+        component: AddTaskDialogComponent,
+        componentInputs: {
+          'task': editTask || { userId: this.user().id, id: DUMMY_TASKS.length + 1 },
+        },
+        title: `${editTask ? 'Edit' : 'New'} Task`,
+        content: `${this.user().name}'s task:`,
+        btnText: `${editTask ? 'Save' : 'Add'}`
+      },
     });
-    dialogRef.componentInstance.data = {
-      component: AddTaskDialogComponent,
-      title: `${editTask ? 'Edit' : 'New'} Task`,
-      content: `${this.user().name}'s task:`,
-      btnText: `${editTask ? 'Save' : 'Add'}`
-    };
     dialogRef.afterClosed().pipe(take(1)).subscribe((task?: Task) => {
       if (!task) return;
       if (editTask) this.tasksService.editTask(task);

@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Signal, effect, inject, viewChild } from '@angular/core';
+import { Component, OnInit, Signal, effect, inject, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss'
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   readonly authStore = inject(AuthStore);
   private router: Router = inject(Router);
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');
@@ -27,11 +27,14 @@ export class AuthComponent {
   // this.store.dispatch(AuthActions.login(this.form().value));
 
   constructor() {
-    setTimeout(() => this.form().setValue({ email: 'user@example.com', password: 'user' }));
     effect((onCleanup) => {
       if (this.authStore.isAuth()) this.router.navigate(['tasks'])
       onCleanup(() => console.log('Signal Effects Cleanup executed'))
     });
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => this.form().setValue({ email: 'admin@example.com', password: 'admin' }));
   }
 
   onSubmit(): void {
