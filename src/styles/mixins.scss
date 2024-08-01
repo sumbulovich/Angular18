@@ -37,7 +37,7 @@
 
    // Apply the light theme only when the user prefers light themes.
    @media (prefers-color-scheme: light) {
-    @at-root ::ng-deep html:not([dark-theme]) #{&} {
+    @at-root html:not([dark-theme]) :host #{&} {
        @include color(m3-theme.$light-theme, $color, $hue, $property, $opacity);
      }
    }
@@ -49,7 +49,7 @@
 
   // Apply the light theme only when the user prefers light themes.
   @media (prefers-color-scheme: light) {
-    @at-root ::ng-deep html:not([dark-theme]) #{&} {
+    @at-root html:not([dark-theme]) :host #{&} {
       @include typography(m3-theme.$light-theme, $typescale, $property);
     }
   }

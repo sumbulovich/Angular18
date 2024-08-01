@@ -1,6 +1,6 @@
 @if (!placesStore.isLoading()) {
 <div class="flex flex-row flex-wrap">
-  @for (place of placesStore.places(); track place.id) {
+  @for (place of placesStore.unselectedPlaces().data; track place.id) {
   <div (click)="onSelectPlace(place)" class="w-1/4">
     <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
       <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
@@ -8,6 +8,17 @@
     </div>
   </div>
   }
+</div>
+<mat-divider></mat-divider>
+<div class="flex flex-row flex-wrap">
+  @for (place of placesStore.userPlaces().data; track place.id) {
+    <div (click)="onSelectPlace(place)" class="w-1/4">
+      <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
+        <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
+        <p ellipsisTooltip matTooltip>{{ place.title }}</p>
+      </div>
+    </div>
+    }
 </div>
 } @else {
 <mat-spinner class="_float-center"></mat-spinner>

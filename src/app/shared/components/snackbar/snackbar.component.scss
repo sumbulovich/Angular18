@@ -1,3 +1,14 @@
+@use '@angular/material' as mat;
+@use '/src/styles/m3-theme.scss';
+
 :host {
   display: flex;
+
+  @include mat.icon-button-color(m3-theme.$light-theme);
+
+  @media (prefers-color-scheme: light) {
+    @at-root html:not([dark-theme]) #{&} {
+      @include mat.icon-button-color(m3-theme.$dark-theme);
+    }
+  }
 }

@@ -17,4 +17,13 @@ export class HttpService {
   ): Observable<T> {
     return this.httpClient.get<T>(url, { params, headers });
   }
+
+  put<T>(
+    url: string,
+    body: any,
+    params?: HttpParams,
+    headers?: HttpHeaders,
+  ): Observable<T> {
+    return this.httpClient.put<T>(url, body, { params, headers });
+  }
 }

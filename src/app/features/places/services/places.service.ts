@@ -14,6 +14,16 @@ export class PlacesService {
 
   getPlaces(): Observable<Place[]> {
     return this.httpService.get<{ places: Place[] }>(`${this.url}/places`)
-      .pipe((map((m) => m.places)));;
+      .pipe((map((m) => m.places)));
+  }
+
+  getUserPlaces(): Observable<Place[]> {
+    return this.httpService.get<{ places: Place[] }>(`${this.url}/user-places`)
+      .pipe((map((m) => m.places)));
+  }
+
+  addUserPlace(place: Place): Observable<Place[]> {
+    return this.httpService.put<{ userPlaces: Place[] }>(`${this.url}/user-places`, { placeId: place.id })
+      .pipe((map((m) => m.userPlaces)));
   }
 }
