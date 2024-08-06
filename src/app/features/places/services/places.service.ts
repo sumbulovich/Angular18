@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpService } from '@app/shared/services/http.service';
 import { Observable, map } from 'rxjs';
 import { Place } from '../models/place.model';
+import { HttpService } from '@app/core/http/services/http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,11 @@ export class PlacesService {
 
   addUserPlace(place: Place): Observable<Place[]> {
     return this.httpService.put<{ userPlaces: Place[] }>(`${this.url}/user-places`, { placeId: place.id })
+      .pipe((map((m) => m.userPlaces)));
+  }
+
+  deleteUserPlace(place: Place): Observable<Place[]> {
+    return this.httpService.delete<{ userPlaces: Place[] }>(`${this.url}/user-places/${place.id}`)
       .pipe((map((m) => m.userPlaces)));
   }
 }

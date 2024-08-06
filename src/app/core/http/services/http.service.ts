@@ -26,4 +26,12 @@ export class HttpService {
   ): Observable<T> {
     return this.httpClient.put<T>(url, body, { params, headers });
   }
+
+  delete<T>(
+    url: string,
+    params?: HttpParams,
+    headers?: HttpHeaders,
+  ): Observable<T> {
+    return this.httpClient.delete<T>(url, { params, headers });
+  }
 }

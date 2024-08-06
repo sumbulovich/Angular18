@@ -5,19 +5,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AuthService } from './services/auth.service';
-import { AuthStore } from './state/auth.store';
+import { AuthService } from '../../services/auth.service';
+import { AuthStore } from '../../state/auth.store';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-auth',
+  selector: 'app-login',
   standalone: true,
   imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
   // providers: [AuthStore], // Signal Stores registered here or on root level with { providedIn: 'root' }
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
-export class AuthComponent implements OnInit {
+export class LoginComponent implements OnInit {
   readonly authStore = inject(AuthStore);
   private router: Router = inject(Router);
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');

@@ -12,5 +12,6 @@
       (change)="toggleDark($event.checked)"></mat-slide-toggle>
     <a routerLink="login" class="mat-body-large" (click)="authStore.logout()" *appAuth="true">Logout</a>
     <a routerLink="login" class="mat-body-large" *appAuth="false">Login</a>
+    <a routerLink="signup" class="mat-body-large" *appAuth="false">Signup</a>
   </div>
 </mat-toolbar>

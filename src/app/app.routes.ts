@@ -29,7 +29,12 @@ export const routes: Routes = [
     //   provideState(authFeature),
     //   provideEffects(AuthEffects)
     // ],
-    loadComponent: () => import('./core/auth/auth.component').then(m => m.AuthComponent),
+    loadComponent: () => import('./core/auth/components/login/login.component').then(m => m.LoginComponent),
+    canMatch: [UnAuthGuard],
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./core/auth/components/signup/signup.component').then(m => m.SignupComponent),
     canMatch: [UnAuthGuard],
   },
   // not found

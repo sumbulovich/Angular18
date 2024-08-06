@@ -6,7 +6,6 @@ import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { catchError, pipe, switchMap, tap, throwError } from "rxjs";
 import { Place } from "../models/place.model";
 import { PlacesService } from "../services/places.service";
-import { SnackbarService } from './../../../shared/services/snackbar.service';
 
 type Data<T> = {
   data: T;
@@ -39,19 +38,15 @@ export const PlacesStore = signalStore(
     unselectedPlaces: computed(() => ({ data: state.places().data?.filter((f) => !state.userPlaces().data.some((s) => s.id === f.id)) })),
     isLoading: computed(() => state.places().isLoading || state.userPlaces().isLoading),
   })),
-  withMethods((placesState, placesService = inject(PlacesService), snackbarService = inject(SnackbarService)) => ({
+  withMethods((placesState, placesService = inject(PlacesService)) => ({
     loadPlaces: rxMethod<void>(
       pipe(
         tap(() => patchState(placesState, (state) => ({ places: { ...state.places, isLoading: true, error: undefined } }))),
         switchMap(() => {
           return placesService.getPlaces().pipe(
-            catchError((e: HttpErrorResponse) => throwError(() => new Error(`Something went wrong (${e.status})`))),
             tapResponse({
               next: (places?: Place[]) => patchState(placesState, (state) => ({ places: { ...state.places, data: places || [] } })),
-              error: (e: Error) => {
-                patchState(placesState, (state) => ({ places: { ...state.places, isLoading: false, error: e.message } }));
-                snackbarService.open('error', 'Error getting places', e?.message);
-              },
+              error: (e: Error) => patchState(placesState, (state) => ({ places: { ...state.places, isLoading: false, error: e.message } })),
               finalize: () => patchState(placesState, (state) => ({ places: { ...state.places, isLoading: false } }))
             })
           );
@@ -63,13 +58,9 @@ export const PlacesStore = signalStore(
         tap(() => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, isLoading: true, error: undefined } }))),
         switchMap(() => {
           return placesService.getUserPlaces().pipe(
-            catchError((e: HttpErrorResponse) => throwError(() => new Error(`Something went wrong (${e.status})`))),
             tapResponse({
               next: (places?: Place[]) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, data: places || [] } })),
-              error: (e: Error) => {
-                patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, isLoading: false, error: e.message } }));
-                snackbarService.open('error', 'Error getting user places', e?.message);
-              },
+              error: (e: Error) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, isLoading: false, error: e.message } })),
               finalize: () => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, isLoading: false } }))
             })
           );
@@ -81,13 +72,23 @@ export const PlacesStore = signalStore(
         tap(() => patchState(placesState, { inProgress: true })),
         switchMap((place: Place) => {
           return placesService.addUserPlace(place).pipe(
-            catchError((e: HttpErrorResponse) => throwError(() => new Error(`Something went wrong (${e.status})`))),
             tapResponse({
               next: (places: Place[]) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, data: places } })),
-              error: (e: Error) => {
-                patchState(placesState, { inProgress: false });
-                snackbarService.open('error', 'Error adding user place', e?.message);
-              },
+              error: (e: Error) => patchState(placesState, { inProgress: false }),
+              finalize: () => patchState(placesState, { inProgress: false }),
+            })
+          );
+        })
+      )
+    ),
+    deleteUserPlace: rxMethod<Place>(
+      pipe(
+        tap(() => patchState(placesState, { inProgress: true })),
+        switchMap((place: Place) => {
+          return placesService.deleteUserPlace(place).pipe(
+            tapResponse({
+              next: (places: Place[]) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, data: places } })),
+              error: (e: Error) => patchState(placesState, { inProgress: false }),
               finalize: () => patchState(placesState, { inProgress: false }),
             })
           );

@@ -1,25 +1,43 @@
 @if (!placesStore.isLoading()) {
-<div class="flex flex-row flex-wrap">
-  @for (place of placesStore.unselectedPlaces().data; track place.id) {
-  <div (click)="onSelectPlace(place)" class="w-1/4">
-    <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
-      <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
-      <p ellipsisTooltip matTooltip>{{ place.title }}</p>
-    </div>
+  <div class="flex flex-row gap-4">
+    <mat-card appearance="outlined" class="flex-1">
+      <mat-card-header>
+        <mat-card-title>Places</mat-card-title>
+        <mat-card-subtitle>Select which places would you like to visit</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="flex flex-row flex-wrap">
+          @for (place of placesStore.unselectedPlaces().data; track place.id) {
+          <div (click)="placesStore.addUserPlace(place)" class="w-1/4">
+            <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
+              <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
+              <p ellipsisTooltip matTooltip class="!mb-0">{{ place.title }}</p>
+            </div>
+          </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="flex-1">
+      <mat-card-header>
+        <mat-card-title>User places</mat-card-title>
+        <mat-card-subtitle>Unselect the places you don't want to visit</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="flex flex-row flex-wrap">
+          @for (place of placesStore.userPlaces().data; track place.id) {
+          <div (click)="placesStore.deleteUserPlace(place)" class="w-1/4">
+            <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
+              <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
+              <p ellipsisTooltip matTooltip>{{ place.title }}</p>
+            </div>
+          </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
-  }
-</div>
-<mat-divider></mat-divider>
-<div class="flex flex-row flex-wrap">
-  @for (place of placesStore.userPlaces().data; track place.id) {
-    <div (click)="onSelectPlace(place)" class="w-1/4">
-      <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
-        <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
-        <p ellipsisTooltip matTooltip>{{ place.title }}</p>
-      </div>
-    </div>
-    }
-</div>
 } @else {
 <mat-spinner class="_float-center"></mat-spinner>
 }

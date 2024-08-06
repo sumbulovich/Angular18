@@ -6,11 +6,12 @@ import { PlacesStore } from './state/places.store';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { JsonPipe } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-places',
   standalone: true,
-  imports: [EllipsisTooltipDirective, MatTooltipModule, MatProgressSpinnerModule, MatDividerModule, JsonPipe],
+  imports: [EllipsisTooltipDirective, MatTooltipModule, MatProgressSpinnerModule, MatCardModule, JsonPipe],
   templateUrl: './places.component.html',
   styleUrl: './places.component.scss'
 })
@@ -20,9 +21,5 @@ export class PlacesComponent implements OnInit {
   ngOnInit(): void {
     this.placesStore.loadPlaces();
     this.placesStore.loadUserPlaces();
-  }
-
-  onSelectPlace(place: Place): void {
-    this.placesStore.addUserPlace(place);
   }
 }
