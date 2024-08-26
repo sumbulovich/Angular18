@@ -7,16 +7,21 @@
       }">circle</mat-icon>
       {{ ticket().title }}
     </mat-panel-title>
-    @if (ticket().status === 'open') {
-      <mat-panel-description class="grow-0">
-        <button mat-mini-fab color="primary" (click)="close.emit(); $event.stopPropagation()" class="me-2">
-          <mat-icon>check</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" (click)="edit.emit(); $event.stopPropagation()" class="me-2">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </mat-panel-description>
-    }
+    <mat-panel-description class="grow-0">
+      @if (ticket().status === 'open') {
+      <button mat-mini-fab color="primary" (click)="close.emit(); $event.stopPropagation()" class="me-2">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-mini-fab color="primary" (click)="edit.emit(); $event.stopPropagation()" class="me-2">
+        <mat-icon>edit</mat-icon>
+      </button>
+      }
+      @else {
+      <button mat-mini-fab color="primary" (click)="delete.emit(); $event.stopPropagation()" class="me-2">
+        <mat-icon>delete</mat-icon>
+      </button>
+      }
+    </mat-panel-description>
   </mat-expansion-panel-header>
   <p>{{ ticket().request }}</p>
 </mat-expansion-panel>

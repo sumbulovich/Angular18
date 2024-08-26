@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ModelSignal, OnInit, OutputEmitterRef, Signal, afterNextRender, computed, effect, model, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, InputSignal, ModelSignal, OnInit, OutputEmitterRef, Signal, afterNextRender, computed, effect, input, model, output, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,6 +22,7 @@ export class AddTicketComponent implements OnInit {
   create: OutputEmitterRef<Ticket> = output<Ticket>();
   edit: OutputEmitterRef<void> = output<void>();
   cancel: OutputEmitterRef<void> = output<void>();
+  inProgress: InputSignal<boolean> = input<boolean>(false);
   // @Input() ticket, @Output() ticketChange
   ticket: ModelSignal<Ticket | undefined> = model<Ticket | undefined>();
 
@@ -46,7 +47,6 @@ export class AddTicketComponent implements OnInit {
 
   addTicket(): void {
     const ticket: Ticket = {
-      id: Math.floor(Math.random() * 100),
       status: 'open',
       ...this.form().value,
     };

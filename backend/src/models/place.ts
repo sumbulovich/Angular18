@@ -13,7 +13,6 @@ const imageSchema = new Schema({
   alt: { type: String, required: true }
 });
 const placeSchema = new Schema<Place>({
-  id: { type: Schema.Types.ObjectId, default: new mongo.ObjectId() },
   title: { type: String, required: true },
   image: { type: imageSchema, required: true },
   lat: { type: Number, required: true },

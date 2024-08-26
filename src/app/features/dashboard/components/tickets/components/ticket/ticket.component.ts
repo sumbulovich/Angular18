@@ -18,4 +18,5 @@ export class TicketComponent {
   className: InputSignal<string | undefined> = input<string | undefined>();
   close: OutputEmitterRef<void> = output<void>();
   edit: OutputEmitterRef<void> = output<void>()
+  delete: OutputEmitterRef<void> = output<void>()
 }

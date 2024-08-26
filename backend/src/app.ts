@@ -1,8 +1,14 @@
 import bodyParser from "body-parser";
 import express from "express";
 import placesRouter from "./routes/places"
+import ticketsRouter from "./routes/tickets"
+import mongoose from "mongoose";
 
 export const app = express();
+
+mongoose.connect("mongodb+srv://sumbulovich:XsOK5tjiV58UrwSi@cluster0.rqulk.mongodb.net/testDB?retryWrites=true&w=majority&appName=Cluster0")
+  .then(() => console.log('Connected to testDB database'))
+  .catch(() => console.log('Connected failed'));
 
 app.use(express.static("images"));
 app.use(bodyParser.json());
@@ -17,6 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.use(placesRouter);
+app.use(ticketsRouter);
 
 // 404
 app.use((req, res, next) => {
