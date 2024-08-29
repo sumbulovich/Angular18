@@ -6,11 +6,14 @@ import mongoose from "mongoose";
 
 export const app = express();
 
-mongoose.connect("mongodb+srv://sumbulovich:XsOK5tjiV58UrwSi@cluster0.rqulk.mongodb.net/testDB?retryWrites=true&w=majority&appName=Cluster0")
+// usr: sumbulovich
+// psw: XsOK5tjiV58UrwSi
+// DB: test
+mongoose.connect("mongodb+srv://sumbulovich:XsOK5tjiV58UrwSi@cluster0.rqulk.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log('Connected to testDB database'))
   .catch(() => console.log('Connected failed'));
 
-app.use(express.static("images"));
+app.use('/images', express.static("images"));
 app.use(bodyParser.json());
 
 // CORS
@@ -23,7 +26,7 @@ app.use((req, res, next) => {
 });
 
 app.use(placesRouter);
-app.use(ticketsRouter);
+app.use('/tickets', ticketsRouter);
 
 // 404
 app.use((req, res, next) => {

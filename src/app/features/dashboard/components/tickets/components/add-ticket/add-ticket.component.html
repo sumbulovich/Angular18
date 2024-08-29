@@ -10,13 +10,26 @@
     <mat-error>Required</mat-error>
   </mat-form-field>
   <div>
-    <button mat-stroked-button type="submit" class="me-2" saveChanges [saveChangesDisabled]="!!form.invalid || !(isFormUpdated$ | async) || !ticket()" [disabled]="inProgress()">
-        @if (ticket()) {
-        Save
+    @if(!imagePreview) {
+    <button mat-button type="button" (click)="filePicker.click()">Add image</button>
+    } @else {
+    <img [src]="imagePreview" alt="image preview">
+    <button mat-button type="button" color="warn" (click)="onResetImage(image)">Remove image</button>
+    }
+    <input type="file" accept="image/png, image/gif, image/jpeg" ngModel class="invisible"
+    (change)="onImagePicked($event)" #filePicker #image="ngModel">
+  </div>
+  <div>
+    <button mat-stroked-button type="submit" class="me-2" saveChanges
+      [saveChangesDisabled]="!!form.invalid || !(isFormUpdated$ | async) || !ticket()" [disabled]="inProgress()">
+      @if (ticket()) {
+      Save
       } @else {
-        Create
+      Create
       }
-      </button>
-    <button mat-stroked-button type="button" color="warn" discardChanges [discardChangesDisabled]="!(isFormUpdated$ | async)" (click)="cancel.emit()" [disabled]="inProgress()">Cancel</button>
+    </button>
+    <button mat-stroked-button type="button" color="warn" discardChanges
+      [discardChangesDisabled]="!(isFormUpdated$ | async)" (click)="cancel.emit()"
+      [disabled]="inProgress()">Cancel</button>
   </div>
 </form>

@@ -3,4 +3,6 @@ export interface Ticket {
   title: string;
   request: string;
   status: 'open' | 'closed';
+  image?: string;
+  file?: File;
 }

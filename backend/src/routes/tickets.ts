@@ -1,64 +1,68 @@
-import express from "express";
-import { TicketModel } from "../models/ticket";
+import express from 'express';
+import { TicketModel } from '../models/ticket';
+import multer from 'multer';
+import { unlinkSync } from 'fs';
 
 const router = express.Router(); // Create Express Router
 
-router.get("/tickets", async (req, res) => {
-  // const fileContent = await fs.readFile("./data/tickets.json");
-  // const tickets = JSON.parse(fileContent.toString());
+const MINE_TYPE: Record<string, string> = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+};
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    let error: Error | null = null;
+    if (!MINE_TYPE[file.mimetype]) error = new Error('Invalid mine type');
+    cb(error, './images/tickets')
+  },
+  filename: (req, file, cb) => {
+    const ext = MINE_TYPE[file.mimetype];
+    cb(null, `${Date.now()}.${ext}`);
+  }
+})
+
+router.get('', async (req, res) => {
+  const tickets = await TicketModel.find();
+  res.status(200).json({ tickets });
+});
+
+router.post('', multer({ storage }).single('file'), async (req, res) => {
+  const image: string = req.file ? `${req.protocol}://${req.get('host')}/images/tickets/${req.file?.filename}` : '';
+  const ticket = new TicketModel({ ...req.body, image });
+  await ticket.save(); // await TicketModel.create(ticket)
 
   const tickets = await TicketModel.find();
   res.status(200).json({ tickets });
 });
 
-router.post("/tickets", async (req, res) => {
-  const ticket = new TicketModel({
-    title: req.body.title,
-    request: req.body.request,
-    status: req.body.status
-  })
-
-  // const fileContent = await fs.readFile("./data/tickets.json");
-  // const ticketsData: Ticket[] = JSON.parse(fileContent.toString());
-  // const updatedTickets = [...ticketsData, ticket];
-  // await fs.writeFile("./data/tickets.json", JSON.stringify(updatedTickets));
-
-  await ticket.save(); // await TicketModel.create(ticket)
-
-  const updatedTickets = await TicketModel.find();
-  res.status(200).json({ tickets: updatedTickets });
+router.put('', multer({ storage }).single('file'), async (req, res) => {
+  const image: string = req.file ? `${req.protocol}://${req.get('host')}/images/tickets/${req.file?.filename}` : '';
+  const ticket = await TicketModel.findOneAndUpdate({ _id: req.body._id }, { ...req.body, image });
+  if (ticket) {
+    if (ticket.image) unlinkSync(ticket.image.replace(`${req.protocol}://${req.get('host')}`, '.')); // delete previous image
+    const tickets = await TicketModel.find();
+    res.status(200).json({ tickets });
+  } else {
+    res.status(400).json({ message: 'Not found' });
+  }
 });
 
-router.put("/tickets", async (req, res) => {
-  const ticketId = req.body._id;
-  const task = req.body;
-
-  // const fileContent = await fs.readFile("./data/tickets.json");
-  // const ticketsData: Ticket[] = JSON.parse(fileContent.toString());
-  // const updatedTickets = ticketsData.map((m) => m.id === task.id ? task : m);
-  // await fs.writeFile("./data/tickets.json",  JSON.stringify(updatedTickets));
-
-  await TicketModel.findOneAndUpdate({ _id: ticketId }, task)
-
-  const updatedTickets = await TicketModel.find();
-  res.status(200).json({ tickets: updatedTickets });
+router.get('/:id', async (req, res) => {
+  const ticket = await TicketModel.findById(req.params.id)
+  if (ticket) res.status(200).json({ tickets: [ticket] });
+  else res.status(400).json({ message: 'Not found' });
 });
 
-router.delete("/tickets/:id", async (req, res) => {
-  const ticketId = req.params.id;
-
-  // const fileContent = await fs.readFile("./data/tickets.json");
-  // const tickets = JSON.parse(fileContent.toString());
-  // const placeIndex = tickets.findIndex((ticket: Ticket) => ticket.id.toString() === ticketId);
-  // let updatedTickets = tickets;
-  // if (placeIndex >= 0)  updatedTickets.splice(placeIndex, 1);
-  // await fs.writeFile("./data/tickets.json", JSON.stringify(updatedTickets));
-
-  await TicketModel.deleteOne({ _id: ticketId })
-
-  const updatedTickets = await TicketModel.find();
-  res.status(200).json({ tickets: updatedTickets });
+router.delete('/:id', async (req, res) => {
+  const response = await TicketModel.deleteOne({ _id: req.params.id });
+  if (response.deletedCount) {
+    const tickets = await TicketModel.find();
+    res.status(200).json({ tickets });
+  } else {
+    res.status(400).json({ message: 'Not found' });
+  }
 });
 
 export default router;
- 

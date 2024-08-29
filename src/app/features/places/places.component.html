@@ -10,7 +10,7 @@
           @for (place of placesStore.unselectedPlaces().data; track place.id) {
           <div (click)="placesStore.addUserPlace(place)" class="w-1/4">
             <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
-              <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
+              <img [src]="'http://localhost:3000/images/' + place.image.src" [alt]="place.image.alt" />
               <p ellipsisTooltip matTooltip class="!mb-0">{{ place.title }}</p>
             </div>
           </div>
@@ -29,7 +29,7 @@
           @for (place of placesStore.userPlaces().data; track place.id) {
           <div (click)="placesStore.deleteUserPlace(place)" class="w-1/4">
             <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
-              <img [src]="'http://localhost:3000/' + place.image.src" [alt]="place.image.alt" />
+              <img [src]="'http://localhost:3000/images/' + place.image.src" [alt]="place.image.alt" />
               <p ellipsisTooltip matTooltip>{{ place.title }}</p>
             </div>
           </div>

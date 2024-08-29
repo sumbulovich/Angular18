@@ -19,12 +19,16 @@ export class TicketsService {
 
 
   addTicket(ticket: Ticket): Observable<Ticket[]> {
-    return this.httpService.post<{ tickets: Ticket[] }>(`${this.url}/tickets`, ticket)
+    const ticketData = new FormData(); // Accept File
+    Object.entries(ticket).forEach(([key, value]) => ticketData.append(key, value));
+    return this.httpService.post<{ tickets: Ticket[] }>(`${this.url}/tickets`, ticketData)
       .pipe((map((m) => m.tickets)));
   }
 
   editTicket(ticket: Ticket): Observable<Ticket[]> {
-    return this.httpService.put<{ tickets: Ticket[] }>(`${this.url}/tickets`, ticket)
+    const ticketData = new FormData(); // Accept File
+    Object.entries(ticket).forEach(([key, value]) => ticketData.append(key, value));
+    return this.httpService.put<{ tickets: Ticket[] }>(`${this.url}/tickets`, ticketData)
       .pipe((map((m) => m.tickets)));
   }
 
