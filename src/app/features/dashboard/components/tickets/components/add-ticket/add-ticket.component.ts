@@ -22,18 +22,19 @@ export class AddTicketComponent implements OnInit {
   isFormUpdated$?: Observable<boolean>;
   create: OutputEmitterRef<Ticket> = output<Ticket>();
   edit: OutputEmitterRef<void> = output<void>();
-  cancel: OutputEmitterRef<void> = output<void>();
+  close: OutputEmitterRef<void> = output<void>();
   inProgress: InputSignal<boolean> = input<boolean>(false);
-  // @Input() ticket, @Output() ticketChange
-  ticket: ModelSignal<Ticket | undefined> = model<Ticket | undefined>();
-  imagePreview?: string;
+  ticket: ModelSignal<Ticket | undefined> = model<Ticket | undefined>(); // @Input() ticket, @Output() ticketChange
   file?: File;
 
   ngOnInit(): void {
     setTimeout(() => {
       if (this.ticket()) {
-        this.form().setValue({ title: this.ticket()?.title, request: this.ticket()?.request });
-        this.imagePreview = this.ticket()?.image;
+        this.form().setValue({
+          title: this.ticket()?.title,
+          request: this.ticket()?.request,
+          image: this.ticket()?.image
+        });
       }
       const initialFormValue = { ...this.form().value }
       this.isFormUpdated$ = this.form().valueChanges?.pipe(map((m) => JSON.stringify(m) !== JSON.stringify(initialFormValue)))
@@ -42,37 +43,35 @@ export class AddTicketComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form().invalid) return;
-    if (this.ticket()) this.editTicket();
-    else this.addTicket();
-  }
-
-  editTicket(): void {
-    const updatedTicket: Ticket = { ...this.form().value, image: this.form().value.image, file: this.file};
-    this.ticket.update((ticket?: Ticket) => ({ ...ticket, ...updatedTicket }));
-    this.edit.emit();
+    this.ticket() ? this.editTicket() : this.addTicket();
   }
 
   addTicket(): void {
-    const ticket: Ticket = {
-      status: 'open',
-      file: this.file,
-      ...this.form().value,
-    };
+    const ticket: Ticket = { ...this.form().value, status: 'open', file: this.file };
+    if (this.file) ticket.image = '';
+
     this.create.emit(ticket);
+  }
+
+  editTicket(): void {
+    const ticket: Ticket = {  ...this.form().value, file: this.file };
+    if (this.file) ticket.image = '';
+
+    this.ticket.update((oldTicket?: Ticket) => ({ ...oldTicket, ...ticket }));
+    this.edit.emit();
   }
 
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files?.item(0);
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => this.imagePreview = reader.result?.toString();
+    reader.onload = () => this.form().controls['image'].setValue(reader.result);
     reader.readAsDataURL(file)
-    this.file = file
+    this.file = file;
   }
 
-  onResetImage(control: NgModel) {
-    control.reset(null);
+  onResetImage() {
     this.file = undefined;
-    this.imagePreview = undefined;
+    this.form().controls['image'].reset();
   }
 }

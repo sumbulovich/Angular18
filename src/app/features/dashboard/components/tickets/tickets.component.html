@@ -5,7 +5,7 @@
   </mat-card-header>
   <mat-card-content [class.!p-0]="ticketsStore.tickets().data.length && !isAdding">
     @if (isAdding) {
-    <app-add-ticket (create)="addTicket($event);" (edit)="editTicket();" (cancel)="toggleAdding()" [inProgress]="ticketsStore.inProgress()" [(ticket)]="ticketEdited"/>
+    <app-add-ticket (create)="addTicket($event);" (edit)="editTicket();" (close)="toggleAdding()" [inProgress]="ticketsStore.inProgress()" [(ticket)]="ticketEdited"/>
     } @else {
     <mat-accordion>
       @for (ticket of ticketsStore.tickets().data; track ticket._id) {
