@@ -5,6 +5,7 @@ import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
 import { Ticket } from "../components/tickets/models/ticket.model";
 import { TicketsService } from "../components/tickets/services/tickets.service";
+import { PageEvent } from "@angular/material/paginator";
 
 type Data<T> = {
   data: T;
@@ -15,6 +16,7 @@ type TicketsState = {
   tickets: Data<Ticket[]>;
   inProgress: boolean;
   error: string | undefined;
+  pageEvent: PageEvent;
 }
 
 const initialData = {
@@ -26,7 +28,12 @@ const initialData = {
 const initialSate = signalState<TicketsState>({
   tickets: initialData,
   inProgress: false,
-  error: undefined
+  error: undefined,
+  pageEvent: {
+    pageSize: 5,
+    pageIndex: 0,
+    length: 0
+  },
 })
 
 export const TicketsStore = signalStore(
@@ -34,13 +41,13 @@ export const TicketsStore = signalStore(
   { providedIn: 'root' },
   withState(initialSate),
   withMethods((placesState, ticketsService = inject(TicketsService)) => ({
-    loadTickets: rxMethod<void>(
+    loadTickets: rxMethod<PageEvent | undefined>(
       pipe(
         tap(() => patchState(placesState, (state) => ({ tickets: { ...state.tickets, isLoading: true, error: undefined } }))),
-        switchMap(() => {
-          return ticketsService.getTickets().pipe(
+        switchMap((pageEvent?: PageEvent) => {
+          return ticketsService.getTickets(pageEvent).pipe(
             tapResponse({
-              next: (tickets?: Ticket[]) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets || [] } })),
+              next: ({ tickets, pageEvent }) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets || [] }, pageEvent })),
               error: (e: Error) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, isLoading: false, error: e.message } })),
               finalize: () => patchState(placesState, (state) => ({ tickets: { ...state.tickets, isLoading: false } }))
             })
@@ -54,7 +61,7 @@ export const TicketsStore = signalStore(
         switchMap((ticket: Ticket) => {
           return ticketsService.addTicket(ticket).pipe(
             tapResponse({
-              next: (tickets: Ticket[]) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets } })),
+              next: ({ tickets, pageEvent }) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets }, pageEvent })),
               error: (e: Error) => patchState(placesState, { inProgress: false, error: e.message }),
               finalize: () => patchState(placesState, { inProgress: false }),
             })
@@ -68,7 +75,7 @@ export const TicketsStore = signalStore(
         switchMap((ticket: Ticket) => {
           return ticketsService.editTicket(ticket).pipe(
             tapResponse({
-              next: (tickets: Ticket[]) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets } })),
+              next: ({ tickets, pageEvent }) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets }, pageEvent })),
               error: (e: Error) => patchState(placesState, { inProgress: false, error: e.message }),
               finalize: () => patchState(placesState, { inProgress: false }),
             })
@@ -82,7 +89,7 @@ export const TicketsStore = signalStore(
         switchMap((ticket: Ticket) => {
           return ticketsService.deleteTicket(ticket).pipe(
             tapResponse({
-              next: (tickets: Ticket[]) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets } })),
+              next: ({ tickets, pageEvent }) => patchState(placesState, (state) => ({ tickets: { ...state.tickets, data: tickets }, pageEvent })),
               error: (e: Error) => patchState(placesState, { inProgress: false }),
               finalize: () => patchState(placesState, { inProgress: false }),
             })

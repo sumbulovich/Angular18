@@ -2,17 +2,20 @@
   <mat-card-header>
     <mat-icon mat-card-avatar>task</mat-icon>
     <mat-card-title>Support tickets</mat-card-title>
+    <button mat-flat-button (click)="toggleAdding()">Add Ticket</button>
   </mat-card-header>
   <mat-card-content [class.!p-0]="ticketsStore.tickets().data.length && !isAdding">
     @if (isAdding) {
-    <app-add-ticket (create)="addTicket($event);" (edit)="editTicket();" (close)="toggleAdding()" [inProgress]="ticketsStore.inProgress()" [(ticket)]="ticketEdited"/>
+    <app-add-ticket (create)="addTicket($event);" (edit)="editTicket();" (close)="toggleAdding()"
+      [inProgress]="ticketsStore.inProgress()" [(ticket)]="ticketEdited" />
     } @else {
     <mat-accordion>
       @for (ticket of ticketsStore.tickets().data; track ticket._id) {
       @if ($first) {
       <mat-divider></mat-divider>
       }
-      <app-ticket [ticket]="ticket" [className]="$even ? 'bg-primary/[.3]' : 'bg-primary/[.1]'" (close)="closeTicket(ticket)" (edit)="toggleAdding(ticket)" (delete)="deleteTicket(ticket)"></app-ticket>
+      <app-ticket [ticket]="ticket" [className]="$even ? 'bg-primary/[.3]' : 'bg-primary/[.1]'"
+        (close)="closeTicket(ticket)" (edit)="toggleAdding(ticket)" (delete)="deleteTicket(ticket)"></app-ticket>
       @if ($last) {
       <mat-divider></mat-divider>
       }
@@ -23,7 +26,9 @@
     }
     @if (!isAdding) {
     <mat-card-actions>
-      <button mat-flat-button (click)="toggleAdding()">Add Ticket</button>
+      <mat-paginator [length]="ticketsStore.pageEvent()?.length" [pageSize]="ticketsStore.pageEvent()?.pageSize"
+        [pageIndex]="ticketsStore.pageEvent()?.pageIndex" [pageSizeOptions]="[5, 10, 25, 100]" (page)="loadTickets($event)">
+      </mat-paginator>
     </mat-card-actions>
     }
   </mat-card-content>

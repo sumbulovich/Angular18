@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpService } from '@app/core/http/services/http.service';
 import { Ticket } from '../models/ticket.model';
+import { PageEvent } from '@angular/material/paginator';
 
 @Injectable({
   providedIn: 'root'
@@ -12,28 +13,26 @@ export class TicketsService {
 
   constructor() { }
 
-  getTickets(): Observable<Ticket[]> {
-    return this.httpService.get<{ tickets: Ticket[] }>(`${this.url}/tickets`)
-      .pipe((map((m) => m.tickets)));
+  getTickets(pageEvent?: PageEvent): Observable<{ tickets: Ticket[]; pageEvent: PageEvent; }> {
+    let query: string = '';
+    if (pageEvent) query = new URLSearchParams(pageEvent as any).toString();
+    return this.httpService.get<{ tickets: Ticket[], pageEvent: PageEvent }>(`${this.url}/tickets?${query}`)
   }
 
 
-  addTicket(ticket: Ticket): Observable<Ticket[]> {
+  addTicket(ticket: Ticket): Observable<{ tickets: Ticket[]; pageEvent: PageEvent; }> {
     const ticketData = new FormData(); // Accept File
     Object.entries(ticket).forEach(([key, value]) => ticketData.append(key, value));
-    return this.httpService.post<{ tickets: Ticket[] }>(`${this.url}/tickets`, ticketData)
-      .pipe((map((m) => m.tickets)));
+    return this.httpService.post<{ tickets: Ticket[]; pageEvent: PageEvent; }>(`${this.url}/tickets`, ticketData)
   }
 
-  editTicket(ticket: Ticket): Observable<Ticket[]> {
+  editTicket(ticket: Ticket): Observable<{ tickets: Ticket[]; pageEvent: PageEvent; }> {
     const ticketData = new FormData(); // Accept File
     Object.entries(ticket).forEach(([key, value]) => ticketData.append(key, value));
-    return this.httpService.put<{ tickets: Ticket[] }>(`${this.url}/tickets`, ticketData)
-      .pipe((map((m) => m.tickets)));
+    return this.httpService.put<{ tickets: Ticket[]; pageEvent: PageEvent }>(`${this.url}/tickets`, ticketData)
   }
 
-  deleteTicket(ticket: Ticket): Observable<Ticket[]> {
-    return this.httpService.delete<{ tickets: Ticket[] }>(`${this.url}/tickets/${ticket._id}`)
-      .pipe((map((m) => m.tickets)));
+  deleteTicket(ticket: Ticket): Observable<{ tickets: Ticket[]; pageEvent: PageEvent }> {
+    return this.httpService.delete<{ tickets: Ticket[]; pageEvent: PageEvent }>(`${this.url}/tickets/${ticket._id}`)
   }
 }
