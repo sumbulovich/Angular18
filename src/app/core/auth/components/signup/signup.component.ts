@@ -1,11 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthStore } from '../../state/auth.store';
-import { AuthUser } from '../../models/authUser.model';
+import { AuthUser, Permission } from '../../models/authUser.model';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 function confirmPasswordValidator(passwordField: string, confirmPasswordField: string): ValidatorFn {
   return (formControl: AbstractControl): { [key: string]: boolean } | null => {
@@ -19,21 +22,49 @@ function confirmPasswordValidator(passwordField: string, confirmPasswordField: s
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
-export class SignupComponent {
-  readonly authStore = inject(AuthStore);
+export class SignupComponent implements OnInit {
+  private readonly authStore = inject(AuthStore);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router)
+
   form = new FormGroup({
     email: new FormControl<string>('', Validators.required),
     password: new FormControl<string>('', [Validators.required, Validators.minLength(4)]),
     repeatPassword: new FormControl<string>('', [Validators.required, confirmPasswordValidator('password', 'repeatPassword')]),
   });
+  isSuccess$?: Observable<boolean>;
+  isSuccess?: boolean;
+
+  constructor(private cdr: ChangeDetectorRef) {
+    effect(() => {
+      this.authStore.inProgress() ? this.form.disable() : this.form.enable();
+    });
+  }
+
+  ngOnInit(): void {
+    this.isSuccess$ = this.route.paramMap.pipe(map((paramMap) => !!paramMap.get('success')))
+    this.isSuccess = !!this.route.snapshot.paramMap.get('success');
+
+    this.route.paramMap.subscribe((paramMap) => {
+      console.log(paramMap)
+    })
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // Manually detect changes
+        this.cdr.detectChanges();
+        debugger;
+      }
+    });
+  }
 
   onSubmit(): void {
+    this.router.navigate([], { queryParams: { success: 'hello'} })
     if (this.form.invalid) return;
-    const user: AuthUser = { email: this.form.value.email!, password: this.form.value.password!, permission: 'user' }
-    this.authStore.signup(user);
+    this.authStore.signup({ email: this.form.value.email!, password: this.form.value.password!, permission: 'user' });
   }
 }

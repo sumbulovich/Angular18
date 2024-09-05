@@ -14,7 +14,7 @@ import { MatButton } from '@angular/material/button';
 export class DiscardChangesDirective {
   @Input() discardChangesDisabled?: boolean;
   @Input() discardChangesMessage: string = 'Do you want discard changes?';
-  readonly dialog = inject(MatDialog);
+  private dialog = inject(MatDialog);
 
   constructor(private el: ElementRef) {}
 

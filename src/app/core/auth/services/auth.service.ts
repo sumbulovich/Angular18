@@ -9,26 +9,16 @@ import { AuthUser, Permission } from '../models/authUser.model';
 export class AuthService {
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = 'http://localhost:3000/api/auth';
-  activePermission: WritableSignal<Permission> = signal<Permission>('guest');
+
+  signup(email: string, password: string, permission: Permission): Observable<void> {
+    return this.httpService.post<void>(`${this.url}/signup`, { email, password, permission })
+  }
 
   login(email: string, password: string): Observable<AuthUser> {
-    let permission: Permission = 'guest'
-    if (email === 'admin@example.com' && password === 'admin') {
-      permission = 'admin';
-    } else if (email === 'user@example.com' && password === 'user') {
-      permission = 'user';
-    } else {
-      permission = 'guest';
-    }
-    return of({ email, password, permission }).pipe(delay(500));
+    return this.httpService.post<{ user: AuthUser }>(`${this.url}/login`, { email, password })
+      .pipe((map((m) => m.user)))
   }
 
   logout() {
-    this.activePermission.set('guest');
-  }
-
-  signup(user: AuthUser): Observable<AuthUser> {
-    return this.httpService.post<{ user: AuthUser }>(`${this.url}/signup`, user)
-      .pipe((map((m) => m.user)))
   }
 }

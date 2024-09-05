@@ -15,8 +15,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(request).pipe(
     catchError((e: HttpErrorResponse) => {
       const error = new Error(`Something went wrong (${e.status})`);
-      snackbarService.open('error', e.statusText, error?.message)
-      return throwError(() => error);
+      snackbarService.open('error', e.statusText, e.error?.message || error.message)
+      return throwError(() => e);
     })
   );
 };

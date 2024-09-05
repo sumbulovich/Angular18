@@ -14,7 +14,7 @@ import { MatButton } from '@angular/material/button';
 export class SaveChangesDirective {
   @Input() saveChangesDisabled?: boolean;
   @Input() saveChangesMessage: string = 'Do you want save changes?';
-  readonly dialog = inject(MatDialog);
+  private dialog = inject(MatDialog);
 
   constructor(private el: ElementRef) {}
 

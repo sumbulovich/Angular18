@@ -5,6 +5,7 @@ import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
 import { AuthUser, Permission } from "../models/authUser.model";
 import { AuthService } from "../services/auth.service";
+import { Router } from "@angular/router";
 
 
 type AuthState = {
@@ -26,7 +27,7 @@ export const AuthStore = signalStore(
   withComputed((authState) => ({
     isAuth: computed(() => !!authState.user()),
   })),
-  withMethods((authState, authService = inject(AuthService)) => ({
+  withMethods((authState, authService = inject(AuthService), router = inject(Router)) => ({
     login: rxMethod<{ email: string, password: string }>(
       pipe(
         tap(() => patchState(authState, { inProgress: true, error: undefined })),
@@ -44,13 +45,13 @@ export const AuthStore = signalStore(
         })
       )
     ),
-    signup: rxMethod<AuthUser>(
+    signup: rxMethod<{ email: string, password: string, permission: Permission }>(
       pipe(
         tap(() => patchState(authState, { inProgress: true, error: undefined })),
-        switchMap((user) => {
-          return authService.signup(user).pipe(
+        switchMap(({ email, password, permission }) => {
+          return authService.signup(email, password, permission).pipe(
             tapResponse({
-              next: (user: AuthUser) => patchState(authState, { user }),
+              next: () => router.navigate([], { queryParams: { success: email }}),
               error: (error: string) => {
                 patchState(authState, { inProgress: false, error });
                 console.error(error);
@@ -65,15 +66,15 @@ export const AuthStore = signalStore(
       patchState(authState, { user: undefined })
     },
   })),
-  withHooks({
-    onInit(store) {
-      console.log('AuthStore init', getState(store))
-    },
-    onDestroy(store) {
-      console.log('AuthStore destroy', getState(store));
-    },
-  }),
-  withCustomFeature('Auth')
+  // withHooks({
+  //   onInit(store) {
+  //     console.log('AuthStore init', getState(store))
+  //   },
+  //   onDestroy(store) {
+  //     console.log('AuthStore destroy', getState(store));
+  //   },
+  // }),
+  // withCustomFeature('Auth')
 );
 
 export function withCustomFeature(name: any) {

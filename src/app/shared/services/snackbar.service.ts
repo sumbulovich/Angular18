@@ -6,7 +6,7 @@ import { SnackbarComponent } from '../components/snackbar/snackbar.component';
   providedIn: 'root'
 })
 export class SnackbarService {
-  snackBar = inject(MatSnackBar)
+  private snackBar = inject(MatSnackBar)
 
   constructor() { }
 

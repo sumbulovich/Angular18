@@ -1,3 +1,7 @@
+{{ isSuccess$ | async }}
+{{ isSuccess }}
+
+@if (!(isSuccess$ | async)) {
 <mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto">
   <mat-card-header>
     <mat-card-title class="mb-3">Authentication form</mat-card-title>
@@ -8,33 +12,43 @@
         <mat-label>Email</mat-label>
         <input matInput formControlName="email">
         @if (form.controls.email.hasError('required')) {
-          <mat-error>Required</mat-error>
+        <mat-error>Required</mat-error>
         }
         @if (form.controls.email.hasError('email')) {
-          <mat-error>Email formal</mat-error>
+        <mat-error>Email formal</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" class="mb-2">
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password">
         @if (form.controls.password.hasError('required')) {
-          <mat-error>Required</mat-error>
+        <mat-error>Required</mat-error>
         }
         @if (form.controls.password.hasError('minlength')) {
-          <mat-error>Min length is 4</mat-error>
+        <mat-error>Min length is 4</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" class="mb-2">
         <mat-label>Repeat password</mat-label>
         <input matInput type="password" formControlName="repeatPassword">
         @if (form.controls.repeatPassword.hasError('required')) {
-          <mat-error>Required</mat-error>
+        <mat-error>Required</mat-error>
         }
         @if (form.controls.repeatPassword.hasError('passwordMismatch')) {
-          <mat-error>Password doesn't match</mat-error>
+        <mat-error>Password doesn't match</mat-error>
         }
       </mat-form-field>
       <button mat-flat-button type="submit" [disabled]="form.disabled">Login</button>
     </form>
   </mat-card-content>
 </mat-card>
+} @else {
+<mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto bg-success/30 dark:bg-success/30">
+  <mat-card-header>
+    <mat-card-title class="mb-3">Congratulation!</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    Your user with email {{ form.value.email }} has been registered successfully;
+  </mat-card-content>
+</mat-card>
+}
