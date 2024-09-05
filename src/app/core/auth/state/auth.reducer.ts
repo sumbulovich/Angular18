@@ -1,5 +1,5 @@
 import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
-import { Permission } from "../models/permission.model";
+import { Permission } from "../models/authUser.model";
 import { AuthActions } from "./auth.actions";
 
 

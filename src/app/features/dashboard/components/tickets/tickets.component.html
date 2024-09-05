@@ -1,6 +1,6 @@
 <mat-card appearance="outlined" class="mb-4 w-full">
-  <mat-card-header>
-    <mat-icon mat-card-avatar>task</mat-icon>
+  <mat-card-header class="items-center py-3">
+    <mat-icon mat-card-avatar class="mb-0">task</mat-icon>
     <mat-card-title>Support tickets</mat-card-title>
     <button mat-flat-button (click)="toggleAdding()">Add Ticket</button>
   </mat-card-header>
@@ -25,9 +25,9 @@
     </mat-accordion>
     }
     @if (!isAdding) {
-    <mat-card-actions>
-      <mat-paginator [length]="ticketsStore.pageEvent()?.length" [pageSize]="ticketsStore.pageEvent()?.pageSize"
-        [pageIndex]="ticketsStore.pageEvent()?.pageIndex" [pageSizeOptions]="[5, 10, 25, 100]" (page)="loadTickets($event)">
+    <mat-card-actions align="end">
+      <mat-paginator [length]="ticketsStore.pageEvent().length" [pageSize]="ticketsStore.pageEvent().pageSize"
+        [pageIndex]="ticketsStore.pageEvent().pageIndex" [pageSizeOptions]="[5, 10, 25, 100]" (page)="loadTickets($event)">
       </mat-paginator>
     </mat-card-actions>
     }

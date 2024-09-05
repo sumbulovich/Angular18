@@ -3,18 +3,18 @@ import { tapResponse } from "@ngrx/operators";
 import { getState, patchState, signalState, signalStore, signalStoreFeature, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
-import { Permission } from "../models/permission.model";
+import { AuthUser, Permission } from "../models/authUser.model";
 import { AuthService } from "../services/auth.service";
 
 
 type AuthState = {
-  permission: Permission;
+  user: AuthUser | undefined,
   inProgress: boolean;
   error: string | undefined;
 }
 
 const initialSate = signalState<AuthState>({
-  permission: 'guest',
+  user: undefined,
   inProgress: false,
   error: undefined
 })
@@ -23,29 +23,46 @@ export const AuthStore = signalStore(
   // Providing store at the root level.
   { providedIn: 'root' },
   withState(initialSate),
-  withComputed((store) => ({
-    isAuth: computed(() => store.permission() !== 'guest'),
+  withComputed((authState) => ({
+    isAuth: computed(() => !!authState.user()),
   })),
-  withMethods((store, authService = inject(AuthService)) => ({
+  withMethods((authState, authService = inject(AuthService)) => ({
     login: rxMethod<{ email: string, password: string }>(
       pipe(
-        tap(() => patchState(store, { inProgress: true, error: undefined })),
+        tap(() => patchState(authState, { inProgress: true, error: undefined })),
         switchMap(({ email, password }) => {
           return authService.login(email, password).pipe(
             tapResponse({
-              next: (permission: Permission) => patchState(store, { permission }),
+              next: (user: AuthUser) => patchState(authState, { user }),
               error: (error: string) => {
-                patchState(store, { inProgress: false, error });
+                patchState(authState, { inProgress: false, error });
                 console.error(error);
               },
-              finalize: () => patchState(store, { inProgress: false }),
+              finalize: () => patchState(authState, { inProgress: false }),
+            })
+          );
+        })
+      )
+    ),
+    signup: rxMethod<AuthUser>(
+      pipe(
+        tap(() => patchState(authState, { inProgress: true, error: undefined })),
+        switchMap((user) => {
+          return authService.signup(user).pipe(
+            tapResponse({
+              next: (user: AuthUser) => patchState(authState, { user }),
+              error: (error: string) => {
+                patchState(authState, { inProgress: false, error });
+                console.error(error);
+              },
+              finalize: () => patchState(authState, { inProgress: false }),
             })
           );
         })
       )
     ),
     logout(): void {
-      patchState(store, { permission: 'guest' });
+      patchState(authState, { user: undefined })
     },
   })),
   withHooks({

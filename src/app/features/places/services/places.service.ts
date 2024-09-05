@@ -8,12 +8,12 @@ import { HttpService } from '@app/core/http/services/http.service';
 })
 export class PlacesService {
   private httpService: HttpService = inject(HttpService);
-  private readonly url: string = 'http://localhost:3000';
+  private readonly url: string = 'http://localhost:3000/api/places';
 
   constructor() { }
 
   getPlaces(): Observable<Place[]> {
-    return this.httpService.get<{ places: Place[] }>(`${this.url}/places`)
+    return this.httpService.get<{ places: Place[] }>(`${this.url}`)
       .pipe((map((m) => m.places)));
   }
 

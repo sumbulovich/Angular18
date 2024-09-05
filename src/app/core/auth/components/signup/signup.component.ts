@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthStore } from '../../state/auth.store';
+import { AuthUser } from '../../models/authUser.model';
 
 function confirmPasswordValidator(passwordField: string, confirmPasswordField: string): ValidatorFn {
   return (formControl: AbstractControl): { [key: string]: boolean } | null => {
@@ -32,6 +33,7 @@ export class SignupComponent {
 
   onSubmit(): void {
     if (this.form.invalid) return;
-    this.form.disable();
+    const user: AuthUser = { email: this.form.value.email!, password: this.form.value.password!, permission: 'user' }
+    this.authStore.signup(user);
   }
 }

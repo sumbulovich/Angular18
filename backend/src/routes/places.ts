@@ -4,7 +4,7 @@ import { Place } from "../models/place";
 
 const router = express.Router(); // Create Express Router
 
-router.get("/places", async (req, res) => {
+router.get("/", async (req, res) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   // Throw error

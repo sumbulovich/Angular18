@@ -15,10 +15,10 @@
   </mat-card-content>
   <mat-card-actions class="justify-between">
     <div class="flex">
-      <div matTooltip="Only available for logged users" [matTooltipDisabled]="authStore.permission() === 'user'">
+      <div matTooltip="Only available for logged users" [matTooltipDisabled]="authStore.user()?.permission === 'user'">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="small-5">
           <mat-label>Status</mat-label>
-          <mat-select [value]="task().status" [disabled]="authStore.permission() !== 'user'" (valueChange)="updateStatus($event)">
+          <mat-select [value]="task().status" [disabled]="authStore.user()?.permission !== 'user'" (valueChange)="updateStatus($event)">
             <mat-option value="open">Open</mat-option>
             <mat-option value="in progress">In progress</mat-option>
             <mat-option value="done">Done</mat-option>
@@ -27,13 +27,13 @@
       </div>
     </div>
     <div class="flex">
-      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
+      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.user()?.permission === 'admin'">
         <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()"
-          [disabled]="authStore.permission() !== 'admin'">Edit</button>
+          [disabled]="authStore.user()?.permission !== 'admin'">Edit</button>
       </div>
-      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.permission() === 'admin'">
+      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.user()?.permission === 'admin'">
         <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()"
-          [disabled]="authStore.permission() !== 'admin'">Delete</button>
+          [disabled]="authStore.user()?.permission !== 'admin'">Delete</button>
       </div>
     </div>
   </mat-card-actions>

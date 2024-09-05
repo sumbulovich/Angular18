@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 import placesRouter from "./routes/places"
 import ticketsRouter from "./routes/tickets"
+import authRouter from "./routes/auth"
 import mongoose from "mongoose";
 
 export const app = express();
@@ -25,8 +26,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(placesRouter);
-app.use('/tickets', ticketsRouter);
+app.use('/api/places', placesRouter);
+app.use('/api/tickets', ticketsRouter);
+app.use('/api/auth', authRouter);
 
 // 404
 app.use((req, res, next) => {
