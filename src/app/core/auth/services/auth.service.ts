@@ -15,8 +15,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<AuthUser> {
-    return this.httpService.post<{ user: AuthUser }>(`${this.url}/login`, { email, password })
-      .pipe((map((m) => m.user)))
+    return this.httpService.post<AuthUser>(`${this.url}/login`, { email, password });
   }
 
   logout() {

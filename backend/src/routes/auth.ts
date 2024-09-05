@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
   if (!isAuth) return res.status(401).json({ message: 'Unauthorized' });
 
   const token = sign({ email: user.email, userId: user._id }, 'customSecretOrPrivateKeyForEncodingAlgorithm', { expiresIn: '1h' });
-  res.status(200).json({ token })
+  res.status(200).json({ token, email: user.email, permission: user.permission })
 });
 
 export default router;

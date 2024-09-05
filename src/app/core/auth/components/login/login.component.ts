@@ -7,19 +7,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../services/auth.service';
 import { AuthStore } from '../../state/auth.store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
+  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe, A11yModule],
   // providers: [AuthStore], // Signal Stores registered here or on root level with { providedIn: 'root' }
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
   readonly authStore = inject(AuthStore);
-  private router: Router = inject(Router);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');
 
   // Regular Ngrx Store
@@ -34,7 +36,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.form().setValue({ email: 'admin@example.com', password: 'admin' }));
+    setTimeout(() => {
+      const email = this.route.snapshot.queryParamMap.get('success');
+      this.form().setValue({ email, password: '' });
+    });
   }
 
   onSubmit(): void {
