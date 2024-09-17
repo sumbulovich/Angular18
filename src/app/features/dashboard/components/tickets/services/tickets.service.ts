@@ -3,13 +3,14 @@ import { Observable, map } from 'rxjs';
 import { HttpService } from '@app/core/http/services/http.service';
 import { Ticket } from '../models/ticket.model';
 import { PageEvent } from '@angular/material/paginator';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketsService {
   private httpService: HttpService = inject(HttpService);
-  private readonly url: string = 'http://localhost:3000/api/tickets';
+  private readonly url: string = `${environment.apiUrl}/api/tickets`;
 
   constructor() { }
 

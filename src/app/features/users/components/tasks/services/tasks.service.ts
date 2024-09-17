@@ -3,6 +3,7 @@ import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { DUMMY_TASKS } from '../constants/dummy-tasks';
 import { Task } from '../models/task.model';
 import { HttpService } from '@app/core/http/services/http.service';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,10 @@ import { HttpService } from '@app/core/http/services/http.service';
 export class TasksService {
   public readonly tasks: WritableSignal<Task[]> = signal<Task[]>([]);
   private httpService: HttpService = inject(HttpService);
-  private readonly url: string = 'http://localhost:3000/api/tasks';
+  private readonly url: string = `${environment.apiUrl}/api/tasks`;
 
-  constructor() {}
+  constructor() {
+  }
 
   getUserTask(userId: string): void {
     this.httpService.get<Task[]>(`${this.url}/${userId}`).subscribe((tasks) => {

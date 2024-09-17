@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Place } from '../models/place.model';
 import { HttpService } from '@app/core/http/services/http.service';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlacesService {
   private httpService: HttpService = inject(HttpService);
-  private readonly url: string = 'http://localhost:3000/api/places';
+  private readonly url: string = `${environment.apiUrl}/api/places`;
 
   constructor() { }
 
