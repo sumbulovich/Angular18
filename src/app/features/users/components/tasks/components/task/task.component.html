@@ -18,7 +18,8 @@
       <div matTooltip="Only available for logged users" [matTooltipDisabled]="authStore.user()?.permission === 'user'">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="small-5">
           <mat-label>Status</mat-label>
-          <mat-select [value]="task().status" [disabled]="authStore.user()?.permission !== 'user'" (valueChange)="updateStatus($event)">
+          <mat-select [value]="task().status" [disabled]="authStore.user()?.permission !== 'user'"
+            (valueChange)="updateStatus($event)">
             <mat-option value="open">Open</mat-option>
             <mat-option value="in progress">In progress</mat-option>
             <mat-option value="done">Done</mat-option>

@@ -18,7 +18,7 @@
     </div>
   </mat-card-header>
   <mat-card-content>
-    @for (task of tasks(); track task.id) {
+    @for (task of tasks(); track task._id) {
       <section class="mb-3">
         <app-task [task]="task" (taskChange)="editTask($event)" (edit)="openAddTaskDialog(task)" (delete)="deleteTask(task)"/>
       </section>

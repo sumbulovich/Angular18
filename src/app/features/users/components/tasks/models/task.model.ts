@@ -1,11 +1,11 @@
 export type TaskStatus = 'open' | 'in progress' | 'done';
 
 export interface Task {
-  id: number;
-  userId: number;
+  _id?: string;
+  userId: string;
   title: string;
   summary: string;
   dueDate: Date;
-  date: Date;
+  createdAt?: Date;
   status: TaskStatus;
 }

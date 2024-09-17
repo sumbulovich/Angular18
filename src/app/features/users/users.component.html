@@ -1,6 +1,6 @@
 <div class="flex flex-row gap-4">
   <aside class="flex flex-col gap-2">
-    @for (user of users; track user.id) {
+    @for (user of users; track user._id) {
       <app-user [user]="user" [selectedUser]="selectedUser()" (select)="selectedUser.set(user)" />
     }
   </aside>

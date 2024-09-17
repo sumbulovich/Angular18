@@ -46,7 +46,6 @@ export class AddTaskDialogComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
-    const date: Date = this.task().date || new Date(); // Set date if new task
-    this.dialogRef.close({ ...this.task(), ...this.form.value, date });
+    this.dialogRef.close({ ...this.task(), ...this.form.value });
   }
 }

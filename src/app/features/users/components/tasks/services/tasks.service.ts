@@ -1,32 +1,40 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { map, Observable, catchError } from 'rxjs';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { DUMMY_TASKS } from '../constants/dummy-tasks';
 import { Task } from '../models/task.model';
+import { HttpService } from '@app/core/http/services/http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
-  private deletedTasks: WritableSignal<Task[]> = signal<Task[]>([]);;
-  private tasks: WritableSignal<Task[]> = signal<Task[]>([]);
+  public readonly tasks: WritableSignal<Task[]> = signal<Task[]>([]);
+  private httpService: HttpService = inject(HttpService);
+  private readonly url: string = 'http://localhost:3000/api/tasks';
 
-  constructor() {
-    this.tasks.set(DUMMY_TASKS);
-  }
+  constructor() {}
 
-  getUserTask(userId: number): Task[] {
-    return this.tasks().filter((f) => f.userId === userId);
+  getUserTask(userId: string): void {
+    this.httpService.get<Task[]>(`${this.url}/${userId}`).subscribe((tasks) => {
+      this.tasks.set(tasks)
+    });
   }
 
   deleteTask(task: Task): void {
-    this.deletedTasks.update((tasks) => [...tasks, task]);;
-    this.tasks.update((tasks) => tasks.filter((f) => f.id !== task.id));
+    this.httpService.delete<Task>(`${this.url}/${task._id}`).subscribe(() => {
+      this.tasks.update((tasks) => tasks.filter((f) => f._id !== task._id));
+    });
   }
 
   addTask(task: Task): void {
-    this.tasks.update((tasks) => [...tasks, task]);
+    this.httpService.post<Task>(`${this.url}`, task).subscribe((task) => {
+      this.tasks.update((tasks) => [...tasks, task])
+    });
   }
 
   editTask(task: Task): void {
-    this.tasks.update((tasks) => tasks.map((m) => m.id === task.id ? task : m ));
+    this.httpService.put<Task>(`${this.url}`, task).subscribe(() => {
+      this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m));
+    });
   }
 }

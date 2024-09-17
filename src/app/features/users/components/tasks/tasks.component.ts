@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, InputSignal, effect, inject, input, computed, signal, WritableSignal } from '@angular/core';
+import { Component, InputSignal, effect, inject, input, computed, signal, WritableSignal, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { TaskComponent } from './components/task/task.component';
 import { DUMMY_TASKS } from './constants/dummy-tasks';
 import { Task, TaskStatus } from './models/task.model';
 import { TasksService } from './services/tasks.service';
-import { Observable, take } from 'rxjs';
+import { Observable, Subscription, take } from 'rxjs';
 import { User } from '../../models/user.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,11 +29,15 @@ export class TasksComponent {
   private dialog: MatDialog = inject(MatDialog);
   filter: WritableSignal<TaskStatus | 'all'> = signal<TaskStatus | 'all'>('all')
   user: InputSignal<User> = input.required<User>();
-  tasks = computed(() => {
-    const tasks = this.tasksService.getUserTask(this.user().id);
+  tasks: Signal<Task[]> = computed(() => {
+    const tasks = this.tasksService.tasks();
     if (this.filter() === 'all') return tasks;
     else return tasks.filter((f) => f.status === this.filter());
   });
+
+  constructor() {
+    effect(() => this.tasksService.getUserTask(this.user()._id));
+  }
 
   editTask(task: Task): void {
     this.tasksService.editTask(task);
@@ -48,7 +52,7 @@ export class TasksComponent {
       data: {
         component: AddTaskDialogComponent,
         componentInputs: {
-          'task': editTask || { userId: this.user().id, id: DUMMY_TASKS.length + 1 },
+          'task': editTask || { userId: this.user()._id, id: DUMMY_TASKS.length + 1 },
         },
         title: `${editTask ? 'Edit' : 'New'} Task`,
         content: `${this.user().name}'s task:`,
