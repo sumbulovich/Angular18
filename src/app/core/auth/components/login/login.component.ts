@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { AuthStore } from '../../state/auth.store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { A11yModule } from '@angular/cdk/a11y';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');
+  errorMessage$?: Observable<string>;
 
   // Regular Ngrx Store
   // this.isAuth$ = this.store.select(authFeature.selectIsAuth);
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
       if (this.authStore.isAuth()) this.router.navigate(['tasks'])
       onCleanup(() => console.log('Signal Effects Cleanup executed'))
     });
+    this.errorMessage$ = this.route.queryParamMap.pipe(map((paramMap) => paramMap.get('error') || ''))
   }
 
   ngOnInit(): void {

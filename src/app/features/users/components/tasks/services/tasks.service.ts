@@ -1,9 +1,7 @@
-import { map, Observable, catchError } from 'rxjs';
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { DUMMY_TASKS } from '../constants/dummy-tasks';
-import { Task } from '../models/task.model';
 import { HttpService } from '@app/core/http/services/http.service';
 import { environment } from '@env/environment';
+import { Task, TaskStatus } from '../models/task.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +34,12 @@ export class TasksService {
 
   editTask(task: Task): void {
     this.httpService.put<Task>(`${this.url}`, task).subscribe(() => {
+      this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m));
+    });
+  }
+
+  editTaskStatus(task: Task): void {
+    this.httpService.put<Task>(`${this.url}/status/${task._id}`, { status: task.status }).subscribe(() => {
       this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m));
     });
   }

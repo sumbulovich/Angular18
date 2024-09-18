@@ -29,7 +29,6 @@ function confirmPasswordValidator(passwordField: string, confirmPasswordField: s
 export class SignupComponent {
   private readonly authStore = inject(AuthStore);
   private route = inject(ActivatedRoute);
-
   form = new FormGroup({
     email: new FormControl<string>('', Validators.required),
     password: new FormControl<string>('', [Validators.required, Validators.minLength(4)]),

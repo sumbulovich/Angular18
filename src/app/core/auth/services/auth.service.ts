@@ -18,7 +18,4 @@ export class AuthService {
   login(email: string, password: string): Observable<AuthUser> {
     return this.httpService.post<AuthUser>(`${this.url}/login`, { email, password });
   }
-
-  logout() {
-  }
 }

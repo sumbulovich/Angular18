@@ -3,6 +3,7 @@ import express from 'express';
 import { compare, hash } from 'bcrypt';
 import { AuthUserModel } from '../models/auth-user';
 import { sign } from 'jsonwebtoken';
+import { SECRET_KEY } from '../constatnts';
 
 const router = express.Router(); // Create Express Router
 
@@ -20,9 +21,9 @@ router.post('/login', async (req, res) => {
   if (!user) return res.status(400).json({ message: 'Not found' });
 
   const isAuth = await compare(req.body.password, user.password);
-  if (!isAuth) return res.status(401).json({ message: 'Unauthorized' });
+  if (!isAuth) return res.status(401).json({ message: 'Incorrect email or password' });
 
-  const token = sign({ email: user.email, userId: user._id }, 'customSecretOrPrivateKeyForEncodingAlgorithm', { expiresIn: '1h' });
+  const token = sign({ email: user.email, userId: user._id, permission: user.permission }, SECRET_KEY, { expiresIn: '3s' });
   res.status(200).json({ token, email: user.email, permission: user.permission })
 });
 

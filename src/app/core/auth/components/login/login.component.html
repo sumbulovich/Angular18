@@ -28,3 +28,14 @@
     </form>
   </mat-card-content>
 </mat-card>
+
+@if (errorMessage$ | async; as errorMessage) {
+  <mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto mt-5 bg-error/30 dark:bg-error/30">
+    <mat-card-header>
+      <mat-card-title class="mb-3">Authentication error!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      {{ errorMessage }}
+    </mat-card-content>
+  </mat-card>
+}

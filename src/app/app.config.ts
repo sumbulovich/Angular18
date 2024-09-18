@@ -8,6 +8,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { routes } from './app.routes';
 import { layoutFeature } from './core/layout/state/layout.reducer';
 import { errorInterceptor } from './core/http/interceptors/error.interceptor';
+import { authInterceptor } from './core/http/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideExperimentalZonelessChangeDetection(),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(withFetch(), withInterceptors([errorInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([errorInterceptor, authInterceptor])),
     // root-level effects and features are registered here
     provideStore(),
     provideState(layoutFeature),

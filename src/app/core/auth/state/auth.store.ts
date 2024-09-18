@@ -35,10 +35,7 @@ export const AuthStore = signalStore(
           return authService.login(email, password).pipe(
             tapResponse({
               next: (user: AuthUser) => patchState(authState, { user }),
-              error: (error: string) => {
-                patchState(authState, { inProgress: false, error });
-                console.error(error);
-              },
+              error: (error: string) => patchState(authState, { inProgress: false, error }),
               finalize: () => patchState(authState, { inProgress: false }),
             })
           );
@@ -52,18 +49,16 @@ export const AuthStore = signalStore(
           return authService.signup(email, password, permission).pipe(
             tapResponse({
               next: () => router.navigate([], { queryParams: { success: email }}),
-              error: (error: string) => {
-                patchState(authState, { inProgress: false, error });
-                console.error(error);
-              },
+              error: (error: string) => patchState(authState, { inProgress: false, error }),
               finalize: () => patchState(authState, { inProgress: false }),
             })
           );
         })
       )
     ),
-    logout(): void {
-      patchState(authState, { user: undefined })
+    logout(error?: string): void {
+      patchState(authState, { user: undefined });
+      router.navigate(['login'], { queryParams: { error }})
     },
   })),
   // withHooks({

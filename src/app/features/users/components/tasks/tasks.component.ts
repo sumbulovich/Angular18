@@ -16,6 +16,7 @@ import { User } from '../../models/user.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { AuthStore } from '@app/core/auth/state/auth.store';
 
 @Component({
   selector: 'app-tasks',
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent {
+  readonly authStore = inject(AuthStore);
   private tasksService: TasksService = inject(TasksService);
   private dialog: MatDialog = inject(MatDialog);
   filter: WritableSignal<TaskStatus | 'all'> = signal<TaskStatus | 'all'>('all')
@@ -39,8 +41,8 @@ export class TasksComponent {
     effect(() => this.tasksService.getUserTask(this.user()._id));
   }
 
-  editTask(task: Task): void {
-    this.tasksService.editTask(task);
+  editTaskStatus(task: Task): void {
+    this.tasksService.editTaskStatus(task);
   }
 
   deleteTask(task: Task): void {
