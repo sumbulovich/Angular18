@@ -25,22 +25,22 @@ router.post('/login', async (req, res) => {
   if (!isAuth) return res.status(401).json({ message: 'Incorrect email or password' });
 
   const expirationMs = 3600000; // 1h
-  const { name, lastName, email, permission } = user;
-  const token = sign({ email, permission }, SECRET_KEY, { expiresIn: expirationMs / 1000 });
-  res.status(200).json({ name, lastName, email, permission, token, expiration: expirationMs })
+  const { _id, name, lastName, email, permission } = user;
+  const token = sign({ _id, permission }, SECRET_KEY, { expiresIn: expirationMs / 1000 });
+  res.status(200).json({ _id, name, lastName, email, permission, token, expiration: expirationMs })
 });
 
 router.get('/profile', checkAuth, async (req, res) => {
-  // Get email from decodedToken from the middleware
-  const user = await AuthUserModel.findOne({ email: res.locals.decodedToken.email });
+  // Get AuthUser's _id from decodedToken from the middleware
+  const user = await AuthUserModel.findOne({ _id: res.locals.decodedToken._id });
   if (!user) return res.status(400).json({ message: 'Not found' });
-  const { name, lastName, email, permission } = user;
-  res.status(200).json({ name, lastName, email, permission });
+  const { _id, name, lastName, email, permission } = user;
+  res.status(200).json({ _id, name, lastName, email, permission });
 });
 
 router.put('/profile', checkAuth, async (req, res) => {
-  // Get email from decodedToken from the middleware
-  const user = await AuthUserModel.findOneAndUpdate({ email: res.locals.decodedToken.email }, req.body);
+  // Get AuthUser's _id from decodedToken from the middleware
+  const user = await AuthUserModel.findOneAndUpdate({ _id: res.locals.decodedToken._id }, req.body);
   if (!user) return res.status(400).json({ message: 'Not found' });
   res.status(200).json();
 });

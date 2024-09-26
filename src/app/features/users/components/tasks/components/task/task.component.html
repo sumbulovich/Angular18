@@ -27,6 +27,7 @@
         </mat-form-field>
       </div>
     </div>
+    @if (task().creator === authStore.user()?._id) {
     <div class="flex">
       <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.user()?.permission === 'admin'">
         <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()"
@@ -37,5 +38,6 @@
           [disabled]="authStore.user()?.permission !== 'admin'">Delete</button>
       </div>
     </div>
+    }
   </mat-card-actions>
 </mat-card>

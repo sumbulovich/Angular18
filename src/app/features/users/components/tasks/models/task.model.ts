@@ -8,4 +8,5 @@ export interface Task {
   dueDate: Date;
   createdAt?: Date;
   status: TaskStatus;
+  creator: string;
 }

@@ -20,3 +20,4 @@ export async function checkAdmin(req: Request, res: Response, next: NextFunction
   if (permission === 'admin') next();
   else res.status(403).send({ message: 'Unauthorized role' });
 };
+
