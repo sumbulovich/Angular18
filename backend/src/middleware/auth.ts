@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from "express";
 export async function checkAuth(req: Request, res: Response, next: NextFunction) {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '');
-    if (!token) throw new Error();
+    if (!token) throw new Error('No token');
     // Decode token and store it for next middleware
     res.locals.decodedToken = verify(token, SECRET_KEY) as Record<string, any>;
     next();

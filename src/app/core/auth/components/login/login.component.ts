@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   constructor() {
     effect((onCleanup) => {
       if (this.authStore.isAuth()) this.router.navigate(['tasks'])
-      onCleanup(() => console.log('Signal Effects Cleanup executed'))
+      // onCleanup(() => console.log('Signal Effects Cleanup executed'))
     });
     this.errorMessage$ = this.route.queryParamMap.pipe(map((paramMap) => paramMap.get('error') || ''))
   }

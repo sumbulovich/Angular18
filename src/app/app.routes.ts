@@ -1,5 +1,7 @@
+import { ProfileComponent } from './core/auth/components/profile/profile.component';
 import { Routes } from '@angular/router';
 import { UnAuthGuard } from './core/auth/guards/unauth.guard';
+import { AuthGuard } from './core/auth/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -36,6 +38,11 @@ export const routes: Routes = [
     path: 'signup',
     loadComponent: () => import('./core/auth/components/signup/signup.component').then(m => m.SignupComponent),
     canMatch: [UnAuthGuard],
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./core/auth/components/profile/profile.component').then(m => m.ProfileComponent),
+    canMatch: [AuthGuard],
   },
   // not found
   {

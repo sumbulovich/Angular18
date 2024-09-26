@@ -1,0 +1,6 @@
+<img mat-card-avatar class="_account-image cursor-pointer" [src]="imagePath()" alt="User image"
+  [matMenuTriggerFor]="menu" />
+<mat-menu #menu="matMenu">
+  <a mat-menu-item routerLink="profile">Profile</a>
+  <a mat-menu-item (click)="authStore.logout()">Logout</a>
+</mat-menu>

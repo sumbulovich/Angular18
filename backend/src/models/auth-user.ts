@@ -6,12 +6,16 @@ export interface AuthUser {
   email: string;
   password: string;
   permission: string;
+  name: string;
+  lastName: string;
 }
 
 const authUserSchema = new Schema<AuthUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  permission: { type: String },
+  permission: { type: String, required: true },
+  name: { type: String, required: true },
+  lastName: { type: String, required: true },
 });
 
 authUserSchema.plugin(mongooseUniqueValidator)

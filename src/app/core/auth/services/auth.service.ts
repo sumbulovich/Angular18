@@ -11,11 +11,19 @@ export class AuthService {
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = `${environment.apiUrl}/api/auth`;
 
-  signup(email: string, password: string, permission: Permission): Observable<void> {
-    return this.httpService.post<void>(`${this.url}/signup`, { email, password, permission })
+  signup(user: AuthUser): Observable<void> {
+    return this.httpService.post<void>(`${this.url}/signup`, user)
   }
 
   login(email: string, password: string): Observable<AuthUser> {
     return this.httpService.post<AuthUser>(`${this.url}/login`, { email, password });
+  }
+
+  loadProfile(): Observable<AuthUser> {
+    return this.httpService.get<AuthUser>(`${this.url}/profile`);
+  }
+
+  updateProfile(name: string, lastName: string): Observable<void> {
+    return this.httpService.put<void>(`${this.url}/profile`, { name, lastName });
   }
 }

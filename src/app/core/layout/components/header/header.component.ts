@@ -8,15 +8,16 @@ import { Store, provideState } from '@ngrx/store';
 import { Observable, delay } from 'rxjs';
 import { setDarkTheme } from '../../state/layout.actions';
 import { layoutFeature } from '../../state/layout.reducer';
-import { LocalStorageService } from '@app/shared/services/local-storage.service';
 import { RouterModule } from '@angular/router';
 import { AuthStore } from '@app/core/auth/state/auth.store';
 import { AuthDirective } from '@app/core/auth/directives/auth.directive';
+import { AccountComponent } from "../account/account.component";
+import { LocalStorageService } from '@app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, AsyncPipe, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule, AuthDirective],
+  imports: [RouterModule, AsyncPipe, MatToolbarModule, MatIconModule, MatButtonModule, MatSlideToggleModule, AuthDirective, AccountComponent],
   // providers: [AuthStore],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

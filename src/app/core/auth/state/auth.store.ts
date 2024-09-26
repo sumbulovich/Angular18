@@ -6,17 +6,20 @@ import { pipe, switchMap, tap } from "rxjs";
 import { AuthUser, Permission } from "../models/authUser.model";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
+import { CookieService } from 'ngx-cookie-service';
 
 
 type AuthState = {
   user: AuthUser | undefined,
   inProgress: boolean;
+  isLoading: boolean;
   error: string | undefined;
 }
 
 const initialSate = signalState<AuthState>({
   user: undefined,
   inProgress: false,
+  isLoading: false,
   error: undefined
 })
 
@@ -27,14 +30,18 @@ export const AuthStore = signalStore(
   withComputed((authState) => ({
     isAuth: computed(() => !!authState.user()),
   })),
-  withMethods((authState, authService = inject(AuthService), router = inject(Router)) => ({
+  withMethods((authState, authService = inject(AuthService), cookieService = inject(CookieService), router = inject(Router)) => ({
     login: rxMethod<{ email: string, password: string }>(
       pipe(
         tap(() => patchState(authState, { inProgress: true, error: undefined })),
         switchMap(({ email, password }) => {
           return authService.login(email, password).pipe(
             tapResponse({
-              next: (user: AuthUser) => patchState(authState, { user }),
+              next: (user: AuthUser) => {
+                patchState(authState, { user });
+                const expirationDate = new Date(new Date().getTime() + user.expiration!);
+                cookieService.set('token', user.token!, expirationDate);
+              },
               error: (error: string) => patchState(authState, { inProgress: false, error }),
               finalize: () => patchState(authState, { inProgress: false }),
             })
@@ -42,13 +49,41 @@ export const AuthStore = signalStore(
         })
       )
     ),
-    signup: rxMethod<{ email: string, password: string, permission: Permission }>(
+    signup: rxMethod<AuthUser>(
       pipe(
         tap(() => patchState(authState, { inProgress: true, error: undefined })),
-        switchMap(({ email, password, permission }) => {
-          return authService.signup(email, password, permission).pipe(
+        switchMap((user: AuthUser) => {
+          return authService.signup(user).pipe(
             tapResponse({
-              next: () => router.navigate([], { queryParams: { success: email }}),
+              next: () => router.navigate([], { queryParams: { success: user.email } }),
+              error: (error: string) => patchState(authState, { inProgress: false, error }),
+              finalize: () => patchState(authState, { inProgress: false }),
+            })
+          );
+        })
+      )
+    ),
+    loadProfile: rxMethod<void>(
+      pipe(
+        tap(() => patchState(authState, { isLoading: true, error: undefined })),
+        switchMap(() => {
+          return authService.loadProfile().pipe(
+            tapResponse({
+              next: (user) => patchState(authState, { user }),
+              error: (error: string) => patchState(authState, { isLoading: false, error }),
+              finalize: () => patchState(authState, { isLoading: false }),
+            })
+          );
+        })
+      )
+    ),
+    updateProfile: rxMethod<{ name: string, lastName: string }>(
+      pipe(
+        tap(() => patchState(authState, { inProgress: true, error: undefined })),
+        switchMap(({ name, lastName }) => {
+          return authService.updateProfile(name, lastName).pipe(
+            tapResponse({
+              next: () => patchState(authState, (state) => ({ user: { ...state.user!, name, lastName } })),
               error: (error: string) => patchState(authState, { inProgress: false, error }),
               finalize: () => patchState(authState, { inProgress: false }),
             })
@@ -58,8 +93,13 @@ export const AuthStore = signalStore(
     ),
     logout(error?: string): void {
       patchState(authState, { user: undefined });
-      router.navigate(['login'], { queryParams: { error }})
+      router.navigate(['login'], { queryParams: { error } });
+      cookieService.delete('token');
     },
+    checkSession(): void {
+      const token = cookieService.get('token');
+      if (token) patchState(authState, { user: { token } }); // Save token for AuthInterceptor
+    }
   })),
   // withHooks({
   //   onInit(store) {
