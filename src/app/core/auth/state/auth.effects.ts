@@ -12,7 +12,7 @@ export class AuthEffects {
       ofType(AuthActions.login),
       exhaustMap(({ email, password }) =>
         this.authService.login(email, password).pipe(
-          map(permission => AuthActions.loginSuccess({ permission })),
+          map(user => AuthActions.loginSuccess({ permission: user.permission })),
           catchError(error => of(AuthActions.loginFailure({ error })))
         )
       )
