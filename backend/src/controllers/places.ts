@@ -45,12 +45,10 @@ export const addUserPlace = async (req: Request, res: Response) => {
 }
 
 export const deleteUserPlace = async (req: Request, res: Response) => {
-  const placeId = req.params.id;
-
   const userPlacesFileContent = await fs.readFile("./data/user-places.json");
   const userPlacesData = JSON.parse(userPlacesFileContent.toString());
 
-  const placeIndex = userPlacesData.findIndex((place: Place) => place.id.toString() === placeId);
+  const placeIndex = userPlacesData.findIndex((place: Place) => place.id.toString() === req.params['id']);
 
   let updatedUserPlaces = userPlacesData;
 

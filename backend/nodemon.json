@@ -1,0 +1,6 @@
+{
+  "env": {
+    "JTW_SECRET_KEY": "customSecretOrPrivateKeyForEncodingAlgorithm"
+  }
+}
+

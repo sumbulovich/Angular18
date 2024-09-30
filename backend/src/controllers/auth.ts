@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { compare, hash } from "bcrypt";
 import { AuthUserModel } from "../models/auth-user";
-import { SECRET_KEY } from "../constatnts";
 import { sign } from "jsonwebtoken";
 
 
@@ -23,7 +22,7 @@ export const login = async (req: Request, res: Response) => {
 
   const expirationMs = 3600000; // 1h
   const { _id, name, lastName, email, permission } = user;
-  const token = sign({ _id, permission }, SECRET_KEY, { expiresIn: expirationMs / 1000 });
+  const token = sign({ _id, permission }, process.env['JTW_SECRET_KEY']!, { expiresIn: expirationMs / 1000 });
   res.status(200).json({ _id, name, lastName, email, permission, token, expiration: expirationMs })
 }
 

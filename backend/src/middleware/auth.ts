@@ -1,5 +1,4 @@
 import { TokenExpiredError, verify } from "jsonwebtoken";
-import { SECRET_KEY } from "../constatnts";
 import { NextFunction, Request, Response } from "express";
 
 export async function checkAuth(req: Request, res: Response, next: NextFunction) {
@@ -7,7 +6,7 @@ export async function checkAuth(req: Request, res: Response, next: NextFunction)
     const token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) throw new Error('No token');
     // Decode token and store it for next middleware
-    res.locals.decodedToken = verify(token, SECRET_KEY) as Record<string, any>;
+    res.locals.decodedToken = verify(token, process.env['JTW_SECRET_KEY']!) as Record<string, any>;
     next();
   } catch (err) {
     const isExpired = err instanceof TokenExpiredError;
