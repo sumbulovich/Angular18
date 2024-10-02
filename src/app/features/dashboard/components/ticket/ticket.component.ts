@@ -1,10 +1,9 @@
+import { NgClass } from '@angular/common';
 import { Component, InputSignal, OutputEmitterRef, input, output } from '@angular/core';
-import { Ticket } from '../../models/ticket.model';
+import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { NgClass } from '@angular/common';
-import { MatButton, MatButtonModule } from '@angular/material/button';
-import { EventEmitter } from 'stream';
+import { Ticket } from '../../models/ticket.model';
 
 @Component({
   selector: 'app-ticket',

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddTaskDialogComponent } from './add-task-dialog.component';
+import { TasksManagementComponent } from './tasks-management.component';
 
-describe('AddTaskDialogComponent', () => {
-  let component: AddTaskDialogComponent;
-  let fixture: ComponentFixture<AddTaskDialogComponent>;
+describe('TasksManagement', () => {
+  let component: TasksManagementComponent;
+  let fixture: ComponentFixture<TasksManagementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddTaskDialogComponent]
+      imports: [TasksManagementComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddTaskDialogComponent);
+    fixture = TestBed.createComponent(TasksManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

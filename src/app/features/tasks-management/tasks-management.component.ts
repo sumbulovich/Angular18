@@ -8,10 +8,10 @@ import { TasksComponent } from './components/tasks/tasks.component';
 @Component({
   standalone: true,
   imports: [UserComponent, TasksComponent],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+  templateUrl: './tasks-management.component.html',
+  styleUrl: './tasks-management.component.scss'
 })
-export class UsersComponent {
+export class TasksManagementComponent {
   selectedUser: WritableSignal<User> = signal(DUMMY_USERS[0]);
   users: User[] = DUMMY_USERS;
 }

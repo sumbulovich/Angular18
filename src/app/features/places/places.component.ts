@@ -8,7 +8,6 @@ import { environment } from '@env/environment';
 import { PlacesStore } from './state/places.store';
 
 @Component({
-  selector: 'app-places',
   standalone: true,
   imports: [EllipsisTooltipDirective, MatTooltipModule, MatProgressSpinnerModule, MatCardModule, JsonPipe],
   templateUrl: './places.component.html',

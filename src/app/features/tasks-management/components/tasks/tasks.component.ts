@@ -12,10 +12,10 @@ import { DialogComponent } from '@app/shared/components/dialog/dialog.component'
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
 import { take } from 'rxjs';
 import { User } from '../../models/user.model';
-import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
-import { TaskComponent } from './components/task/task.component';
-import { Task, TaskStatus } from './models/task.model';
-import { TasksService } from './services/tasks.service';
+import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
+import { Task, TaskStatus } from '../../models/task.model';
+import { TasksService } from '../../services/tasks.service';
+import { TaskComponent } from '../task/task.component';
 
 @Component({
   selector: 'app-tasks',
@@ -51,7 +51,7 @@ export class TasksComponent {
   openAddTaskDialog(editTask?: Task): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
-        component: AddTaskDialogComponent,
+        component: TaskDialogComponent,
         componentInputs: {
           'task': editTask || { userId: this.user()._id },
         },

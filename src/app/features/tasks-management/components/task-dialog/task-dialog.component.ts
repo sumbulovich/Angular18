@@ -10,7 +10,6 @@ import { DialogComponent } from '@app/shared/components/dialog/dialog.component'
 import { Task, TaskStatus } from '../../models/task.model';
 
 @Component({
-  selector: 'app-add-task-dialog',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [
@@ -20,10 +19,10 @@ import { Task, TaskStatus } from '../../models/task.model';
     MatDatepickerModule,
     JsonPipe
   ],
-  templateUrl: './add-task-dialog.component.html',
-  styleUrl: './add-task-dialog.component.scss'
+  templateUrl: './task-dialog.component.html',
+  styleUrl: './task-dialog.component.scss'
 })
-export class AddTaskDialogComponent implements OnInit {
+export class TaskDialogComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   readonly dialogRef: MatDialogRef<DialogComponent> = inject(MatDialogRef<DialogComponent>);
   submit$ = this.dialogRef.componentInstance.submit.asObservable();

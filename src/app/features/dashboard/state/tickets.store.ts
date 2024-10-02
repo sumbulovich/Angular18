@@ -3,9 +3,9 @@ import { tapResponse } from "@ngrx/operators";
 import { patchState, signalState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
-import { Ticket } from "../components/tickets/models/ticket.model";
-import { TicketsService } from "../components/tickets/services/tickets.service";
+import { Ticket } from "../models/ticket.model";
 import { PageEvent } from "@angular/material/paginator";
+import { TicketsService } from "../services/tickets.service";
 
 type Data<T> = {
   data: T;

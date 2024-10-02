@@ -1,14 +1,14 @@
-import { AddTicketComponent } from './components/add-ticket/add-ticket.component';
-import { Component, effect, inject, OnInit, Signal, viewChild } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { Ticket } from './models/ticket.model';
+import { Ticket } from '../../models/ticket.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { TicketComponent } from "./components/ticket/ticket.component";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TicketsStore } from '../../state/tickets.store';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { AddTicketComponent } from '../add-ticket/add-ticket.component';
+import { TicketComponent } from '../ticket/ticket.component';
 
 @Component({
   selector: 'app-tickets',

@@ -6,8 +6,8 @@ import { AuthGuard } from './core/auth/guards/auth.guard';
 export const routes: Routes = [
   {
     path: 'tasks',
-    data: { title: 'Users tasks' },
-    loadComponent: () => import('./features/users/users.component').then(m => m.UsersComponent)
+    data: { title: 'Tasks management' },
+    loadComponent: () => import('./features/tasks-management/tasks-management.component').then(m => m.TasksManagementComponent)
   },
   {
     path: 'investment',

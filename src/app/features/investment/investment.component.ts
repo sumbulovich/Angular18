@@ -10,7 +10,6 @@ import { CurrencyService } from './services/currency.service';
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-investment',
   standalone: true,
   imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, InvestmentTableComponent, CurrencyDropdownComponent],
   templateUrl: './investment.component.html',

@@ -34,7 +34,9 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [""]
+              "includePaths": [
+                ""
+              ]
             },
             "scripts": [],
             "server": "src/main.server.ts",
@@ -107,10 +109,75 @@
               "src/styles/styles.scss",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "include": [
+              "src/app/features/tasks-management/services/tasks.service.spec.ts",
+              "src/app/features/tasks-management/tasks-management.component.spec.ts"
+            ]
+          },
+          "configurations": {
+            "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            }
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "Angular18:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "Angular18:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "Angular18:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "Angular18:serve:development"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "Angular18:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "Angular18:serve:production"
+            }
           }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@schematics/angular"
+    ]
   }
 }
