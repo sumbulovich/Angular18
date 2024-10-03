@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     let error: Error | null = null;
     if (!MINE_TYPE[file.mimetype]) error = new Error('Invalid mine type');
-    cb(error, './images/tickets')
+    cb(error, './public/tickets')
   },
   filename: (req, file, cb) => {
     const ext = MINE_TYPE[file.mimetype];

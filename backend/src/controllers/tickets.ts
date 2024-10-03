@@ -26,7 +26,7 @@ export const getTickets = async (req: Request, res: Response) => {
 }
 
 export const createTicket = async (req: Request, res: Response) => {
-  const image: string = req.file ? `${req.protocol}://${req.get('host')}/images/tickets/${req.file?.filename}` : '';
+  const image: string = req.file ? `${req.protocol}://${req.get('host')}/public/tickets/${req.file?.filename}` : '';
   const ticket = new TicketModel({ ...req.body, image });
   await ticket.save(); // await TicketModel.create(ticket)
 
@@ -37,7 +37,7 @@ export const createTicket = async (req: Request, res: Response) => {
 }
 
 export const editTicket = async (req: Request, res: Response) => {
-  const image: string = req.file ? `${req.protocol}://${req.get('host')}/images/tickets/${req.file?.filename}` : '';
+  const image: string = req.file ? `${req.protocol}://${req.get('host')}/public/tickets/${req.file?.filename}` : '';
   const ticket = await TicketModel.findOneAndUpdate({ _id: req.body._id }, { ...req.body, image });
 
   if (!ticket) return res.status(400).json({ message: 'Not found' });

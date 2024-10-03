@@ -1,0 +1,12 @@
+{
+  "builds": [
+    {"src": "package.json", "use": "@now/static-build"},
+    {"src": "/dist/server.js", "use": "@now/node"}
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/dist/server.js"
+    }
+  ]
+}

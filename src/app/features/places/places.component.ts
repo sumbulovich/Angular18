@@ -15,7 +15,7 @@ import { PlacesStore } from './state/places.store';
 })
 export class PlacesComponent implements OnInit {
   placesStore = inject(PlacesStore);
-  urlImages: string = `${environment.apiUrl}/images/places/`;
+  urlImages: string = `${environment.apiUrl}/public/places/`;
 
   ngOnInit(): void {
     this.placesStore.loadPlaces();
