@@ -7,7 +7,12 @@ import authRouter from "./routes/auth"
 import mongoose from "mongoose";
 import path from "path";
 
-export const app = express();
+const app = express();
+
+// Serve static files from the /public directory
+app.use('/public', express.static(path.join(__dirname, '../public')));
+
+app.get("/", (req, res) => { res.send("Express on Vercel") });
 
 // usr: sumbulovich
 // psw: XsOK5tjiV58UrwSi
@@ -15,8 +20,6 @@ export const app = express();
 mongoose.connect("mongodb+srv://sumbulovich:XsOK5tjiV58UrwSi@cluster0.rqulk.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log('Connected to testDB database'))
   .catch(() => console.log('Connected failed'));
-
-app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.json());
 
@@ -42,3 +45,4 @@ app.use((req, res, next) => {
   res.status(404).json({ message: "404 - Not Found" });
 });
 
+export default app
