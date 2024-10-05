@@ -15,28 +15,35 @@ export const signup = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const user = await AuthUserModel.findOne({ email: req.body.email });
-  if (!user) return res.status(400).json({ message: 'Not found' });
-
-  const isAuth = await compare(req.body.password, user.password);
-  if (!isAuth) return res.status(401).json({ message: 'Incorrect email or password' });
-
-  const expirationMs = 3600000; // 1h
-  const { _id, name, lastName, email, permission } = user;
-  const token = sign({ _id, permission }, process.env['JTW_SECRET_KEY']!, { expiresIn: expirationMs / 1000 });
-  res.status(200).json({ _id, name, lastName, email, permission, token, expiration: expirationMs })
+  if (user) {
+    const isAuth = await compare(req.body.password, user.password);
+    if (isAuth) {
+      const expirationMs = 3600000; // 1h
+      const { _id, name, lastName, email, permission } = user;
+      const token = sign({ _id, permission }, process.env['JTW_SECRET_KEY']!, { expiresIn: expirationMs / 1000 });
+      res.status(200).json({ _id, name, lastName, email, permission, token, expiration: expirationMs })
+    } else {
+      res.status(401).json({ message: 'Incorrect email or password' });
+    }
+  } else {
+    res.status(400).json({ message: 'Not found' });
+  }
 }
 
 export const getProfile = async (req: Request, res: Response) => {
   // Get AuthUser's _id from decodedToken from the middleware
   const user = await AuthUserModel.findOne({ _id: res.locals.decodedToken._id });
-  if (!user) return res.status(400).json({ message: 'Not found' });
-  const { _id, name, lastName, email, permission } = user;
-  res.status(200).json({ _id, name, lastName, email, permission });
+  if (user) {
+    const { _id, name, lastName, email, permission } = user;
+    res.status(200).json({ _id, name, lastName, email, permission });
+  } else {
+    res.status(400).json({ message: 'Not found' });
+  }
 }
 
 export const editProfile = async (req: Request, res: Response) => {
   // Get AuthUser's _id from decodedToken from the middleware
   const user = await AuthUserModel.findOneAndUpdate({ _id: res.locals.decodedToken._id }, req.body);
-  if (!user) return res.status(400).json({ message: 'Not found' });
-  res.status(200).json();
+  if (user) res.status(200).json();
+  else res.status(400).json({ message: 'Not found' });
 }

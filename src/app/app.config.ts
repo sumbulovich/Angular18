@@ -31,24 +31,24 @@ export const appConfig: ApplicationConfig = {
     provideEffects(),
 
     // With SSR set will not work properly as it's pre-rendered
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeAppFactory,
-      deps: [AuthService],
-      multi: true
-    }
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initializeAppFactory,
+    //   deps: [AuthService],
+    //   multi: true
+    // }
   ]
 };
 
 // Provide an initializer function that returns a Promise
-function initializeAppFactory(authService: AuthService): () => Observable<AuthUser> {
-  const authStore = inject(AuthStore);
-  return () => {
-    authStore.checkSession();
-    if (!authStore.isAuth()) return of();
-    return authService.loadProfile().pipe(
-      tap((user) => patchState(authStore, { user })),
-      catchError(() => of())
-    );
-  }
-}
+// function initializeAppFactory(authService: AuthService): () => Observable<AuthUser> {
+//   const authStore = inject(AuthStore);
+//   return () => {
+//     authStore.checkSession();
+//     if (!authStore.isAuth()) return of();
+//     return authService.loadProfile().pipe(
+//       tap((user) => patchState(authStore, { user })),
+//       catchError(() => of())
+//     );
+//   }
+// }

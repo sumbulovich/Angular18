@@ -40,18 +40,22 @@ export const editTicket = async (req: Request, res: Response) => {
   const image: string = req.file ? `${req.protocol}://${req.get('host')}/public/tickets/${req.file?.filename}` : '';
   const ticket = await TicketModel.findOneAndUpdate({ _id: req.body._id }, { ...req.body, image });
 
-  if (!ticket) return res.status(400).json({ message: 'Not found' });
-  if (ticket.image) unlinkSync(ticket.image.replace(`${req.protocol}://${req.get('host')}`, '.')); // delete previous image
-
-  const tickets: Ticket[] = await getPaginatedTickets();
-  res.status(200).json({ tickets, pageEvent: pE });
+  if (ticket) {
+    if (ticket.image) unlinkSync(ticket.image.replace(`${req.protocol}://${req.get('host')}`, '.')); // delete previous image
+    const tickets: Ticket[] = await getPaginatedTickets();
+    res.status(200).json({ tickets, pageEvent: pE });
+  } else {
+    res.status(400).json({ message: 'Not found' });
+  }
 }
 
 export const deleteTicket = async (req: Request, res: Response) => {
   const response = await TicketModel.deleteOne({ _id: req.params.id });
-  if (!response.deletedCount) return res.status(400).json({ message: 'Not found' });
-
-  const tickets: Ticket[] = await getPaginatedTickets();
-  if (!(pE.length % pE.pageSize)) pE.pageIndex -= 1; // Set previous page if no elements on current page
-  res.status(200).json({ tickets, pageEvent: pE });
+  if (response.deletedCount) {
+    const tickets: Ticket[] = await getPaginatedTickets();
+    if (!(pE.length % pE.pageSize)) pE.pageIndex -= 1; // Set previous page if no elements on current page
+    res.status(200).json({ tickets, pageEvent: pE });
+  } else {
+    res.status(400).json({ message: 'Not found' });
+  }
 }
