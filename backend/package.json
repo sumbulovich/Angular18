@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.ts",
+    "start:dist": "nodemon dist/server.js",
     "build": "tsc"
   },
   "keywords": [],

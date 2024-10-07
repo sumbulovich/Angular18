@@ -19,8 +19,5 @@
       "src": "api/(.*)",
       "dest": "/dist/server.js"
     }
-  ],
-  "static": {
-    "directory": "public"
-  }
+  ]
 }
