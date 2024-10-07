@@ -10,7 +10,6 @@ import path from "path";
 const app = express();
 
 // Serve static files from the /public directory
-app.use('/data', express.static(path.join(__dirname, '../data')));
 app.use('/public', express.static(path.join(__dirname, '../public')));
 
 // usr: sumbulovich

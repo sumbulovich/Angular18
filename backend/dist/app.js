@@ -13,7 +13,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 // Serve static files from the /public directory
-app.use('/data', express_1.default.static(path_1.default.join(__dirname, '../data')));
 app.use('/public', express_1.default.static(path_1.default.join(__dirname, '../public')));
 // usr: sumbulovich
 // psw: XsOK5tjiV58UrwSi
