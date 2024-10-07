@@ -27,10 +27,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const placesController = __importStar(require("../controllers/places"));
+const tasksController = __importStar(require("../controllers/tasks"));
+const authMiddleware = __importStar(require("../middleware/auth"));
 const router = express_1.default.Router(); // Create Express Router
-router.get('', placesController.getPlaces);
-router.get('/user-places', placesController.getUserPlaces);
-router.put('/user-places', placesController.addUserPlace);
-router.delete('/user-places/:id', placesController.deleteUserPlace);
+router.get('', tasksController.getTasks);
+router.post('', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.createTasks);
+router.put('', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.editTask);
+router.put('/status/:id', authMiddleware.checkAdmin, tasksController.editTaskStatus);
+router.get('/:userId', tasksController.getUserTasks);
+router.delete('/:id', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.deleteTask);
 exports.default = router;

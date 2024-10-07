@@ -1,14 +1,14 @@
-import { AfterViewInit, Component, InputSignal, ModelSignal, OnInit, OutputEmitterRef, Signal, afterNextRender, computed, effect, input, model, output, viewChild } from '@angular/core';
-import { FormsModule, NgForm, NgModel } from '@angular/forms';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { Component, InputSignal, ModelSignal, OnInit, OutputEmitterRef, Signal, input, model, output, viewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Ticket } from '../../models/ticket.model';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DiscardChangesDirective } from '@app/shared/directives/discardChanges.directive';
 import { SaveChangesDirective } from '@app/shared/directives/saveChanges.directive';
 import { Observable, map } from 'rxjs';
-import { AsyncPipe, JsonPipe } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Ticket } from '../../models/ticket.model';
 
 @Component({
   selector: 'app-add-ticket',
@@ -54,7 +54,7 @@ export class AddTicketComponent implements OnInit {
   }
 
   editTicket(): void {
-    const ticket: Ticket = {  ...this.form().value, file: this.file };
+    const ticket: Ticket = { ...this.form().value, file: this.file };
     if (this.file) ticket.image = '';
 
     this.ticket.update((oldTicket?: Ticket) => ({ ...oldTicket, ...ticket }));

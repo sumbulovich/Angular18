@@ -27,10 +27,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const placesController = __importStar(require("../controllers/places"));
+const ticketController = __importStar(require("../controllers/tickets"));
+const filesMiddleware = __importStar(require("../middleware/files"));
 const router = express_1.default.Router(); // Create Express Router
-router.get('', placesController.getPlaces);
-router.get('/user-places', placesController.getUserPlaces);
-router.put('/user-places', placesController.addUserPlace);
-router.delete('/user-places/:id', placesController.deleteUserPlace);
+router.get('', ticketController.getTickets);
+router.post('', filesMiddleware.extractFile, ticketController.createTicket);
+router.put('', filesMiddleware.extractFile, ticketController.editTicket);
+router.delete('/:id', ticketController.deleteTicket);
 exports.default = router;

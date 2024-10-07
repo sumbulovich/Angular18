@@ -1,14 +1,16 @@
-const express = require('express');
-const app = express();
-
-app.get('/', function(req, res) {
-  res.send('Hello World!');
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const app_1 = __importDefault(require("./app"));
+const port = process.env['PORT'] || 3000;
+// Start up the Node server
+const server = app_1.default;
+server.get('/', function (req, res) {
+    res.send('Hello World!');
 });
-
-app.post('/', function(req, res) {
-  res.send({ status: 'Success', message: 'Hello World' });
+server.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
 });
-
-app.listen(3000, function () {
-  console.log('Listening on port 3000!');
-});
+exports.default = server;
