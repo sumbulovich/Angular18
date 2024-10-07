@@ -1,7 +1,7 @@
 import app from "./src/app";
 import express from "express";
 
-const port = process.env['PORT'] || 2000;
+const port = process.env['PORT'] || 3000;
 
 // Start up the Node server
 const server = app;
