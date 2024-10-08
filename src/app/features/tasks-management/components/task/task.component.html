@@ -5,7 +5,7 @@
     </mat-card-title>
     <div [class]="
         'whitespace-nowrap ' +
-        (task().dueDate < today ? 'text-error dark:!text-error-dark' : 'text-success dark:!text-success-dark')
+        (isExpired() ? 'text-error dark:!text-error-dark' : 'text-success dark:!text-success-dark')
       ">
       Due date: <time>{{ task().dueDate | date: 'shortDate' }}</time>
     </div>

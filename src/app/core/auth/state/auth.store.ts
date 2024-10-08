@@ -63,20 +63,6 @@ export const AuthStore = signalStore(
         })
       )
     ),
-    loadProfile: rxMethod<void>(
-      pipe(
-        tap(() => patchState(authState, { isLoading: true, error: undefined })),
-        switchMap(() => {
-          return authService.loadProfile().pipe(
-            tapResponse({
-              next: (user) => patchState(authState, { user }),
-              error: (error: string) => patchState(authState, { isLoading: false, error }),
-              finalize: () => patchState(authState, { isLoading: false }),
-            })
-          );
-        })
-      )
-    ),
     updateProfile: rxMethod<{ name: string, lastName: string }>(
       pipe(
         tap(() => patchState(authState, { inProgress: true, error: undefined })),
@@ -99,6 +85,9 @@ export const AuthStore = signalStore(
     checkSession(): void {
       const token = cookieService.get('token');
       if (token) patchState(authState, { user: { token } }); // Save token for AuthInterceptor
+    },
+    setProfile(user: AuthUser): void {
+      patchState(authState, { user }); // Save token for AuthInterceptor
     }
   })),
   // withHooks({

@@ -11,6 +11,7 @@ const app = express();
 
 // Serve static files from the /public directory
 app.use('/public', express.static(path.join(__dirname, '../public')));
+app.use('/data', express.static(path.join(__dirname, '../data')));
 
 // usr: sumbulovich
 // psw: XsOK5tjiV58UrwSi

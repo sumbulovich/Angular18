@@ -32,9 +32,7 @@ export class TaskComponent {
   task: ModelSignal<Task> = model.required<Task>();
   delete: OutputEmitterRef<void> = output<void>();
   edit: OutputEmitterRef<void> = output<void>();
-  timeZone = computed(() => new Date(this.task().dueDate).getTimezoneOffset())
-
-  readonly today: Date = new Date();
+  isExpired = computed(() => new Date(this.task().dueDate).getTime() < new Date().getTime())
   readonly authStore = inject(AuthStore);
 
   constructor() {}

@@ -13,7 +13,7 @@ import { AuthStore } from '@app/core/auth/state/auth.store';
 export class AccountComponent {
   readonly authStore = inject(AuthStore)
   imagePath: Signal<string> = computed(() => {
-    if (!this.authStore.user()?.name) return 'public/user-placeholder.png';
+    if (!this.authStore.user()?.name) return 'user-placeholder.png';
     return `https://ui-avatars.com/api/?name=${this.authStore.user()?.name}%20${this.authStore.user()?.lastName}&background=random`
   });
 }

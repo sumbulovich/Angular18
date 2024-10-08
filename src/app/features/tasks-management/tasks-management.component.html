@@ -5,9 +5,9 @@
     }
   </aside>
   <div class="flex-1 overflow-hidden">
+    <app-tasks [user]="selectedUser()" />
     <!-- Deferrable views to reduce the initial bundle size or defer heavy components-->
     @defer {
-    <app-tasks [user]="selectedUser()" />
     }
   </div>
 </div>

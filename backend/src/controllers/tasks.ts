@@ -18,8 +18,8 @@ export const editTask = async (req: Request, res: Response) => {
   // Get AuthUser's _id from decodedToken from the middleware
   const creator = res.locals.decodedToken._id;
   const task = await TaskModel.findOneAndUpdate({ _id: req.body._id, creator }, req.body);
-  if (task) res.status(403).json({ message: 'Unauthorized creator' });
-  else res.status(200).json();
+  if (task) res.status(200).json();
+  else res.status(403).json({ message: 'Unauthorized creator' });
 }
 
 export const editTaskStatus = async (req: Request, res: Response) => {
