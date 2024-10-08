@@ -33,7 +33,7 @@ const router = express_1.default.Router(); // Create Express Router
 router.get('', tasksController.getTasks);
 router.post('', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.createTasks);
 router.put('', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.editTask);
-router.put('/status/:id', authMiddleware.checkAdmin, tasksController.editTaskStatus);
+router.put('/status/:id', authMiddleware.checkAuth, tasksController.editTaskStatus);
 router.get('/:userId', tasksController.getUserTasks);
 router.delete('/:id', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.deleteTask);
 exports.default = router;

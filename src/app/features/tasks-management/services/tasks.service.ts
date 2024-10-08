@@ -15,32 +15,37 @@ export class TasksService {
   }
 
   getUserTask(userId: string): void {
-    this.httpService.get<Task[]>(`${this.url}/${userId}`).subscribe((tasks) => {
-      this.tasks.set(tasks)
+    this.httpService.get<Task[]>(`${this.url}/${userId}`).subscribe({
+      next: (tasks) => this.tasks.set(tasks),
+      error: () => {}
     });
   }
 
   deleteTask(task: Task): void {
-    this.httpService.delete<Task>(`${this.url}/${task._id}`).subscribe(() => {
-      this.tasks.update((tasks) => tasks.filter((f) => f._id !== task._id));
+    this.httpService.delete<Task>(`${this.url}/${task._id}`).subscribe({
+      next: () => this.tasks.update((tasks) => tasks.filter((f) => f._id !== task._id)),
+      error: () => {}
     });
   }
 
   addTask(task: Task): void {
-    this.httpService.post<Task>(`${this.url}`, task).subscribe((task) => {
-      this.tasks.update((tasks) => [...tasks, task])
+    this.httpService.post<Task>(`${this.url}`, task).subscribe({
+      next: () => this.tasks.update((tasks) => [...tasks, task]),
+      error: () => {}
     });
   }
 
   editTask(task: Task): void {
-    this.httpService.put<Task>(`${this.url}`, task).subscribe(() => {
-      this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m));
+    this.httpService.put<Task>(`${this.url}`, task).subscribe({
+      next: () => this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m)),
+      error: () => {}
     });
   }
 
   editTaskStatus(task: Task): void {
-    this.httpService.put<Task>(`${this.url}/status/${task._id}`, { status: task.status }).subscribe(() => {
-      this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m));
+    this.httpService.put<Task>(`${this.url}/status/${task._id}`, { status: task.status }).subscribe({
+      next: () => this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m)),
+      error: () => {}
     });
   }
 }

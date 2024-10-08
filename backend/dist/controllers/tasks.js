@@ -29,9 +29,9 @@ const editTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const creator = res.locals.decodedToken._id;
     const task = yield task_1.TaskModel.findOneAndUpdate({ _id: req.body._id, creator }, req.body);
     if (task)
-        res.status(403).json({ message: 'Unauthorized creator' });
-    else
         res.status(200).json();
+    else
+        res.status(403).json({ message: 'Unauthorized creator' });
 });
 exports.editTask = editTask;
 const editTaskStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
