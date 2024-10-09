@@ -12,6 +12,7 @@
           'opacity-50': status() === 'unknown'
         }">
         {{ status$ | async }}  <!-- {{ status() }} -->
+        ({{ interval() }})
       </span>
     </p>
     <p class="mat-body-medium">

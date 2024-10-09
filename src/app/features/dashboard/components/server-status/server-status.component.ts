@@ -1,8 +1,9 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, DestroyRef, Signal, WritableSignal, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, Signal, WritableSignal, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { WebsocketService } from '@app/shared/services/websocket.service';
 import { Observable, interval } from 'rxjs';
 
 @Component({
@@ -20,19 +21,19 @@ export class ServerStatusComponent {
   // Convert an Observable in to a Signal
   interval$: Observable<number> = interval(1000)
   interval: Signal<number> = toSignal(this.interval$, { initialValue: 0 });
+  websocketService: WebsocketService = inject(WebsocketService);
 
   constructor() {
-    const subscription = this.interval$.subscribe(() => {
-      const rdm: number = Math.random();
-      if (rdm < .5) this.status.set('online');
-      else if (rdm < .9) this.status.set('offline');
-      else this.status.set('unknown');
-    });
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
-
     // Server Side Render (SSR) needs call this method to start on the client side only
     // afterNextRender(() => {
     // setInterval(() => { ... })
     // });
+
+    this.interval = toSignal(this.websocketService.getMessages(), { initialValue: 0 });
+    const subscription = this.websocketService.getMessages().subscribe((number) => {
+      if (number > 50) this.status.set('online');
+      else if (number < 50) this.status.set('offline');
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }

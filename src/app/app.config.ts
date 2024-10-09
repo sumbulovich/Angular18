@@ -6,7 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideEffects } from '@ngrx/effects';
 import { patchState } from '@ngrx/signals';
 import { provideState, provideStore } from '@ngrx/store';
-import { catchError, delay, Observable, of, tap } from 'rxjs';
+import { catchError, delay, Observable, of, tap, throwError } from 'rxjs';
 import { routes } from './app.routes';
 import { AuthService } from './core/auth/services/auth.service';
 import { AuthStore } from './core/auth/state/auth.store';
@@ -48,7 +48,10 @@ function initializeAppFactory(authService: AuthService): () => Observable<AuthUs
     if (!authStore.isAuth()) return of();
     return authService.loadProfile().pipe(
       tap((user) => authStore.setProfile(user)),
-      catchError(() => of())
+      catchError((error) => {
+        authStore.logout();
+        return throwError(() => new Error(error))
+      })
     );
   }
 }
