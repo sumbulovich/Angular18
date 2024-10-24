@@ -1,5 +1,5 @@
 import app from "./app";
-import { setupWebSocketServer } from "./routes/websocket";
+import { setupWebSocketServer } from "./websocket";
 
 const port = process.env['PORT'] || 3000;
 

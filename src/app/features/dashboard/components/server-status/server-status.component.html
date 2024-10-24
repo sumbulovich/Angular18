@@ -1,7 +1,10 @@
 <mat-card appearance="outlined" class="mb-4 w-full">
-  <mat-card-header>
-    <mat-icon mat-card-avatar>dns</mat-icon>
+  <mat-card-header class="items-center py-3">
+    <mat-icon mat-card-avatar class="mb-0">dns</mat-icon>
     <mat-card-title>Server status</mat-card-title>
+    <button mat-flat-button (click)="toggleStatus()">
+      {{ isPaused ? 'Resume' : 'Pause' }}
+    </button>
   </mat-card-header>
   <mat-card-content>
     <p>
@@ -9,10 +12,9 @@
       <span [ngClass]="{
           'text-success dark:!text-success-dark': status() === 'online',
           'text-error dark:!text-error-dark': status() === 'offline',
-          'opacity-50': status() === 'unknown'
+          'opacity-50': status() === 'paused'
         }">
         {{ status$ | async }}  <!-- {{ status() }} -->
-        ({{ interval() }})
       </span>
     </p>
     <p class="mat-body-medium">
