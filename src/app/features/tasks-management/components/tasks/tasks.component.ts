@@ -16,28 +16,46 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { Task, TaskStatus } from '../../models/task.model';
 import { TasksService } from '../../services/tasks.service';
 import { TaskComponent } from '../task/task.component';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatTooltipModule, MatFormFieldModule, MatSelectModule, EllipsisTooltipDirective, TaskComponent, JsonPipe, FormsModule],
+  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatTooltipModule, MatFormFieldModule, MatSelectModule, EllipsisTooltipDirective, TaskComponent, JsonPipe, FormsModule, RouterOutlet, MatIconModule, RouterLink],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent {
   readonly authStore = inject(AuthStore);
+  readonly router = inject(Router);
   private tasksService: TasksService = inject(TasksService);
   private dialog: MatDialog = inject(MatDialog);
   filter: WritableSignal<TaskStatus | 'all'> = signal<TaskStatus | 'all'>('all')
-  user: InputSignal<User> = input.required<User>();
+
+  // These inputs are gotten from ActivatedRoute (params, queryParams, data, resolves) (withComponentInputBinding)
+  // This approach doesn't need access to activatedRoute
+  userId: InputSignal<string> = input.required<string>(); // Params
+  order: InputSignal<'asc' | 'des'> = input<'asc' | 'des'>('des'); // QueryParams
+  title: InputSignal<string | undefined> = input<string>(); // Data
+  user: InputSignal<User | undefined> = input<User>(); // Resolvers
+
   tasks: Signal<Task[]> = computed(() => {
-    const tasks = this.tasksService.tasks();
-    if (this.filter() === 'all') return tasks;
-    else return tasks.filter((f) => f.status === this.filter());
+    let tasks = this.tasksService.tasks();
+    if (this.filter() !== 'all') tasks = tasks.filter((f) => f.status === this.filter())
+    return tasks.sort((a, b) => {
+      const comparison = new Date(a.dueDate).getTime() > new Date(b.dueDate).getTime();
+      if (this.order() === 'asc') return comparison ? -1 : 1
+      else return comparison ? 1 : -1
+    });
   });
 
   constructor() {
-    effect(() => this.tasksService.getUserTask(this.user()._id));
+    effect(() => {
+      if (this.user()) this.tasksService.getUserTask(this.userId());
+      // Navigates while replacing the current state in history to prevent navigate to previous page with back button
+      else this.router.navigate(['tasks', this.userId(), 'not-found'], { replaceUrl: true });
+    });
   }
 
   editTaskStatus(task: Task): void {
@@ -53,10 +71,10 @@ export class TasksComponent {
       data: {
         component: TaskDialogComponent,
         componentInputs: {
-          'task': editTask || { userId: this.user()._id },
+          'task': editTask || { userId: this.userId() },
         },
         title: `${editTask ? 'Edit' : 'New'} Task`,
-        content: `${this.user().name}'s task:`,
+        content: `${this.user()?.name}'s task:`,
         btnText: `${editTask ? 'Save' : 'Add'}`
       },
     });

@@ -2,11 +2,13 @@
   <mat-card-header class="items-center py-3">
     <mat-icon mat-card-avatar class="mb-0">task</mat-icon>
     <mat-card-title>Support tickets</mat-card-title>
-    <button mat-flat-button (click)="toggleAdding()">Add Ticket</button>
+    @if (!isAdding) {
+      <button mat-flat-button (click)="toggleAdding()">Add Ticket</button>
+    }
   </mat-card-header>
   <mat-card-content [class.!p-0]="ticketsStore.tickets().data.length && !isAdding">
     @if (isAdding) {
-    <app-add-ticket (create)="addTicket($event);" (edit)="editTicket();" (close)="toggleAdding()"
+    <app-add-ticket (close)="toggleAdding()"
       [inProgress]="ticketsStore.inProgress()" [(ticket)]="ticketEdited" />
     } @else {
     <mat-accordion>

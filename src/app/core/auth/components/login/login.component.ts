@@ -32,7 +32,8 @@ export class LoginComponent implements OnInit {
 
   constructor() {
     effect((onCleanup) => {
-      if (this.authStore.isAuth()) this.router.navigate(['tasks'])
+      // Navigates while replacing the current state in history to prevent navigate to previous page with back button 
+      if (this.authStore.isAuth()) this.router.navigate(['tasks'], { replaceUrl: true })
       // onCleanup(() => console.log('Signal Effects Cleanup executed'))
     });
     this.errorMessage$ = this.route.queryParamMap.pipe(map((paramMap) => paramMap.get('error') || ''))

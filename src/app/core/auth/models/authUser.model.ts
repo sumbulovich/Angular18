@@ -9,4 +9,5 @@ export interface AuthUser {
   password?: string;
   token?: string;
   expiration?: number;
+  hobbies?: string[];
 }

@@ -1,19 +1,9 @@
-<app-header (toggleSidenav)="sidenav.toggle()" [showMenu]="mobileMediaQuery.matches"
-  [darkTheme]="darkMediaQuery.matches" />
+<app-header (toggleSidenav)="sidenav.toggle()" [isMobile]="mobileMediaQuery.matches" [isDarkTheme]="darkMediaQuery.matches" />
 <mat-sidenav-container class="flex-1">
   <mat-sidenav #sidenav [mode]="mobileMediaQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileMediaQuery.matches"
     fixedTopGap="56" [opened]="!mobileMediaQuery.matches" class="p-4">
-    <mat-nav-list>
-      @for (route of routes; track route.path) {
-      @if(route.data; as routeData) {
-      <a mat-list-item [activated]="rla.isActive" [routerLink]="route.path" routerLinkActive #rla="routerLinkActive" class="mb-1">
-        {{ routeData['title'] }}
-      </a>
-      }
-      }
-    </mat-nav-list>
+    <app-sidenav />
   </mat-sidenav>
-
   <mat-sidenav-content class="p-4">
     <router-outlet></router-outlet>
   </mat-sidenav-content>

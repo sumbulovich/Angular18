@@ -1,0 +1,10 @@
+<mat-nav-list>
+  @for (route of routes; track route.path) {
+  @if(route.data; as routeData) {
+  <a mat-list-item [activated]="rla.isActive" [routerLink]="route.path" routerLinkActive #rla="routerLinkActive"
+    class="mb-1">
+    {{ routeData['title'] }}
+  </a>
+  }
+  }
+</mat-nav-list>

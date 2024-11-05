@@ -1,9 +1,9 @@
-<mat-card appearance="outlined" (click)="select.emit()"
-  [class]="['cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']"
-  [class._selected]="selectedUser()._id === user()._id">
+<mat-card appearance="outlined" [routerLink]="user()._id" routerLinkActive="_selected" queryParamsHandling="merge"
+  [class]="['cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
   <mat-card-header>
     <img mat-card-avatar class="example-header-image" [src]="imagePath()" alt="User image" />
     <mat-card-title>{{ user().name }}</mat-card-title>
     <mat-card-subtitle>{{ user().email }}</mat-card-subtitle>
   </mat-card-header>
 </mat-card>
+

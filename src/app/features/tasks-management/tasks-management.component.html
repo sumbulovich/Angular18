@@ -1,13 +1,13 @@
 <div class="flex flex-row gap-4">
   <aside class="flex flex-col gap-2">
     @for (user of users; track user._id) {
-    <app-user [user]="user" [selectedUser]="selectedUser()" (select)="selectedUser.set(user)" />
+    <app-user [user]="user" />
     }
   </aside>
   <div class="flex-1 overflow-hidden">
-    <app-tasks [user]="selectedUser()" />
     <!-- Deferrable views to reduce the initial bundle size or defer heavy components-->
     @defer {
     }
+    <router-outlet></router-outlet>
   </div>
 </div>

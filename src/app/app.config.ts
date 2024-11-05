@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ApplicationConfig, inject, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
 
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -21,7 +21,10 @@ export const appConfig: ApplicationConfig = {
     // provideZoneChangeDetection({ eventCoalescing: true }),
     // provideClientHydration(),
     provideExperimentalZonelessChangeDetection(),
-    provideRouter(routes),
+
+    // Enabling routes and give access to route params with Input Binding (also to children routes)
+    provideRouter(routes, withComponentInputBinding(), withRouterConfig({ paramsInheritanceStrategy: 'always' })),
+
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([errorInterceptor, authInterceptor])),
 
