@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, InputSignal, ModelSignal, OnInit, OutputEmitterRef, Signal, input, model, output, viewChild } from '@angular/core';
+import { Component, DestroyRef, InputSignal, ModelSignal, OnInit, OutputEmitterRef, Signal, effect, inject, input, model, output, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,23 +9,27 @@ import { DiscardChangesDirective } from '@app/shared/directives/discardChanges.d
 import { SaveChangesDirective } from '@app/shared/directives/saveChanges.directive';
 import { Observable, map } from 'rxjs';
 import { Ticket } from '../../models/ticket.model';
+import { TicketsStore } from '../../state/tickets.store';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-add-ticket',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule, DiscardChangesDirective, SaveChangesDirective, AsyncPipe, JsonPipe],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule, DiscardChangesDirective, SaveChangesDirective, AsyncPipe, JsonPipe, RouterLink],
   templateUrl: './add-ticket.component.html',
   styleUrl: './add-ticket.component.scss'
 })
 export class AddTicketComponent implements OnInit {
+  readonly ticketsStore = inject(TicketsStore);
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');
   isFormUpdated$?: Observable<boolean>;
-  create: OutputEmitterRef<Ticket> = output<Ticket>();
-  edit: OutputEmitterRef<void> = output<void>();
-  close: OutputEmitterRef<void> = output<void>();
-  inProgress: InputSignal<boolean> = input<boolean>(false);
-  ticket: ModelSignal<Ticket | undefined> = model<Ticket | undefined>(); // @Input() ticket, @Output() ticketChange
+  ticket: InputSignal<Ticket | undefined> = input<Ticket | undefined>();
   file?: File;
+
+  constructor(destroyRef: DestroyRef) {
+    this.ticketsStore.setEditing(true)
+    destroyRef.onDestroy(() => this.ticketsStore.setEditing(false));
+  }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -50,15 +54,14 @@ export class AddTicketComponent implements OnInit {
     const ticket: Ticket = { ...this.form().value, status: 'open', file: this.file };
     if (this.file) ticket.image = '';
 
-    this.create.emit(ticket);
+    this.ticketsStore.addTicket(ticket);
   }
 
   editTicket(): void {
-    const ticket: Ticket = { ...this.form().value, file: this.file };
+    const ticket: Ticket = { ...this.ticket(), ...this.form().value, file: this.file };
     if (this.file) ticket.image = '';
 
-    this.ticket.update((oldTicket?: Ticket) => ({ ...oldTicket, ...ticket }));
-    this.edit.emit();
+    this.ticketsStore.editTicket(ticket);
   }
 
   onImagePicked(event: Event) {

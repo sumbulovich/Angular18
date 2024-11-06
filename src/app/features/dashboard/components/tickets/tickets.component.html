@@ -2,22 +2,20 @@
   <mat-card-header class="items-center py-3">
     <mat-icon mat-card-avatar class="mb-0">task</mat-icon>
     <mat-card-title>Support tickets</mat-card-title>
-    @if (!isAdding) {
-      <button mat-flat-button (click)="toggleAdding()">Add Ticket</button>
+    @if (!ticketsStore.isEditing()) {
+    <button mat-flat-button [routerLink]="['new']">Add Ticket</button>
     }
   </mat-card-header>
-  <mat-card-content [class.!p-0]="ticketsStore.tickets().data.length && !isAdding">
-    @if (isAdding) {
-    <app-add-ticket (close)="toggleAdding()"
-      [inProgress]="ticketsStore.inProgress()" [(ticket)]="ticketEdited" />
-    } @else {
+  <mat-card-content [class.!p-0]="ticketsStore.entities().length && !ticketsStore.isEditing()">
+    <router-outlet></router-outlet>
+    @if (!ticketsStore.isEditing()) {
     <mat-accordion>
-      @for (ticket of ticketsStore.tickets().data; track ticket._id) {
+      @for (ticket of ticketsStore.entities(); track ticket._id) {
       @if ($first) {
       <mat-divider></mat-divider>
       }
       <app-ticket [ticket]="ticket" [className]="$even ? 'bg-primary/[.3]' : 'bg-primary/[.1]'"
-        (close)="closeTicket(ticket)" (edit)="toggleAdding(ticket)" (delete)="deleteTicket(ticket)"></app-ticket>
+        (close)="closeTicket(ticket)" (delete)="deleteTicket(ticket)"></app-ticket>
       @if ($last) {
       <mat-divider></mat-divider>
       }
@@ -25,11 +23,10 @@
       <p class="px-3">No tickets available</p>
       }
     </mat-accordion>
-    }
-    @if (!isAdding) {
     <mat-card-actions align="end">
       <mat-paginator [length]="ticketsStore.pageEvent().length" [pageSize]="ticketsStore.pageEvent().pageSize"
-        [pageIndex]="ticketsStore.pageEvent().pageIndex" [pageSizeOptions]="[5, 10, 25, 100]" (page)="loadTickets($event)">
+        [pageIndex]="ticketsStore.pageEvent().pageIndex" [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="loadTickets($event)">
       </mat-paginator>
     </mat-card-actions>
     }

@@ -9,46 +9,24 @@ import { TicketsStore } from '../../state/tickets.store';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { AddTicketComponent } from '../add-ticket/add-ticket.component';
 import { TicketComponent } from '../ticket/ticket.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-tickets',
   standalone: true,
-  imports: [AddTicketComponent, MatCardModule, MatIconModule, MatButtonModule, MatListModule, MatExpansionModule, MatPaginatorModule, TicketComponent],
+  imports: [AddTicketComponent, MatCardModule, MatIconModule, MatButtonModule, MatListModule, MatExpansionModule, MatPaginatorModule, TicketComponent, RouterModule],
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
 export class TicketsComponent implements OnInit {
-  isAdding: boolean = false;
-  ticketEdited?: Ticket;
-  ticketsStore = inject(TicketsStore);
-
-  constructor() {
-    effect(() => {
-      if (!this.ticketsStore.inProgress() && !this.ticketsStore.error()) {
-        this.isAdding = false;
-      }
-    });
-  }
+  readonly ticketsStore = inject(TicketsStore);
 
   ngOnInit(): void {
     this.loadTickets(this.ticketsStore.pageEvent())
   }
 
-  toggleAdding(ticket?: Ticket): void {
-    this.ticketEdited = ticket;
-    this.isAdding = !this.isAdding;
-  }
-
   loadTickets(event?: PageEvent): void {
     this.ticketsStore.loadTickets(event);
-  }
-
-  addTicket(ticket: Ticket): void {
-    this.ticketsStore.addTicket(ticket);
-  }
-
-  editTicket(): void {
-    this.ticketsStore.editTicket(this.ticketEdited!);
   }
 
   closeTicket(ticket: Ticket): void {

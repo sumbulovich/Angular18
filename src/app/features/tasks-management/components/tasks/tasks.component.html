@@ -27,7 +27,7 @@
     <div class="flex flex-row justify-between items-center mb-2">
       <p class="!mb-0">Only the creator user can edit or delete the task created by them</p>
       @if(order() === 'asc') {
-        <a mat-button routerLink="./" [queryParams]="{order: 'des'}">Sort <mat-icon iconPositionEnd>arrow_upward</mat-icon></a>
+        <a mat-button routerLink="./" [queryParams]="{order: 'desc'}">Sort <mat-icon iconPositionEnd>arrow_upward</mat-icon></a>
       } @else {
         <a mat-button routerLink="./" [queryParams]="{order: 'asc'}">Sort <mat-icon iconPositionEnd>arrow_downward</mat-icon></a>
       }

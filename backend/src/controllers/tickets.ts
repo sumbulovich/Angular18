@@ -25,6 +25,15 @@ export const getTickets = async (req: Request, res: Response) => {
   res.status(200).json({ tickets, pageEvent: pE });
 }
 
+export const getTicket = async (req: Request, res: Response) => {
+  const ticket = await TicketModel.findOne({ _id: req.params.id });
+  if (ticket) {
+    res.status(200).json(ticket);
+  } else {
+    res.status(400).json({ message: 'Not found' });
+  }
+}
+
 export const createTicket = async (req: Request, res: Response) => {
   const image: string = req.file ? `${req.protocol}://${req.get('host')}/public/tickets/${req.file?.filename}` : '';
   const ticket = new TicketModel({ ...req.body, image });

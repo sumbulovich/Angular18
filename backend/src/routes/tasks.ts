@@ -8,7 +8,7 @@ router.get('', tasksController.getTasks);
 router.post('', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.createTasks);
 router.put('', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.editTask);
 router.put('/status/:id', authMiddleware.checkAuth, tasksController.editTaskStatus);
-router.get('/:userId', tasksController.getUserTasks);
+router.get('/:userId', tasksController.getUserTasks); 
 router.delete('/:id', authMiddleware.checkAuth, authMiddleware.checkAdmin, tasksController.deleteTask);
 
 export default router;

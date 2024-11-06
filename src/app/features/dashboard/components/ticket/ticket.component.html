@@ -12,7 +12,7 @@
       <button mat-mini-fab color="primary" (click)="close.emit(); $event.stopPropagation()" class="me-2">
         <mat-icon>check</mat-icon>
       </button>
-      <button mat-mini-fab color="primary" (click)="edit.emit(); $event.stopPropagation()" class="me-2">
+      <button mat-mini-fab color="primary" [routerLink]="[ticket()._id]" class="me-2">
         <mat-icon>edit</mat-icon>
       </button>
       }

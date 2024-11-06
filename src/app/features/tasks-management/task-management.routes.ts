@@ -4,13 +4,16 @@ import { User } from './models/user.model';
 
 const resolveUser: ResolveFn<User | undefined> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
   // You can inject services to get the data
-  return DUMMY_USERS.find((user) => user._id === activatedRoute.paramMap.get('userId'))
+  const userId = activatedRoute.paramMap.get('userId');
+  if (!userId) return;
+  return DUMMY_USERS.find((user) => user._id === userId);
 }
 
 const resolveTitle: ResolveFn<string> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
   // You can inject services to get the data
   const user = resolveUser(activatedRoute, routerState) as User | undefined;
-  return user ? `Task Manager - ${user.name}'s Tasks` : 'Task Manager - Not found'
+  if (!user) return 'Task Manager - Not found';
+  return `Task Manager - ${user.name}'s Tasks`;
 }
 
 const routes: Routes = [{

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { HttpService } from '@app/core/http/services/http.service';
 import { Ticket } from '../models/ticket.model';
 import { PageEvent } from '@angular/material/paginator';
@@ -20,6 +20,9 @@ export class TicketsService {
     return this.httpService.get<{ tickets: Ticket[], pageEvent: PageEvent }>(`${this.url}?${query}`)
   }
 
+  getTicket(ticketId: string): Observable<Ticket> {
+    return this.httpService.get<Ticket>(`${this.url}/${ticketId}`)
+  }
 
   addTicket(ticket: Ticket): Observable<{ tickets: Ticket[]; pageEvent: PageEvent; }> {
     const ticketData = new FormData(); // Accept File
@@ -33,7 +36,7 @@ export class TicketsService {
     return this.httpService.put<{ tickets: Ticket[]; pageEvent: PageEvent }>(`${this.url}`, ticketData)
   }
 
-  deleteTicket(ticket: Ticket): Observable<{ tickets: Ticket[]; pageEvent: PageEvent }> {
-    return this.httpService.delete<{ tickets: Ticket[]; pageEvent: PageEvent }>(`${this.url}/${ticket._id}`)
+  deleteTicket(ticketId: string): Observable<{ tickets: Ticket[]; pageEvent: PageEvent }> {
+    return this.httpService.delete<{ tickets: Ticket[]; pageEvent: PageEvent }>(`${this.url}/${ticketId}`)
   }
 }

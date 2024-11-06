@@ -1,12 +1,12 @@
 <form (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col">
   <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
-    <input matInput type="text" name="title" ngModel required [disabled]="inProgress()" />
+    <input matInput type="text" name="title" ngModel required [disabled]="ticketsStore.isLoading()" />
     <mat-error>Required</mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Request</mat-label>
-    <textarea matInput type="text" name="request" ngModel required [disabled]="inProgress()"></textarea>
+    <textarea matInput type="text" name="request" ngModel required [disabled]="ticketsStore.isLoading()"></textarea>
     <mat-error>Required</mat-error>
   </mat-form-field>
   <div class="mb-2">
@@ -22,7 +22,7 @@
   </div>
   <div>
     <button mat-stroked-button type="submit" class="me-2" saveChanges
-      [saveChangesDisabled]="!!form.invalid || !(isFormUpdated$ | async) || !ticket()" [disabled]="inProgress()">
+      [saveChangesDisabled]="!!form.invalid || !(isFormUpdated$ | async) || !ticket()" [disabled]="ticketsStore.isLoading()">
       @if (ticket()) {
       Save
       } @else {
@@ -30,7 +30,7 @@
       }
     </button>
     <button mat-stroked-button type="button" color="warn" discardChanges
-      [discardChangesDisabled]="!(isFormUpdated$ | async)" (click)="close.emit()"
-      [disabled]="inProgress()">Cancel</button>
+      [discardChangesDisabled]="!(isFormUpdated$ | async)" routerLink="../"
+      [disabled]="ticketsStore.isLoading()">Cancel</button>
   </div>
 </form>

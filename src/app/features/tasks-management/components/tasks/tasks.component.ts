@@ -36,7 +36,7 @@ export class TasksComponent {
   // These inputs are gotten from ActivatedRoute (params, queryParams, data, resolves) (withComponentInputBinding)
   // This approach doesn't need access to activatedRoute
   userId: InputSignal<string> = input.required<string>(); // Params
-  order: InputSignal<'asc' | 'des'> = input<'asc' | 'des'>('des'); // QueryParams
+  order: InputSignal<'asc' | 'desc'> = input<'asc' | 'desc'>('desc'); // QueryParams
   title: InputSignal<string | undefined> = input<string>(); // Data
   user: InputSignal<User | undefined> = input<User>(); // Resolvers
 

@@ -39,7 +39,7 @@ export class TaskDialogComponent implements OnInit {
     this.form.patchValue(this.task());
     // Listen to submit event on DialogComponent
     const subscription = this.submit$?.subscribe(() => this.onSubmit());
-    this.destroyRef.onDestroy(() => subscription?.unsubscribe());
+    this.destroyRef.onDestroy(() => subscription?.unsubscribe()); // or use takeUntilDestroyed
   }
 
   onSubmit(): void {

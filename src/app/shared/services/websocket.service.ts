@@ -1,8 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '@env/environment';
-import { catchError, Observable, of, retry, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 @Injectable({

@@ -25,6 +25,7 @@
     "typeRoots": [
       "node_modules/@types",
       "node_modules/@ngrx",
+      "node_modules/@ngrx/signals",
       "node_modules/@angular/material",
       "node_modules/@angular/core"
     ],

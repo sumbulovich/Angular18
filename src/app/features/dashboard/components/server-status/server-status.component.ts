@@ -1,6 +1,6 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, DestroyRef, OnInit, Signal, WritableSignal, inject, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, Signal, WritableSignal, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +15,6 @@ import { Observable, interval } from 'rxjs';
   styleUrl: './server-status.component.scss'
 })
 export class ServerStatusComponent {
-  private destroyRef: DestroyRef = inject(DestroyRef)
   // Convert a Signal in to an Observable (it subscribes when signal changes)
   status: WritableSignal<'online' | 'offline' | 'paused'> = signal('paused');
   status$: Observable<"online" | "offline" | "paused"> = toObservable(this.status);
@@ -30,11 +29,10 @@ export class ServerStatusComponent {
     // afterNextRender(() => {
     // setInterval(() => { ... })
     // });
-    const subscription = this.websocketService.getMessages().subscribe((message) => {
+    this.websocketService.getMessages().pipe(takeUntilDestroyed()).subscribe((message) => {
       this.status.set(message.status);
       this.isPaused = message.status === 'paused';
     });
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
   toggleStatus(): void {
