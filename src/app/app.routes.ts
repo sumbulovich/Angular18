@@ -5,6 +5,7 @@ import tasksManagementRoutes from './features/tasks-management/task-management.r
 import DashboardRoutes from './features/dashboard/dashboard.routes'
 import { TicketsStore } from './features/dashboard/state/tickets.store';
 import { PlacesStore } from './features/places/state/places.store';
+import { UserPlacesStore } from './features/places/state/userPlaces.store';
 
 export const routes: Routes = [
   {
@@ -33,7 +34,7 @@ export const routes: Routes = [
     data: { title: 'Places' },
     loadComponent: () => import('./features/places/places.component').then(m => m.PlacesComponent),
     title: 'Places',
-    providers: [PlacesStore]
+    providers: [PlacesStore, UserPlacesStore]
   },
   {
     path: 'login',

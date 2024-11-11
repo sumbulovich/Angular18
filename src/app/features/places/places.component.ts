@@ -6,6 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
 import { environment } from '@env/environment';
 import { PlacesStore } from './state/places.store';
+import { UserPlacesStore } from './state/userPlaces.store';
 
 @Component({
   standalone: true,
@@ -15,10 +16,11 @@ import { PlacesStore } from './state/places.store';
 })
 export class PlacesComponent implements OnInit {
   placesStore = inject(PlacesStore);
+  userPlacesStore = inject(UserPlacesStore);
   urlImages: string = `${environment.apiUrl}/public/places/`;
 
   ngOnInit(): void {
     this.placesStore.loadPlaces();
-    this.placesStore.loadUserPlaces();
+    this.userPlacesStore.loadUserPlaces();
   }
 }
