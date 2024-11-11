@@ -1,6 +1,6 @@
 <div mat-dialog-title class="flex flex-row">
   <div [innerHTML]="data?.title" class="flex-auto content-center"></div>
-  <button mat-icon-button mat-dialog-close>
+  <button mat-icon-button [mat-dialog-close]="false">
     <mat-icon>close</mat-icon>
   </button>
 </div>
@@ -14,5 +14,5 @@
   <button mat-flat-button cdkFocusInitial [color]="data?.btnColor" (click)="onSubmit()">
     {{ data?.btnText || 'Confirm' }}
   </button>
-  <button mat-stroked-button mat-dialog-close>Cancel</button>
+  <button mat-stroked-button [mat-dialog-close]="false">Cancel</button>
 </mat-dialog-actions>

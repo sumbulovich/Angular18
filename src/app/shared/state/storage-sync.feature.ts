@@ -8,28 +8,27 @@ import {
 } from '@ngrx/signals';
 
 export function withStorageSync(
-  key: string,
+  id: string,
+  key?: string,
   storageFactory = () => localStorage,
 ) {
   return signalStoreFeature(
     withHooks({
       onInit(store, platformId = inject(PLATFORM_ID)) {
-        if (isPlatformServer(platformId)) {
-          return;
-        }
+        if (isPlatformServer(platformId)) return;
 
         const storage = storageFactory();
-
-        const stateStr = storage.getItem(key);
+        const stateStr = storage.getItem(id);
         if (stateStr) {
-          patchState(store, JSON.parse(stateStr));
+          const state: Record<string, any> = JSON.parse(stateStr);
+          patchState(store, key ? { [key]: state[key] } : state);
         }
 
         effect(() => {
-          const state = getState(store);
-          storage.setItem(key, JSON.stringify(state));
+          const state: Record<string, any> = getState(store);
+          storage.setItem(id, JSON.stringify(key ? { [key]: state[key] } : state));
         });
-      },
+      }
     }),
   );
 }

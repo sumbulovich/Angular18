@@ -1,10 +1,11 @@
 
 import { computed } from '@angular/core';
-import { signalStoreFeature, withComputed, withMethods, withState } from '@ngrx/signals';
+import { signalStoreFeature, withComputed, withState } from '@ngrx/signals';
 
 export type RequestStatus =
   | 'idle'
   | 'loading'
+  | 'inProgress'
   | 'completed'
   | { error: string };
 
@@ -15,6 +16,7 @@ export function withRequestStatus() {
     withState<RequestStatusState>({ requestStatus: 'idle' }),
     withComputed(({ requestStatus }) => ({
       isLoading: computed(() => requestStatus() === 'loading'),
+      isInProgress: computed(() => requestStatus() === 'inProgress'),
       isCompleted: computed(() => requestStatus() === 'completed'),
       error: computed(() => {
         const status = requestStatus();
@@ -26,6 +28,10 @@ export function withRequestStatus() {
 
 export function setLoading(): RequestStatusState {
   return { requestStatus: 'loading' };
+}
+
+export function setInProgress(): RequestStatusState {
+  return { requestStatus: 'inProgress' };
 }
 
 export function setCompleted(): RequestStatusState {

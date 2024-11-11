@@ -7,7 +7,7 @@
       </mat-card-header>
       <mat-card-content>
         <div class="flex flex-row flex-wrap">
-          @for (place of placesStore.unselectedPlaces().data; track place.id) {
+          @for (place of placesStore.unselectedPlaces(); track place.id) {
           <div (click)="placesStore.addUserPlace(place)" class="w-1/4">
             <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
               <img [src]="urlImages + place.image.src" [alt]="place.image.alt" />
@@ -26,7 +26,7 @@
       </mat-card-header>
       <mat-card-content>
         <div class="flex flex-row flex-wrap">
-          @for (place of placesStore.userPlaces().data; track place.id) {
+          @for (place of placesStore.userPlacesEntities(); track place.id) {
           <div (click)="placesStore.deleteUserPlace(place)" class="w-1/4">
             <div [class]="['m-2', 'p-2', 'cursor-pointer', 'hover:bg-primary/[0.04]', 'hover:dark:bg-white/[0.04]']">
               <img [src]="urlImages + place.image.src" [alt]="place.image.alt" />

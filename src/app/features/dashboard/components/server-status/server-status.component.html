@@ -2,9 +2,11 @@
   <mat-card-header class="items-center py-3">
     <mat-icon mat-card-avatar class="mb-0">dns</mat-icon>
     <mat-card-title>Server status</mat-card-title>
-    <button mat-flat-button (click)="toggleStatus()">
-      {{ isPaused ? 'Resume' : 'Pause' }}
-    </button>
+    <div class="flex-grow flex justify-end">
+      <button mat-flat-button (click)="toggleStatus()">
+        {{ isPaused ? 'Resume' : 'Pause' }}
+      </button>
+    </div>
   </mat-card-header>
   <mat-card-content>
     <p>

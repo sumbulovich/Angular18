@@ -4,11 +4,7 @@ import { signalState, signalStoreFeature, withState } from '@ngrx/signals';
 
 
 const initialSate = signalState<{ pageEvent: PageEvent }>({
-  pageEvent: {
-    pageSize: 5,
-    pageIndex: 0,
-    length: 0
-  }
+  pageEvent: { pageSize: 5, pageIndex: 0, length: 0 }
 });
 
 export function withPagination() {

@@ -1,100 +1,89 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { computed, inject } from "@angular/core";
 import { tapResponse } from "@ngrx/operators";
-import { patchState, signalState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalState, signalStore, type, withComputed, withMethods, withState } from "@ngrx/signals";
+import { setAllEntities, withEntities } from "@ngrx/signals/entities";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { catchError, pipe, switchMap, tap, throwError } from "rxjs";
+import { pipe, switchMap, tap } from "rxjs";
 import { Place } from "../models/place.model";
 import { PlacesService } from "../services/places.service";
+import { RequestStatus, setCompleted, setError, setInProgress, setLoading } from "@app/shared/state/request-status.feature";
 
-type Data<T> = {
-  data: T;
-  isLoading: boolean;
-  error: string | undefined;
-}
 type PlacesState = {
-  places: Data<Place[]>;
-  userPlaces: Data<Place[]>;
-  inProgress: boolean;
-}
-
-const initialData = {
-  data: [],
-  isLoading: false,
-  error: undefined
+  places: { requestStatus: RequestStatus },
+  userPlaces: { requestStatus: RequestStatus }
 }
 
 const initialSate = signalState<PlacesState>({
-  places: initialData,
-  userPlaces: initialData,
-  inProgress: false,
+  places: { requestStatus: 'idle' },
+  userPlaces: { requestStatus: 'idle' },
 })
 
 export const PlacesStore = signalStore(
-  // Providing store at the root level.
-  { providedIn: 'root' },
+  // { providedIn: 'root' },   // Providing store at the root level.
+  withEntities({ entity: type<Place>(), collection: 'places' }),
+  withEntities({ entity: type<Place>(), collection: 'userPlaces' }),
   withState(initialSate),
-  withComputed((state) => ({
-    unselectedPlaces: computed(() => ({ data: state.places().data?.filter((f) => !state.userPlaces().data.some((s) => s.id === f.id)) })),
-    isLoading: computed(() => state.places().isLoading || state.userPlaces().isLoading),
+  withComputed((store) => ({
+    unselectedPlaces: computed(() => store.placesEntities()?.filter((f) => !store.userPlacesEntities().some((s) => s.id === f.id))),
+    isLoading: computed(() => store.places().requestStatus === 'loading' || store.userPlaces().requestStatus === 'loading'),
   })),
-  withMethods((placesState, placesService = inject(PlacesService)) => ({
+  withMethods((store, placesService = inject(PlacesService)) => ({
     loadPlaces: rxMethod<void>(
       pipe(
-        tap(() => patchState(placesState, (state) => ({ places: { ...state.places, isLoading: true, error: undefined } }))),
-        switchMap(() => {
-          return placesService.getPlaces().pipe(
-            tapResponse({
-              next: (places?: Place[]) => patchState(placesState, (state) => ({ places: { ...state.places, data: places || [] } })),
-              error: (e: Error) => patchState(placesState, (state) => ({ places: { ...state.places, isLoading: false, error: e.message } })),
-              finalize: () => patchState(placesState, (state) => ({ places: { ...state.places, isLoading: false } }))
-            })
-          );
-        })
-      )
-    ),
-    loadUserPlaces: rxMethod<void>(
-      pipe(
-        tap(() => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, isLoading: true, error: undefined } }))),
-        switchMap(() => {
-          return placesService.getUserPlaces().pipe(
-            tapResponse({
-              next: (places?: Place[]) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, data: places || [] } })),
-              error: (e: Error) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, isLoading: false, error: e.message } })),
-              finalize: () => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, isLoading: false } }))
-            })
-          );
-        })
-      )
-    ),
-    addUserPlace: rxMethod<Place>(
-      pipe(
-        tap(() => patchState(placesState, { inProgress: true })),
-        switchMap((place: Place) => {
-          return placesService.addUserPlace(place).pipe(
-            tapResponse({
-              next: (places: Place[]) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, data: places } })),
-              error: (e: Error) => patchState(placesState, { inProgress: false }),
-              finalize: () => patchState(placesState, { inProgress: false }),
-            })
-          );
-        })
-      )
-    ),
-    deleteUserPlace: rxMethod<Place>(
-      pipe(
-        tap(() => patchState(placesState, { inProgress: true })),
-        switchMap((place: Place) => {
-          return placesService.deleteUserPlace(place).pipe(
-            tapResponse({
-              next: (places: Place[]) => patchState(placesState, (state) => ({ userPlaces: { ...state.userPlaces, data: places } })),
-              error: (e: Error) => patchState(placesState, { inProgress: false }),
-              finalize: () => patchState(placesState, { inProgress: false }),
-            })
-          );
-        })
-      )
-    ),
+        tap(() => patchState(store, { places: setLoading() })),
+          switchMap(() => {
+            return placesService.getPlaces().pipe(
+              tapResponse({
+                next: (places: Place[]) => patchState(store, setAllEntities(places, { collection: 'places' })),
+                error: (e: Error) => patchState(store, { places: setError(e.message) }),
+                finalize: () => patchState(store, { places: setCompleted() })
+              })
+            );
+          })
+        )
+      ),
+      loadUserPlaces: rxMethod<void>(
+        pipe(
+          tap(() => patchState(store, { userPlaces: setLoading() })),
+          switchMap(() => {
+            return placesService.getUserPlaces().pipe(
+              tapResponse({
+                next: (places: Place[]) => patchState(store, setAllEntities(places, { collection: 'userPlaces' })),
+                error: (e: Error) => patchState(store, { userPlaces: setError(e.message) }),
+                finalize: () => patchState(store, { userPlaces: setCompleted() })
+              })
+            );
+          })
+        )
+      ),
+      addUserPlace: rxMethod<Place>(
+        pipe(
+          tap(() => patchState(store, { userPlaces: setInProgress() })),
+          switchMap((place: Place) => {
+            return placesService.addUserPlace(place).pipe(
+              tapResponse({
+                next: (places: Place[]) => patchState(store, setAllEntities(places, { collection: 'userPlaces' })),
+                error: (e: Error) => patchState(store, { userPlaces: setError(e.message) }),
+                finalize: () => patchState(store, { userPlaces: setCompleted() })
+              })
+            );
+          })
+        )
+      ),
+      deleteUserPlace: rxMethod<Place>(
+        pipe(
+          tap(() => patchState(store, { userPlaces: setInProgress() })),
+          switchMap((place: Place) => {
+            return placesService.deleteUserPlace(place).pipe(
+              tapResponse({
+                next: (places: Place[]) => patchState(store, setAllEntities(places, { collection: 'userPlaces' })),
+                error: (e: Error) => patchState(store, { userPlaces: setError(e.message) }),
+                finalize: () => patchState(store, { userPlaces: setCompleted() })
+              })
+            );
+          })
+        )
+      ),
   })),
 );
 

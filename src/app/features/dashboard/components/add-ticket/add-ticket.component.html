@@ -22,7 +22,7 @@
   </div>
   <div>
     <button mat-stroked-button type="submit" class="me-2" saveChanges
-      [saveChangesDisabled]="!!form.invalid || !(isFormUpdated$ | async) || !ticket()" [disabled]="ticketsStore.isLoading()">
+      [saveChangesDisabled]="!!form.invalid || !isFormUpdated() || !ticket()" [disabled]="ticketsStore.isLoading()">
       @if (ticket()) {
       Save
       } @else {
@@ -30,7 +30,7 @@
       }
     </button>
     <button mat-stroked-button type="button" color="warn" discardChanges
-      [discardChangesDisabled]="!(isFormUpdated$ | async)" routerLink="../"
+      [discardChangesDisabled]="!isFormUpdated()" routerLink="../"
       [disabled]="ticketsStore.isLoading()">Cancel</button>
   </div>
 </form>

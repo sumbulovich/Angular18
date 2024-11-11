@@ -3,6 +3,8 @@ import { AuthGuard } from './core/auth/guards/auth.guard';
 import { UnAuthGuard } from './core/auth/guards/unauth.guard';
 import tasksManagementRoutes from './features/tasks-management/task-management.routes'
 import DashboardRoutes from './features/dashboard/dashboard.routes'
+import { TicketsStore } from './features/dashboard/state/tickets.store';
+import { PlacesStore } from './features/places/state/places.store';
 
 export const routes: Routes = [
   {
@@ -23,13 +25,15 @@ export const routes: Routes = [
     data: { title: 'Dashboard' },
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
     title: 'Dashboard',
-    children: DashboardRoutes
+    children: DashboardRoutes,
+    providers: [TicketsStore]
   },
   {
     path: 'places',
     data: { title: 'Places' },
     loadComponent: () => import('./features/places/places.component').then(m => m.PlacesComponent),
-    title: 'Places'
+    title: 'Places',
+    providers: [PlacesStore]
   },
   {
     path: 'login',
@@ -54,9 +58,14 @@ export const routes: Routes = [
     canMatch: [AuthGuard],
     title: 'Profile'
   },
+  {
+    path: '',
+    redirectTo: 'tasks',
+    pathMatch: 'full'
+  },
   // not found
-  // {
-  //   path: '**',
-  //   redirectTo: 'tasks'
-  // }
+  {
+    path: '**',
+    redirectTo: 'tasks'
+  }
 ];

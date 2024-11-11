@@ -18,22 +18,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
-export class TicketsComponent implements OnInit {
+export class TicketsComponent {
   readonly ticketsStore = inject(TicketsStore);
-
-  ngOnInit(): void {
-    this.loadTickets(this.ticketsStore.pageEvent())
-  }
 
   loadTickets(event?: PageEvent): void {
     this.ticketsStore.loadTickets(event);
-  }
-
-  closeTicket(ticket: Ticket): void {
-    this.ticketsStore.editTicket({ ...ticket, status: 'closed' });
-  }
-
-  deleteTicket(ticket: Ticket): void {
-    this.ticketsStore.deleteTicket(ticket);
   }
 }

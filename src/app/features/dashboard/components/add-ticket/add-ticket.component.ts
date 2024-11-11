@@ -1,16 +1,16 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, DestroyRef, InputSignal, ModelSignal, OnInit, OutputEmitterRef, Signal, effect, inject, input, model, output, viewChild } from '@angular/core';
+import { Component, DestroyRef, InputSignal, OnInit, Signal, WritableSignal, effect, inject, input, signal, viewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DiscardChangesDirective } from '@app/shared/directives/discardChanges.directive';
 import { SaveChangesDirective } from '@app/shared/directives/saveChanges.directive';
-import { Observable, map } from 'rxjs';
 import { Ticket } from '../../models/ticket.model';
 import { TicketsStore } from '../../state/tickets.store';
-import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-add-ticket',
@@ -21,28 +21,40 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class AddTicketComponent implements OnInit {
   readonly ticketsStore = inject(TicketsStore);
+  private destroyRef = inject(DestroyRef)
   private form: Signal<NgForm> = viewChild.required<NgForm>('form');
-  isFormUpdated$?: Observable<boolean>;
+  isFormUpdated: WritableSignal<boolean> = signal(false);
   ticket: InputSignal<Ticket | undefined> = input<Ticket | undefined>();
   file?: File;
 
-  constructor(destroyRef: DestroyRef) {
+  constructor(destroyRef: DestroyRef, router: Router, route: ActivatedRoute) {
     this.ticketsStore.setEditing(true)
     destroyRef.onDestroy(() => this.ticketsStore.setEditing(false));
+
+    // Navigate once request is completed
+    effect(() => {
+      if (this.ticketsStore.isCompleted() && this.form().submitted) {
+        this.isFormUpdated.set(false); // Disable canDeactivate
+        router.navigate(['../'], { relativeTo: route })
+      }
+    }, { allowSignalWrites: true });
   }
 
   ngOnInit(): void {
     setTimeout(() => {
-      if (this.ticket()) {
-        this.form().setValue({
-          title: this.ticket()?.title,
-          request: this.ticket()?.request,
-          image: this.ticket()?.image
-        });
+      const initialFormValue = {
+        title: this.ticket()?.title || '',
+        request: this.ticket()?.request || '',
+        image: this.ticket()?.image || ''
       }
-      const initialFormValue = { ...this.form().value }
-      this.isFormUpdated$ = this.form().valueChanges?.pipe(map((m) => JSON.stringify(m) !== JSON.stringify(initialFormValue)))
+
+      this.form().setValue(initialFormValue);
+      this.form().valueChanges?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+        const isUpdated = JSON.stringify(value) !== JSON.stringify(initialFormValue);
+        this.isFormUpdated.set(isUpdated);
+      });
     });
+
   }
 
   onSubmit(): void {
