@@ -1,4 +1,9 @@
 <section class="flex flex-col justify-between gap-4">
-  <app-server-status class="flex flex-1" />
+  <!-- Deferrable views to reduce the initial bundle size or defer heavy components https://angular.dev/guide/defer -->
+  @defer(on interaction) {
+    <app-server-status class="flex flex-1" />
+  } @placeholder {
+    <button mat-flat-button>Connect Server</button>
+  }
   <app-tickets class="flex flex-1" />
 </section>

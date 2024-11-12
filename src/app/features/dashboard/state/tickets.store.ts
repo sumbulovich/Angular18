@@ -1,24 +1,23 @@
-import { inject } from "@angular/core";
+import { computed, inject } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { withPagination } from "@app/shared/state/pagination.feature";
 import { setCompleted, setError, setLoading, withRequestStatus } from "@app/shared/state/request-status.feature";
 import { tapResponse } from "@ngrx/operators";
-import { patchState, signalState, signalStore, signalStoreFeature, withHooks, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalState, signalStore, signalStoreFeature, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { SelectEntityId, setAllEntities, setEntity, withEntities } from "@ngrx/signals/entities";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
 import { Ticket } from "../models/ticket.model";
 import { TicketsService } from "../services/tickets.service";
 import { withStorageSync } from "@app/shared/state/storage-sync.feature";
+import { withSelectedEntity } from "@app/shared/state/selected-entity.feature";
 
 
 type TicketsState = {
-  isEditing: boolean;
+  // Custom Store properties
 }
 
-const initialSate = signalState<TicketsState>({
-  isEditing: false
-});
+const initialSate = signalState<TicketsState>({});
 
 // Set custom Entity Identifier, by default is id
 const selectId: SelectEntityId<Ticket> = (ticket) => ticket._id!;
@@ -30,6 +29,7 @@ export const TicketsStore = signalStore(
   withState(initialSate), // Tickets State
   withRequestStatus(), // RequestStatus Feature
   withPagination(), // Pagination Feature
+  withSelectedEntity(), // Selected Entity Feature
   withStorageSync('ticketsState', 'pageEvent'), // Storage Sync Feature (save/load state)
   withMethods((store, ticketsService = inject(TicketsService)) => ({
     loadTickets: rxMethod<PageEvent | undefined>(
@@ -102,8 +102,8 @@ export const TicketsStore = signalStore(
         })
       )
     ),
-    setEditing(isEditing: boolean): void {
-      patchState(store, { isEditing });
+    setSelectedEntityId(id?: string): void {
+      patchState(store, { selectedEntityId: id });
     }
   })),
   withHooks({

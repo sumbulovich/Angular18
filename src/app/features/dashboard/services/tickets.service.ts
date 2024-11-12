@@ -5,9 +5,7 @@ import { Ticket } from '../models/ticket.model';
 import { PageEvent } from '@angular/material/paginator';
 import { environment } from '@env/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TicketsService {
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = `${environment.apiUrl}/api/tickets`;

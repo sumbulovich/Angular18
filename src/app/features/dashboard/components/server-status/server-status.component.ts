@@ -12,7 +12,8 @@ import { Observable, interval } from 'rxjs';
   standalone: true,
   imports: [NgClass, AsyncPipe, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './server-status.component.html',
-  styleUrl: './server-status.component.scss'
+  styleUrl: './server-status.component.scss',
+  providers: [WebsocketService]
 })
 export class ServerStatusComponent {
   // Convert a Signal in to an Observable (it subscribes when signal changes)
@@ -29,6 +30,7 @@ export class ServerStatusComponent {
     // afterNextRender(() => {
     // setInterval(() => { ... })
     // });
+    this.websocketService.startConnection();
     this.websocketService.getMessages().pipe(takeUntilDestroyed()).subscribe((message) => {
       this.status.set(message.status);
       this.isPaused = message.status === 'paused';
@@ -38,6 +40,6 @@ export class ServerStatusComponent {
   toggleStatus(): void {
     const data = this.isPaused ? 'resume' : 'pause';
     this.websocketService.sendMessage({ data });
-    this.isPaused = true;
+    this.isPaused = !this.isPaused;
   }
 }

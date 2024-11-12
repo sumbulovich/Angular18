@@ -4,13 +4,14 @@ import { environment } from '@env/environment';
 import { Observable, of } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class WebsocketService {
   private socket$?: WebSocketSubject<string>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  }
+
+  startConnection(): void {
     // Check if running in the browser
     if (isPlatformBrowser(this.platformId)) {
       this.socket$ = webSocket<string>(environment.wsUrl);

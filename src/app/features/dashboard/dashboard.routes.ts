@@ -1,23 +1,19 @@
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRouteSnapshot, CanDeactivateFn, ResolveFn, RouterStateSnapshot, Routes } from '@angular/router';
-import { Ticket } from './models/ticket.model';
 import { inject } from '@angular/core';
-import { TicketsStore } from './state/tickets.store';
-import { TicketsService } from './services/tickets.service';
-import { catchError, map, Observable, of } from 'rxjs';
-import { AddTicketComponent } from './components/add-ticket/add-ticket.component';
-import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
-import { DiscardChangesDirective } from '@app/shared/directives/discardChanges.directive';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRouteSnapshot, CanDeactivateFn, ResolveFn, RouterStateSnapshot, Routes } from '@angular/router';
+import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
+import { filter } from 'rxjs';
+import { AddTicketComponent } from './components/add-ticket/add-ticket.component';
+import { Ticket } from './models/ticket.model';
+import { TicketsStore } from './state/tickets.store';
 
-const resolveUser: ResolveFn<Ticket | undefined> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Observable<Ticket | undefined> => {
+const resolveUser: ResolveFn<Ticket | undefined> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
   const ticketsStore = inject(TicketsStore);
-  const ticketsService = inject(TicketsService);
   const ticketId = activatedRoute.paramMap.get('ticketId');
-  if (!ticketId) return of();
-  const ticket = ticketsStore.entityMap()[ticketId]
-  if (!ticket) return ticketsService.getTicket(ticketId).pipe(catchError((e) => of()));
-  return of(ticket);
+  if (ticketId) ticketsStore.setSelectedEntityId(ticketId);
+  if (!ticketsStore.selectedEntity()) ticketsStore.loadTicket(ticketId!);
+  return toObservable(ticketsStore.selectedEntity).pipe(filter((f) => !!f));
 }
 
 const canDeactivate: CanDeactivateFn<AddTicketComponent> = (component) => {

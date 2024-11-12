@@ -4,9 +4,7 @@ import { Place } from '../models/place.model';
 import { HttpService } from '@app/core/http/services/http.service';
 import { environment } from '@env/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PlacesService {
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = `${environment.apiUrl}/api/places`;

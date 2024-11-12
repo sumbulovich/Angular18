@@ -2,15 +2,15 @@
   <mat-card-header class="items-center py-3">
     <mat-icon mat-card-avatar class="mb-0">task</mat-icon>
     <mat-card-title class="flex-grow">Support tickets</mat-card-title>
-    @if (!ticketsStore.isEditing()) {
+    @if (!isEditing()) {
     <div class="flex-grow flex justify-end">
       <button mat-flat-button [routerLink]="['new']">Add Ticket</button>
     </div>
     }
   </mat-card-header>
-  <mat-card-content [class.!p-0]="ticketsStore.entities().length && !ticketsStore.isEditing()">
-    <router-outlet></router-outlet>
-    @if (!ticketsStore.isEditing()) {
+  <mat-card-content [class.!p-0]="ticketsStore.entities().length && !isEditing()">
+    <router-outlet (activate)="onRouterActivate($event)"></router-outlet>
+    @if (!isEditing()) {
     <mat-card-actions align="end">
       <mat-paginator [length]="ticketsStore.pageEvent().length" [pageSize]="ticketsStore.pageEvent().pageSize"
         [pageIndex]="ticketsStore.pageEvent().pageIndex" [pageSizeOptions]="[5, 10, 25, 100]"

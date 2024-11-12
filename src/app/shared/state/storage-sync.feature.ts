@@ -15,6 +15,8 @@ export function withStorageSync(
   return signalStoreFeature(
     withHooks({
       onInit(store, platformId = inject(PLATFORM_ID)) {
+        // Check if running in the browser or in the server (SSR)
+        // isPlatformBrowser(this.platformId)
         if (isPlatformServer(platformId)) return;
 
         const storage = storageFactory();

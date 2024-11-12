@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/auth/guards/auth.guard';
 import { UnAuthGuard } from './core/auth/guards/unauth.guard';
-import tasksManagementRoutes from './features/tasks-management/task-management.routes'
-import DashboardRoutes from './features/dashboard/dashboard.routes'
 import { TicketsStore } from './features/dashboard/state/tickets.store';
 import { PlacesStore } from './features/places/state/places.store';
 import { UserPlacesStore } from './features/places/state/userPlaces.store';
+import { TicketsService } from './features/dashboard/services/tickets.service';
+import { PlacesService } from './features/places/services/places.service';
+import { TasksService } from './features/tasks-management/services/tasks.service';
 
 export const routes: Routes = [
   {
@@ -13,7 +14,8 @@ export const routes: Routes = [
     data: { title: 'Tasks management' },
     loadComponent: () => import('./features/tasks-management/tasks-management.component').then(m => m.TasksManagementComponent),
     title: 'Tasks management',
-    children: tasksManagementRoutes
+    loadChildren: () => import('./features/tasks-management/task-management.routes'),
+    providers: [TasksService]
   },
   {
     path: 'investment',
@@ -26,15 +28,15 @@ export const routes: Routes = [
     data: { title: 'Dashboard' },
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
     title: 'Dashboard',
-    children: DashboardRoutes,
-    providers: [TicketsStore]
+    loadChildren: () => import('./features/dashboard/dashboard.routes'),
+    providers: [TicketsStore, TicketsService]
   },
   {
     path: 'places',
     data: { title: 'Places' },
     loadComponent: () => import('./features/places/places.component').then(m => m.PlacesComponent),
     title: 'Places',
-    providers: [PlacesStore, UserPlacesStore]
+    providers: [PlacesStore, UserPlacesStore, PlacesService]
   },
   {
     path: 'login',

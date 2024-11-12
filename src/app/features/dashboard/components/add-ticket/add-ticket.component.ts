@@ -15,7 +15,7 @@ import { TicketsStore } from '../../state/tickets.store';
 @Component({
   selector: 'app-add-ticket',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule, DiscardChangesDirective, SaveChangesDirective, AsyncPipe, JsonPipe, RouterLink],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule, DiscardChangesDirective, SaveChangesDirective, RouterLink],
   templateUrl: './add-ticket.component.html',
   styleUrl: './add-ticket.component.scss'
 })
@@ -27,9 +27,8 @@ export class AddTicketComponent implements OnInit {
   ticket: InputSignal<Ticket | undefined> = input<Ticket | undefined>();
   file?: File;
 
-  constructor(destroyRef: DestroyRef, router: Router, route: ActivatedRoute) {
-    this.ticketsStore.setEditing(true)
-    destroyRef.onDestroy(() => this.ticketsStore.setEditing(false));
+  constructor(router: Router, route: ActivatedRoute) {
+    this.destroyRef.onDestroy(() => this.ticketsStore.setSelectedEntityId(undefined));
 
     // Navigate once request is completed
     effect(() => {
@@ -54,7 +53,6 @@ export class AddTicketComponent implements OnInit {
         this.isFormUpdated.set(isUpdated);
       });
     });
-
   }
 
   onSubmit(): void {
