@@ -1,4 +1,14 @@
-@if (!(successEmail$ | async)) {
+@if (successEmail$ | async) {
+<mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto bg-success/30 dark:bg-success/30">
+  <mat-card-header>
+    <mat-card-title class="mb-3">Congratulation!</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Your user with email <b>{{ successEmail$ | async }}</b> has been registered successfully;</p>
+    <a routerLink="/login" queryParamsHandling="merge" class="opacity-75 hover:opacity-100">Go to login</a>
+  </mat-card-content>
+</mat-card>
+} @else {
 <mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto">
   <mat-card-header>
     <mat-card-title class="mb-3">Authentication form</mat-card-title>
@@ -61,16 +71,6 @@
       </mat-radio-group>
       <button mat-flat-button type="submit" [disabled]="form.disabled">Login</button>
     </form>
-  </mat-card-content>
-</mat-card>
-} @else {
-<mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto bg-success/30 dark:bg-success/30">
-  <mat-card-header>
-    <mat-card-title class="mb-3">Congratulation!</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p>Your user with email <b>{{ successEmail$ | async }}</b> has been registered successfully;</p>
-    <a routerLink="/login" queryParamsHandling="merge" class="opacity-75 hover:opacity-100">Go to login</a>
   </mat-card-content>
 </mat-card>
 }

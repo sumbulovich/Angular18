@@ -1,10 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TicketComponent } from '../ticket/ticket.component';
-import { TicketsStore } from '../../state/tickets.store';
-import { PageEvent } from '@angular/material/paginator';
 import { Ticket } from '../../models/ticket.model';
+import { TicketsStore } from '../../state/tickets.store';
+import { TicketComponent } from '../ticket/ticket.component';
 
 @Component({
   selector: 'app-tickets-list',

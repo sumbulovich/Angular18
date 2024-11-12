@@ -8,8 +8,6 @@ import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 export class SnackbarService {
   private snackBar = inject(MatSnackBar)
 
-  constructor() { }
-
   open(type: 'info' | 'success' | 'error', title: string, content:string): void {
     this.snackBar.openFromComponent(SnackbarComponent, {
       duration: 5000,

@@ -1,7 +1,7 @@
 import { JsonPipe, NgComponentOutlet } from '@angular/common';
-import { Component, EventEmitter, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogData } from '@app/shared/models/dialog-data.model';
@@ -13,7 +13,7 @@ import { DialogData } from '@app/shared/models/dialog-data.model';
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss'
 })
-export class DialogComponent  {
+export class DialogComponent {
   readonly dialogRef: MatDialogRef<DialogComponent> = inject(MatDialogRef<DialogComponent>);
   readonly data?: DialogData = inject<DialogData>(MAT_DIALOG_DATA);
   submit: EventEmitter<void> = new EventEmitter<void>();

@@ -2,7 +2,6 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthStore } from '@app/core/auth/state/auth.store';
 import { SnackbarService } from '@app/shared/services/snackbar.service';
-import { tapResponse } from '@ngrx/operators';
 import { catchError, throwError } from 'rxjs';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {

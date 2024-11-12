@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, DestroyRef, Signal, WritableSignal, inject, signal } from '@angular/core';
+import { Component, Signal, WritableSignal, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -23,7 +23,7 @@ export class ServerStatusComponent {
   interval$: Observable<number> = interval(1000)
   interval: Signal<number> = toSignal(this.interval$, { initialValue: 0 });
   websocketService: WebsocketService = inject(WebsocketService);
-  isPaused: boolean = true;
+  isPaused = true;
 
   constructor() {
     // Server Side Render (SSR) needs call this method to start on the client side only

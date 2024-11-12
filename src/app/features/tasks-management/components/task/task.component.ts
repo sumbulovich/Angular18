@@ -1,13 +1,13 @@
-import { APP_INITIALIZER, Component, InputSignal, LOCALE_ID, ModelSignal, OutputEmitterRef, computed, inject, input, model, output } from '@angular/core';
+import { DatePipe, registerLocaleData } from '@angular/common';
+import { Component, LOCALE_ID, ModelSignal, OutputEmitterRef, computed, inject, model, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthStore } from '@app/core/auth/state/auth.store';
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
 import { Task, TaskStatus } from '../../models/task.model';
-import { DatePipe, registerLocaleData } from '@angular/common';
-import { AuthStore } from '@app/core/auth/state/auth.store';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
 // Registerer new local
 import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs);
@@ -34,8 +34,6 @@ export class TaskComponent {
   edit: OutputEmitterRef<void> = output<void>();
   isExpired = computed(() => new Date(this.task().dueDate).getTime() < new Date().getTime())
   readonly authStore = inject(AuthStore);
-
-  constructor() {}
 
   updateStatus(status: TaskStatus): void {
     this.task.update((task) => ({ ...task, status }));

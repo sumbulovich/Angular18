@@ -34,6 +34,7 @@
       "@env/*": ["./src/environments/*"]
 		},
   },
+  "exclude": ["**/*.spec.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

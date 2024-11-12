@@ -2,7 +2,7 @@ import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot, Routes } from '
 import { DUMMY_USERS } from './constants/dummy-users';
 import { User } from './models/user.model';
 
-const resolveUser: ResolveFn<User | undefined> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
+const resolveUser: ResolveFn<User | undefined> = (activatedRoute: ActivatedRouteSnapshot) => {
   // You can inject services to get the data
   const userId = activatedRoute.paramMap.get('userId');
   if (!userId) return;

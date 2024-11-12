@@ -1,8 +1,8 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { provideHttpClient } from '@angular/common/http';
-import { TasksService } from './tasks.service';
 import { DUMMY_USERS } from '../constants/dummy-users';
+import { TasksService } from './tasks.service';
 
 describe('TasksService', () => {
   let service: TasksService;

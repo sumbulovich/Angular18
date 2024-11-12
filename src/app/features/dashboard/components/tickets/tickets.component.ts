@@ -1,14 +1,12 @@
-import { Component, effect, inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { Ticket } from '../../models/ticket.model';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TicketsStore } from '../../state/tickets.store';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { TicketComponent } from '../ticket/ticket.component';
 import { RouterModule } from '@angular/router';
+import { TicketsStore } from '../../state/tickets.store';
 import { AddTicketComponent } from '../add-ticket/add-ticket.component';
 
 @Component({
@@ -26,7 +24,7 @@ export class TicketsComponent {
     this.ticketsStore.loadTickets(event);
   }
 
-  onRouterActivate(event: any): void {
-    this.isEditing.set(event instanceof AddTicketComponent)
+  onRouterActivate<T>(component: T): void {
+    this.isEditing.set(component instanceof AddTicketComponent)
   }
 }

@@ -19,10 +19,10 @@ export class ProfileComponent {
   authStore = inject(AuthStore);
   user = computed(() => this.authStore.user()!)
   form = new FormGroup({
-    email: new FormControl<string>({ value: this.user()?.email!, disabled: true }, Validators.required),
-    name: new FormControl<string>(this.user()?.name!, Validators.required),
-    lastName: new FormControl<string>(this.user()?.lastName!, Validators.required),
-    permission: new FormControl<Permission>({ value: this.user()?.permission!, disabled: true }, Validators.required),
+    email: new FormControl<string>({ value: this.user().email || '', disabled: true }, Validators.required),
+    name: new FormControl<string>(this.user().name || '', Validators.required),
+    lastName: new FormControl<string>(this.user().lastName || '', Validators.required),
+    permission: new FormControl<Permission>({ value: this.user().permission || 'user', disabled: true }, Validators.required),
   });
 
   onSubmit(): void {

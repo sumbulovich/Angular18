@@ -1,4 +1,3 @@
-import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, DestroyRef, InputSignal, OnInit, Signal, WritableSignal, effect, inject, input, signal, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -57,7 +56,8 @@ export class AddTicketComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form().invalid) return;
-    this.ticket() ? this.editTicket() : this.addTicket();
+    if (this.ticket()) this.editTicket()
+    else this.addTicket();
   }
 
   addTicket(): void {

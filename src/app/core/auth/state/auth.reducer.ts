@@ -3,7 +3,7 @@ import { Permission } from "../models/authUser.model";
 import { AuthActions } from "./auth.actions";
 
 
-type AuthState = {
+interface AuthState {
   permission: Permission;
   inProgress: boolean;
   error: string | undefined;

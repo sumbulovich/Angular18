@@ -8,8 +8,6 @@ import { Observable } from 'rxjs';
 export class HttpService {
   httpClient: HttpClient = inject(HttpClient);
 
-  constructor() { }
-
   get<T>(
     url: string,
     params?: HttpParams,

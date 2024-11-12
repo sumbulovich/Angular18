@@ -3,7 +3,7 @@ import { CanMatchFn, RedirectCommand, Router } from '@angular/router';
 import { AuthStore } from '../state/auth.store';
 
 
-export const UnAuthGuard: CanMatchFn = (route, segments) => {
+export const UnAuthGuard: CanMatchFn = () => {
   const router = inject(Router);
   const authStore = inject(AuthStore);
   if (!authStore.isAuth()) return true;

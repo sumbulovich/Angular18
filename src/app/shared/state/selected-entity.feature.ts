@@ -2,7 +2,7 @@ import { computed } from '@angular/core';
 import { signalStoreFeature, type, withComputed, withState } from '@ngrx/signals';
 import { EntityId, EntityState } from '@ngrx/signals/entities';
 
-export type SelectedEntityState = { selectedEntityId: EntityId | undefined };
+export interface SelectedEntityState { selectedEntityId: EntityId | undefined };
 
 export function withSelectedEntity<Entity>() {
   return signalStoreFeature(

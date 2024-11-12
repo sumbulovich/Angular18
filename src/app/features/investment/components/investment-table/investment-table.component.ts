@@ -1,13 +1,12 @@
-import { CurrencyPipe, KeyValue, KeyValuePipe, JsonPipe } from '@angular/common';
-import { Component, InputSignal, OnInit, inject, input } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Component, InputSignal, input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { CurrencyTransformPipe } from '../../pipes/currency-converter.pipe';
-import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-investment-table',
   standalone: true,
-  imports: [CurrencyPipe, MatTableModule, CurrencyTransformPipe, KeyValuePipe, JsonPipe],
+  imports: [CurrencyPipe, MatTableModule, CurrencyTransformPipe],
   templateUrl: './investment-table.component.html',
   styleUrl: './investment-table.component.scss'
 })

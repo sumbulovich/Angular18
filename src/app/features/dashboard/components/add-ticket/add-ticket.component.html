@@ -13,7 +13,7 @@
     @if(!image.value) {
     <button mat-button type="button" (click)="filePicker.click()">Add image</button>
     } @else {
-    <img [src]="image.value" alt="image preview" class="mb-2 cursor-pointer" (click)="filePicker.click()">
+    <img [src]="image.value" alt="image preview" class="mb-2 cursor-pointer" (mousedown)="filePicker.click()">
     <button mat-button type="button" color="warn" (click)="onResetImage();">Remove image</button>
     }
     <input name="image" ngModel #image="ngModel" class="hidden">

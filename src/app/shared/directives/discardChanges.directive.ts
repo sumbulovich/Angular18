@@ -1,7 +1,6 @@
-import { Directive, Input, inject, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Input, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
-import { MatButton } from '@angular/material/button';
 
 @Directive({
   selector: '[discardChanges]',
@@ -13,10 +12,10 @@ import { MatButton } from '@angular/material/button';
 })
 export class DiscardChangesDirective {
   @Input() discardChangesDisabled?: boolean;
-  @Input() discardChangesMessage: string = 'Do you want discard changes?';
+  @Input() discardChangesMessage = 'Do you want discard changes?';
   private dialog = inject(MatDialog);
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   openDialog(event: MouseEvent): void {
     if (this.discardChangesDisabled) return;
@@ -32,4 +31,4 @@ export class DiscardChangesDirective {
       if (value) (this.el.nativeElement as any).click();
     });
   }
- }
+}

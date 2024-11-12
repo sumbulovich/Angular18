@@ -4,16 +4,15 @@ import { provideRouter, withComponentInputBinding, withRouterConfig } from '@ang
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideEffects } from '@ngrx/effects';
-import { patchState } from '@ngrx/signals';
 import { provideState, provideStore } from '@ngrx/store';
-import { catchError, delay, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { routes } from './app.routes';
+import { AuthUser } from './core/auth/models/authUser.model';
 import { AuthService } from './core/auth/services/auth.service';
 import { AuthStore } from './core/auth/state/auth.store';
 import { authInterceptor } from './core/http/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/http/interceptors/error.interceptor';
 import { layoutFeature } from './core/layout/state/layout.reducer';
-import { AuthUser } from './core/auth/models/authUser.model';
 
 export const appConfig: ApplicationConfig = {
   providers: [

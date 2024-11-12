@@ -1,19 +1,17 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, map } from 'rxjs';
-import { HttpService } from '@app/core/http/services/http.service';
-import { Ticket } from '../models/ticket.model';
 import { PageEvent } from '@angular/material/paginator';
+import { HttpService } from '@app/core/http/services/http.service';
 import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
+import { Ticket } from '../models/ticket.model';
 
 @Injectable()
 export class TicketsService {
   private httpService: HttpService = inject(HttpService);
-  private readonly url: string = `${environment.apiUrl}/api/tickets`;
-
-  constructor() { }
+  private readonly url = `${environment.apiUrl}/api/tickets`;
 
   getTickets(pageEvent?: PageEvent): Observable<{ tickets: Ticket[]; pageEvent: PageEvent; }> {
-    let query: string = '';
+    let query = '';
     if (pageEvent) query = new URLSearchParams(pageEvent as any).toString();
     return this.httpService.get<{ tickets: Ticket[], pageEvent: PageEvent }>(`${this.url}?${query}`)
   }

@@ -7,7 +7,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 export class LocalStorageService {
   localStorage?: Storage;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, @Inject(DOCUMENT) document: Document) {
+  constructor(@Inject(PLATFORM_ID) private platformId: object, @Inject(DOCUMENT) document: Document) {
     // Check if running in the browser or in the server (SSR)
     // isPlatformServer(platformId)
     if (isPlatformBrowser(this.platformId)) this.localStorage = document.defaultView?.localStorage;

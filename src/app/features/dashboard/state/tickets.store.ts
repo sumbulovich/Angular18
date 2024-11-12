@@ -1,20 +1,21 @@
-import { computed, inject } from "@angular/core";
+import { inject } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { withPagination } from "@app/shared/state/pagination.feature";
 import { setCompleted, setError, setLoading, withRequestStatus } from "@app/shared/state/request-status.feature";
+import { withSelectedEntity } from "@app/shared/state/selected-entity.feature";
+import { withStorageSync } from "@app/shared/state/storage-sync.feature";
 import { tapResponse } from "@ngrx/operators";
-import { patchState, signalState, signalStore, signalStoreFeature, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalState, signalStore, withHooks, withMethods, withState } from "@ngrx/signals";
 import { SelectEntityId, setAllEntities, setEntity, withEntities } from "@ngrx/signals/entities";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
 import { Ticket } from "../models/ticket.model";
 import { TicketsService } from "../services/tickets.service";
-import { withStorageSync } from "@app/shared/state/storage-sync.feature";
-import { withSelectedEntity } from "@app/shared/state/selected-entity.feature";
 
 
-type TicketsState = {
+interface TicketsState {
   // Custom Store properties
+  customProperty?: any
 }
 
 const initialSate = signalState<TicketsState>({});

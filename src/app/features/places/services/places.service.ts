@@ -9,8 +9,6 @@ export class PlacesService {
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = `${environment.apiUrl}/api/places`;
 
-  constructor() { }
-
   getPlaces(): Observable<Place[]> {
     return this.httpService.get<{ places: Place[] }>(`${this.url}`)
       .pipe((map((m) => m.places)));

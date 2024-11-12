@@ -1,15 +1,15 @@
 import { computed, effect, inject } from "@angular/core";
+import { Router } from "@angular/router";
 import { tapResponse } from "@ngrx/operators";
 import { getState, patchState, signalState, signalStore, signalStoreFeature, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { pipe, switchMap, tap } from "rxjs";
-import { AuthUser, Permission } from "../models/authUser.model";
-import { AuthService } from "../services/auth.service";
-import { Router } from "@angular/router";
 import { CookieService } from 'ngx-cookie-service';
+import { pipe, switchMap, tap } from "rxjs";
+import { AuthUser } from "../models/authUser.model";
+import { AuthService } from "../services/auth.service";
 
 
-type AuthState = {
+interface AuthState {
   user: AuthUser | undefined,
   inProgress: boolean;
   isLoading: boolean;

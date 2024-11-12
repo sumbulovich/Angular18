@@ -1,8 +1,8 @@
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpService } from '@app/core/http/services/http.service';
-import { Observable, delay, map, of } from 'rxjs';
-import { AuthUser, Permission } from '../models/authUser.model';
 import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
+import { AuthUser } from '../models/authUser.model';
 
 @Injectable({
   providedIn: 'root'

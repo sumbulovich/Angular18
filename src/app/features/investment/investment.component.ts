@@ -26,7 +26,7 @@ export class InvestmentComponent implements OnInit {
   dataSource: WritableSignal<Record<string, number>[]> = signal<Record<string, number>[]>([]);
   currencyService: CurrencyService = inject(CurrencyService);
   currencies: string[] = [];
-  currency: string = 'EUR';
+  currency = 'EUR';
   currencyMap: Record<string, number> = {};
 
   ngOnInit(): void {

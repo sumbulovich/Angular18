@@ -1,10 +1,9 @@
-import { Directive, Input, inject, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Input, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
-import { MatButton } from '@angular/material/button';
 
 @Directive({
-  selector: '[saveChanges]',
+  selector: 'a[saveChanges]',
   standalone: true,
   host: {
     '(mousedown)': 'openDialog($event)'
@@ -13,10 +12,10 @@ import { MatButton } from '@angular/material/button';
 })
 export class SaveChangesDirective {
   @Input() saveChangesDisabled?: boolean;
-  @Input() saveChangesMessage: string = 'Do you want save changes?';
+  @Input() saveChangesMessage = 'Do you want save changes?';
   private dialog = inject(MatDialog);
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   openDialog(event: MouseEvent): void {
     if (this.saveChangesDisabled) return;
@@ -32,4 +31,4 @@ export class SaveChangesDirective {
       if (value) (this.el.nativeElement as any).click();
     });
   }
- }
+}

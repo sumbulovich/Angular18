@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRouteSnapshot, CanDeactivateFn, ResolveFn, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, CanDeactivateFn, ResolveFn, Routes } from '@angular/router';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { filter } from 'rxjs';
 import { AddTicketComponent } from './components/add-ticket/add-ticket.component';
 import { Ticket } from './models/ticket.model';
 import { TicketsStore } from './state/tickets.store';
 
-const resolveUser: ResolveFn<Ticket | undefined> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
+const resolveUser: ResolveFn<Ticket | undefined> = (activatedRoute: ActivatedRouteSnapshot) => {
   const ticketsStore = inject(TicketsStore);
   const ticketId = activatedRoute.paramMap.get('ticketId');
   if (ticketId) ticketsStore.setSelectedEntityId(ticketId);

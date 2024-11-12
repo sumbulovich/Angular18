@@ -1,18 +1,18 @@
-import { DOCUMENT, AsyncPipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, InputSignal, OutputEmitterRef, Signal, ViewChild, ViewEncapsulation, inject, input, output, viewChild } from '@angular/core';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Inject, InputSignal, OutputEmitterRef, Signal, inject, input, output, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Store, provideState } from '@ngrx/store';
+import { RouterModule } from '@angular/router';
+import { AuthDirective } from '@app/core/auth/directives/auth.directive';
+import { AuthStore } from '@app/core/auth/state/auth.store';
+import { LocalStorageService } from '@app/shared/services/local-storage.service';
+import { Store } from '@ngrx/store';
 import { Observable, delay } from 'rxjs';
 import { setDarkTheme } from '../../state/layout.actions';
 import { layoutFeature } from '../../state/layout.reducer';
-import { RouterModule } from '@angular/router';
-import { AuthStore } from '@app/core/auth/state/auth.store';
-import { AuthDirective } from '@app/core/auth/directives/auth.directive';
 import { AccountComponent } from "../account/account.component";
-import { LocalStorageService } from '@app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-header',

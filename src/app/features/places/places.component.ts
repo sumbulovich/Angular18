@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -10,14 +9,14 @@ import { UserPlacesStore } from './state/userPlaces.store';
 
 @Component({
   standalone: true,
-  imports: [EllipsisTooltipDirective, MatTooltipModule, MatProgressSpinnerModule, MatCardModule, JsonPipe],
+  imports: [EllipsisTooltipDirective, MatTooltipModule, MatProgressSpinnerModule, MatCardModule],
   templateUrl: './places.component.html',
   styleUrl: './places.component.scss'
 })
 export class PlacesComponent implements OnInit {
   placesStore = inject(PlacesStore);
   userPlacesStore = inject(UserPlacesStore);
-  urlImages: string = `${environment.apiUrl}/public/places/`;
+  urlImages = `${environment.apiUrl}/public/places/`;
 
   ngOnInit(): void {
     this.placesStore.loadPlaces();
