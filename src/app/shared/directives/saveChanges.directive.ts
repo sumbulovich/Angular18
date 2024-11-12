@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
 
 @Directive({
-  selector: 'a[saveChanges]',
+  selector: '[saveChanges]',
   standalone: true,
   host: {
     '(mousedown)': 'openDialog($event)'

@@ -24,11 +24,11 @@ const routes: Routes = [{
 {
   path: ':userId',
   loadComponent: () => import('./components/tasks/tasks.component').then(m => m.TasksComponent),
+  // runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   resolve: {
     user: resolveUser
   },
   title: resolveTitle,
-  // runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   children: [
     {
       path: 'not-found',
