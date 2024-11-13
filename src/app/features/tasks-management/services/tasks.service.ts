@@ -12,35 +12,35 @@ export class TasksService {
   getUserTask(userId: string): void {
     this.httpService.get<Task[]>(`${this.url}/${userId}`).subscribe({
       next: (tasks) => this.tasks.set(tasks),
-      // error: () => { }
+      error: () => { /* Error catch by errorInterceptor */ }
     });
   }
 
   deleteTask(task: Task): void {
     this.httpService.delete<Task>(`${this.url}/${task._id}`).subscribe({
       next: () => this.tasks.update((tasks) => tasks.filter((f) => f._id !== task._id)),
-      // error: () => { }
+      error: () => { /* Error catch by errorInterceptor */ }
     });
   }
 
   addTask(task: Task): void {
     this.httpService.post<Task>(`${this.url}`, task).subscribe({
       next: () => this.tasks.update((tasks) => [...tasks, task]),
-      // error: () => { }
+      error: () => { /* Error catch by errorInterceptor */ }
     });
   }
 
   editTask(task: Task): void {
     this.httpService.put<Task>(`${this.url}`, task).subscribe({
       next: () => this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m)),
-      // error: () => { }
+      error: () => { /* Error catch by errorInterceptor */ }
     });
   }
 
   editTaskStatus(task: Task): void {
     this.httpService.put<Task>(`${this.url}/status/${task._id}`, { status: task.status }).subscribe({
       next: () => this.tasks.update((tasks) => tasks.map((m) => m._id === task._id ? task : m)),
-      // error: () => { }
+      error: () => { /* Error catch by errorInterceptor */ }
     });
   }
 }
