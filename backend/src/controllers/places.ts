@@ -18,31 +18,27 @@ export const getUserPlaces = async (req: Request, res: Response) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const fileContent = await fs.readFile(`${dataPath()}/user-places.json`);
+  const placesData = JSON.parse(fileContent.toString());
 
-  const places = JSON.parse(fileContent.toString());
-
-  res.status(200).json({ places });
+  res.status(200).json({ places: placesData });
 }
 
 export const addUserPlace = async (req: Request, res: Response) => {
-  const placeId = req.body.placeId;
-
   const fileContent = await fs.readFile(`${dataPath()}/places.json`);
   const placesData = JSON.parse(fileContent.toString());
 
-  const place = placesData.find((place: Place) => place.id === placeId);
+  const fileContent2 = await fs.readFile(`${dataPath()}/user-places.json`);
+  const userPlacesData = JSON.parse(fileContent2.toString());
 
-  const userPlacesFileContent = await fs.readFile(`${dataPath()}/user-places.json`);
-  const userPlacesData = JSON.parse(userPlacesFileContent.toString());
+  const place = placesData.find((place: Place) => place.id === req.body.placeId);
 
   let updatedUserPlaces = userPlacesData;
-
   if (!userPlacesData.some((p: Place) => p.id === place.id)) {
     updatedUserPlaces = [...userPlacesData, place];
   }
 
   await fs.writeFile(
-    "./data/user-places.json",
+    `${dataPath()}/user-places.json`,
     JSON.stringify(updatedUserPlaces)
   );
 
@@ -53,16 +49,10 @@ export const deleteUserPlace = async (req: Request, res: Response) => {
   const userPlacesFileContent = await fs.readFile("./data/user-places.json");
   const userPlacesData = JSON.parse(userPlacesFileContent.toString());
 
-  const placeIndex = userPlacesData.findIndex((place: Place) => place.id.toString() === req.params['id']);
-
-  let updatedUserPlaces = userPlacesData;
-
-  if (placeIndex >= 0) {
-    updatedUserPlaces.splice(placeIndex, 1);
-  }
+  const updatedUserPlaces = userPlacesData.filter((place: Place) => place.id.toString() !== req.params['id']);
 
   await fs.writeFile(
-    "./data/user-places.json",
+    `${dataPath()}/user-places.json`,
     JSON.stringify(updatedUserPlaces)
   );
 
