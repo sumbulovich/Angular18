@@ -26,34 +26,34 @@ exports.getPlaces = getPlaces;
 const getUserPlaces = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield new Promise((resolve) => setTimeout(resolve, 1000));
     const fileContent = yield promises_1.default.readFile(`${dataPath()}/user-places.json`);
-    const places = JSON.parse(fileContent.toString());
-    res.status(200).json({ places });
+    const placesData = JSON.parse(fileContent.toString());
+    res.status(200).json({ places: placesData });
 });
 exports.getUserPlaces = getUserPlaces;
 const addUserPlace = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const placeId = req.body.placeId;
     const fileContent = yield promises_1.default.readFile(`${dataPath()}/places.json`);
     const placesData = JSON.parse(fileContent.toString());
-    const place = placesData.find((place) => place.id === placeId);
-    const userPlacesFileContent = yield promises_1.default.readFile(`${dataPath()}/user-places.json`);
-    const userPlacesData = JSON.parse(userPlacesFileContent.toString());
+    const fileContent2 = yield promises_1.default.readFile(`${dataPath()}/user-places.json`);
+    const userPlacesData = JSON.parse(fileContent2.toString());
+    const place = placesData.find((place) => place.id === req.body.placeId);
     let updatedUserPlaces = userPlacesData;
     if (!userPlacesData.some((p) => p.id === place.id)) {
         updatedUserPlaces = [...userPlacesData, place];
     }
-    yield promises_1.default.writeFile("./data/user-places.json", JSON.stringify(updatedUserPlaces));
+    yield promises_1.default.writeFile(`${dataPath()}/user-places.json`, JSON.stringify(updatedUserPlaces));
     res.status(200).json({ userPlaces: updatedUserPlaces });
 });
 exports.addUserPlace = addUserPlace;
 const deleteUserPlace = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userPlacesFileContent = yield promises_1.default.readFile("./data/user-places.json");
+    const userPlacesFileContent = yield promises_1.default.readFile(`${dataPath()}/user-places.json`);
     const userPlacesData = JSON.parse(userPlacesFileContent.toString());
-    const placeIndex = userPlacesData.findIndex((place) => place.id.toString() === req.params['id']);
-    let updatedUserPlaces = userPlacesData;
-    if (placeIndex >= 0) {
-        updatedUserPlaces.splice(placeIndex, 1);
+    const updatedUserPlaces = userPlacesData.filter((place) => place.id.toString() !== req.params['id']);
+    try {
+        yield promises_1.default.writeFile(`${dataPath()}/user-places.json`, JSON.stringify(updatedUserPlaces));
     }
-    yield promises_1.default.writeFile("./data/user-places.json", JSON.stringify(updatedUserPlaces));
+    catch (err) {
+        res.status(500).json(err);
+    }
     res.status(200).json({ userPlaces: updatedUserPlaces });
 });
 exports.deleteUserPlace = deleteUserPlace;
