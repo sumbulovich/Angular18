@@ -6,6 +6,10 @@ import tasksRouter from "./routes/tasks"
 import authRouter from "./routes/auth"
 import mongoose from "mongoose";
 import path from "path";
+import dotenv from 'dotenv';
+
+// Use environment variables
+dotenv.config({ path: '.env.local' });
 
 const app = express();
 
@@ -13,10 +17,11 @@ const app = express();
 app.use('/public', express.static(path.join(__dirname, '../public')));
 app.use('/data', express.static(path.join(__dirname, '../data')));
 
+// Connect to MongoDB
 // usr: sumbulovich
-// psw: XsOK5tjiV58UrwSi
+// psw: process.env['MONGODB_PSW']
 // DB: test
-mongoose.connect("mongodb+srv://sumbulovich:XsOK5tjiV58UrwSi@cluster0.rqulk.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect(`mongodb+srv://sumbulovich:${process.env['MONGODB_PSW']}@cluster0.rqulk.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0`)
   .then(() => console.log('Connected to testDB database'))
   .catch(() => console.log('Connected failed'));
 

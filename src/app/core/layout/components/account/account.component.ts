@@ -1,12 +1,13 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
+import { AuthDirective } from '@app/core/auth/directives/auth.directive';
 import { AuthStore } from '@app/core/auth/state/auth.store';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [RouterModule, MatMenuModule],
+  imports: [RouterModule, MatMenuModule, AuthDirective],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })

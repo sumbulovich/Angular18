@@ -1,39 +1,25 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, inject, OnDestroy } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, inject, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthStore } from '@app/core/auth/state/auth.store';
+import { RouterOutlet } from '@angular/router';
+import { map, Observable } from 'rxjs';
 import { HeaderComponent } from './core/layout/components/header/header.component';
 import { SidenavComponent } from './core/layout/components/sidenav/sidenav.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, HeaderComponent, MatSidenavModule, MatListModule, SidenavComponent],
+  imports: [RouterOutlet, HeaderComponent, MatSidenavModule, SidenavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnDestroy {
-  darkMediaQuery: MediaQueryList;
-  mobileMediaQuery: MediaQueryList;
-  routes: Routes = [];
-  private _mobileQueryListener: () => void;
-  readonly authStore = inject(AuthStore);
+export class AppComponent {
+  private breakpointObserver = inject(BreakpointObserver);
+  // Observable for media query matches
+  isMobile$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(
+    map((result) => result.matches)) // Map the result to a boolean
 
-  constructor(changeDetectorRef: ChangeDetectorRef, mediaMatcher: MediaMatcher) {
-    // Set Dark theme
-    this.darkMediaQuery = mediaMatcher.matchMedia('(prefers-color-scheme: dark)');
-
-    // Toggle sidenav
-    this.mobileMediaQuery = mediaMatcher.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    if (this.mobileMediaQuery?.addEventListener) this.mobileMediaQuery.addEventListener('change', this._mobileQueryListener);
-    else this.mobileMediaQuery.addListener(this._mobileQueryListener);
-  }
-
-  ngOnDestroy(): void {
-    if (this.mobileMediaQuery?.removeEventListener) this.mobileMediaQuery.removeEventListener('change', this._mobileQueryListener);
-    else this.mobileMediaQuery.removeListener(this._mobileQueryListener);
-  }
+  // Convert Observable to Signal (Also read about toObservable())
+  isMobile: Signal<boolean> = toSignal(this.isMobile$, { initialValue: false });
 }

@@ -8,7 +8,6 @@
 
 # Node
 /node_modules
-/backend/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -42,3 +41,6 @@ testem.log
 .DS_Store
 Thumbs.db
 .vercel
+
+#Custom
+/backend
