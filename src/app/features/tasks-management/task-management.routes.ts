@@ -23,16 +23,14 @@ const routes: Routes = [{
 },
 {
   path: ':userId',
-  loadComponent: () => import('./components/tasks/tasks.component').then(m => m.TasksComponent),
+  loadComponent: () => import('./pages/tasks/tasks.component').then(m => m.TasksComponent),
   // runGuardsAndResolvers: 'paramsOrQueryParamsChange',
-  resolve: {
-    user: resolveUser
-  },
+  resolve: { user: resolveUser },
   title: resolveTitle,
   children: [
     {
       path: 'not-found',
-      loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent),
+      loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
     }
   ]
 }]

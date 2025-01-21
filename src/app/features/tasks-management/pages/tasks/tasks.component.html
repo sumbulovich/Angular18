@@ -1,0 +1,56 @@
+<mat-card appearance="outlined">
+  @if(user(); as user) {
+  <mat-card-header class="flex flex-row justify-between items-center mb-3">
+    <mat-card-title class="flex flex-row items-center">
+      <p ellipsisTooltip matTooltip class="!mb-0">{{ user.name }}'s Tasks</p>
+      <app-info text="User is injected as InputSignal via resolvers and withComponentInputBinding" />
+    </mat-card-title>
+    <div class="flex flex-row">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="small-4 me-2">
+        <mat-label>Filter by:</mat-label>
+        <mat-icon matSuffix color="primary"
+          matTooltip="Use a WritableSignal to update the value via two-way binding">info</mat-icon>
+        <!-- Use signals in ngModel -->
+        <mat-select [(ngModel)]="filter">
+          <mat-option value="all">All</mat-option>
+          <mat-option value="open">Open</mat-option>
+          <mat-option value="in progress">In progress</mat-option>
+          <mat-option value="done">Done</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.user()?.permission === 'admin'">
+        <button mat-stroked-button (click)="openAddTaskDialog()" class="whitespace-nowrap"
+          [disabled]="authStore.user()?.permission !== 'admin'">
+          Add Task
+          @if (authStore.user()?.permission === 'admin') {
+          <mat-icon color="primary" iconPositionEnd
+            matTooltip="Button is enabled depending user's permissions">info</mat-icon>
+          }
+        </button>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="flex flex-row justify-between items-center mb-2">
+      <p class="!mb-0">Only the creator user can edit or delete the task created by them</p>
+      <div class="flex flex-row">
+        <app-sort [order]="order()" />
+        <app-info text="User is injected as InputSignal via queryParams and withComponentInputBinding" />
+      </div>
+    </div>
+    @for (task of tasks(); track task._id) {
+    <section class="mb-3">
+      <app-task [task]="task" (taskChange)="editTaskStatus($event)" (edit)="openAddTaskDialog(task)"
+        (delete)="deleteTask(task)" [authUser]="authStore.user()" />
+    </section>
+    } @empty {
+    <i>No task assigned for this user</i>
+    }
+  </mat-card-content>
+  } @else {
+  <div class="p-4">
+    <h2 class="mat-headline-medium">Not found!</h2>
+    <p>Unfortunately, the requested resource for the userId <strong>{{userId()}}</strong> could not be found 😔</p>
+  </div>
+  }
+</mat-card>

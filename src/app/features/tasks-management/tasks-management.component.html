@@ -5,6 +5,10 @@
     }
   </aside>
   <div class="flex-1 overflow-hidden">
+    <header class="flex flex-row">
+      <h1 class="mat-headline-large">{{ title() }}</h1>
+      <app-info text="Title is injected as InputSignal via route.data and withComponentInputBinding"/>
+    </header>
     <router-outlet></router-outlet>
   </div>
 </div>

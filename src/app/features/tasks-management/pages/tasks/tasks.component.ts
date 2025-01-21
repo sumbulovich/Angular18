@@ -1,4 +1,3 @@
-import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, computed, effect, inject, input, InputSignal, signal, Signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,17 +11,18 @@ import { DialogComponent } from '@app/shared/components/dialog/dialog.component'
 import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip.directive';
 import { take } from 'rxjs';
 import { User } from '../../models/user.model';
-import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { Task, TaskStatus } from '../../models/task.model';
 import { TasksService } from '../../services/tasks.service';
-import { TaskComponent } from '../task/task.component';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { TaskComponent } from '../../components/task/task.component';
+import { TaskDialogComponent } from '../../components/task-dialog/task-dialog.component';
+import { InfoComponent } from "../../../../shared/components/info/info.component";
+import { SortComponent } from "../../../../shared/components/sort/sort.component";
 
 @Component({
-  selector: 'app-tasks',
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatTooltipModule, MatFormFieldModule, MatSelectModule, EllipsisTooltipDirective, TaskComponent, JsonPipe, FormsModule, RouterOutlet, MatIconModule, RouterLink],
+  imports: [MatButtonModule, MatCardModule, MatTooltipModule, MatFormFieldModule, MatSelectModule, EllipsisTooltipDirective, TaskComponent, FormsModule, RouterOutlet, MatIconModule, RouterLink, InfoComponent, SortComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
@@ -31,13 +31,12 @@ export class TasksComponent {
   readonly router = inject(Router);
   private tasksService: TasksService = inject(TasksService);
   private dialog: MatDialog = inject(MatDialog);
-  filter: WritableSignal<TaskStatus | 'all'> = signal<TaskStatus | 'all'>('all')
+  filter: WritableSignal<TaskStatus | 'all'> = signal<TaskStatus | 'all'>('all');
 
   // These inputs are gotten from ActivatedRoute (params, queryParams, data, resolves) (withComponentInputBinding)
   // This approach doesn't need access to activatedRoute
   userId: InputSignal<string> = input.required<string>(); // Params
   order: InputSignal<'asc' | 'desc'> = input<'asc' | 'desc'>('desc'); // QueryParams
-  title: InputSignal<string | undefined> = input<string>(); // Data
   user: InputSignal<User | undefined> = input<User>(); // Resolvers
 
   tasks: Signal<Task[]> = computed(() => {

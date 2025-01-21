@@ -6,6 +6,7 @@ import { Task } from '../models/task.model';
 @Injectable()
 export class TasksService {
   public readonly tasks: WritableSignal<Task[]> = signal<Task[]>([]);
+  public readonly isLoading: WritableSignal<Task[]> = signal<Task[]>([]);
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = `${environment.apiUrl}/api/tasks`;
 

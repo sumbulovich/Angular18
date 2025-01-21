@@ -1,3 +1,4 @@
+{{ task().creator }} {{ authUser()?._id }}
 <mat-card appearance="outlined">
   <mat-card-header class="flex flex-row justify-between items-center">
     <mat-card-title>
@@ -15,10 +16,10 @@
   </mat-card-content>
   <mat-card-actions class="justify-between">
     <div class="flex">
-      <div matTooltip="Only available for logged users" [matTooltipDisabled]="authStore.user()?.permission === 'user'">
+      <div matTooltip="Only available for logged users" [matTooltipDisabled]="authUser()?.permission === 'user'">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="small-5">
           <mat-label>Status</mat-label>
-          <mat-select [value]="task().status" [disabled]="authStore.user()?.permission !== 'user'"
+          <mat-select [value]="task().status" [disabled]="authUser()?.permission !== 'user'"
             (valueChange)="updateStatus($event)">
             <mat-option value="open">Open</mat-option>
             <mat-option value="in progress">In progress</mat-option>
@@ -27,15 +28,15 @@
         </mat-form-field>
       </div>
     </div>
-    @if (task().creator === authStore.user()?._id) {
+    @if (task().creator === authUser()?._id) {
     <div class="flex">
-      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.user()?.permission === 'admin'">
+      <div matTooltip="Only available for admins" [matTooltipDisabled]="authUser()?.permission === 'admin'">
         <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()"
-          [disabled]="authStore.user()?.permission !== 'admin'">Edit</button>
+          [disabled]="authUser()?.permission !== 'admin'">Edit</button>
       </div>
-      <div matTooltip="Only available for admins" [matTooltipDisabled]="authStore.user()?.permission === 'admin'">
+      <div matTooltip="Only available for admins" [matTooltipDisabled]="authUser()?.permission === 'admin'">
         <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()"
-          [disabled]="authStore.user()?.permission !== 'admin'">Delete</button>
+          [disabled]="authUser()?.permission !== 'admin'">Delete</button>
       </div>
     </div>
     }

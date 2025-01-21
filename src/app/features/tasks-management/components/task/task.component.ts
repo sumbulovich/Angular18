@@ -1,5 +1,5 @@
 import { DatePipe, registerLocaleData } from '@angular/common';
-import { Component, LOCALE_ID, ModelSignal, OutputEmitterRef, computed, inject, model, output } from '@angular/core';
+import { Component, InputSignal, LOCALE_ID, ModelSignal, OutputEmitterRef, computed, inject, input, model, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,7 @@ import { EllipsisTooltipDirective } from '@app/shared/directives/ellipsisTooltip
 import { Task, TaskStatus } from '../../models/task.model';
 // Registerer new local
 import localeEs from '@angular/common/locales/es';
+import { AuthUser } from '@app/core/auth/models/authUser.model';
 registerLocaleData(localeEs);
 
 @Component({
@@ -29,11 +30,11 @@ registerLocaleData(localeEs);
   ]
 })
 export class TaskComponent {
+  authUser: InputSignal<AuthUser | undefined> = input<AuthUser>()
   task: ModelSignal<Task> = model.required<Task>();
   delete: OutputEmitterRef<void> = output<void>();
   edit: OutputEmitterRef<void> = output<void>();
   isExpired = computed(() => new Date(this.task().dueDate).getTime() < new Date().getTime())
-  readonly authStore = inject(AuthStore);
 
   updateStatus(status: TaskStatus): void {
     this.task.update((task) => ({ ...task, status }));
