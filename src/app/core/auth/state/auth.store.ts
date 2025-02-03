@@ -10,7 +10,7 @@ import { AuthService } from "../services/auth.service";
 
 
 interface AuthState {
-  user: AuthUser | undefined,
+  user: Partial<AuthUser> | undefined,
   inProgress: boolean;
   isLoading: boolean;
   error: string | undefined;
@@ -49,10 +49,10 @@ export const AuthStore = signalStore(
         })
       )
     ),
-    signup: rxMethod<AuthUser>(
+    signup: rxMethod<Partial<AuthUser>>(
       pipe(
         tap(() => patchState(authState, { inProgress: true, error: undefined })),
-        switchMap((user: AuthUser) => {
+        switchMap((user: Partial<AuthUser>) => {
           return authService.signup(user).pipe(
             tapResponse({
               next: () => router.navigate([], { queryParams: { success: user.email } }),
@@ -87,7 +87,7 @@ export const AuthStore = signalStore(
       if (token) patchState(authState, { user: { token } }); // Save token for AuthInterceptor
     },
     setProfile(user: AuthUser): void {
-      patchState(authState, { user }); // Save token for AuthInterceptor
+      patchState(authState, { user: { ...authState.user(), ...user} }); // Save token for AuthInterceptor
     }
   })),
   // withHooks({

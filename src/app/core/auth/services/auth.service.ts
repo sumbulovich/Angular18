@@ -11,7 +11,7 @@ export class AuthService {
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = `${environment.apiUrl}/api/auth`;
 
-  signup(user: AuthUser): Observable<void> {
+  signup(user: Partial<AuthUser>): Observable<void> {
     return this.httpService.post<void>(`${this.url}/signup`, user)
   }
 

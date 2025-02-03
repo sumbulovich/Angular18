@@ -31,6 +31,12 @@
     </div>
   </mat-card-header>
   <mat-card-content>
+    @if (isLoading()) {
+    <div class="flex justify-center mt-3">
+      <mat-spinner></mat-spinner>
+    </div>
+    } @else {
+    @if (tasks().length) {
     <div class="flex flex-row justify-between items-center mb-2">
       <p class="!mb-0">Only the creator user can edit or delete the task created by them</p>
       <div class="flex flex-row">
@@ -38,6 +44,7 @@
         <app-info text="User is injected as InputSignal via queryParams and withComponentInputBinding" />
       </div>
     </div>
+    }
     @for (task of tasks(); track task._id) {
     <section class="mb-3">
       <app-task [task]="task" (taskChange)="editTaskStatus($event)" (edit)="openAddTaskDialog(task)"
@@ -45,6 +52,7 @@
     </section>
     } @empty {
     <i>No task assigned for this user</i>
+    }
     }
   </mat-card-content>
   } @else {

@@ -1,14 +1,22 @@
-<div class="flex flex-row gap-4">
-  <aside class="flex flex-col gap-2">
-    @for (user of users; track user._id) {
-    <app-user [user]="user" />
-    }
-  </aside>
-  <div class="flex-1 overflow-hidden">
+<mat-sidenav-container class="flex-1">
+  <mat-sidenav #sidenav [mode]="isMobile() ? 'over' : 'side'" [fixedInViewport]="isMobile()"
+    fixedTopGap="56" [opened]="!isMobile()" class="py-4 pr-4">
+    <nav class="flex flex-col gap-2">
+      @for (user of users; track user._id) {
+      <app-user [user]="user" (click)="sidenav.close()" />
+      }
+    </nav>
+  </mat-sidenav>
+  <mat-sidenav-content>
     <header class="flex flex-row">
+      @if (isMobile()) {
+        <button mat-icon-button (click)="sidenav.toggle()" class="mr-1">
+          <mat-icon>menu</mat-icon>
+        </button>
+        }
       <h1 class="mat-headline-large">{{ title() }}</h1>
       <app-info text="Title is injected as InputSignal via route.data and withComponentInputBinding"/>
     </header>
     <router-outlet></router-outlet>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

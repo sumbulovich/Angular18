@@ -1,4 +1,4 @@
-import { createFeature, createReducer, on } from "@ngrx/store";
+import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { setBreakpoint, setDarkTheme } from "./layout.actions";
 import { Breakpoints } from "@angular/cdk/layout";
 
@@ -20,5 +20,11 @@ const reducer = createReducer(
 
 export const layoutFeature = createFeature({
   name: 'layoutFeature',
-  reducer
+  reducer,
+  extraSelectors: ({ selectBreakpoint }) => ({
+    selectIsMobile: createSelector(
+      selectBreakpoint,
+      (breakpoint) => [Breakpoints.Small, Breakpoints.XSmall].includes(breakpoint),
+    ),
+  }),
 });

@@ -3,3 +3,9 @@
 ._header {
   @include mixins.theme-color(background-color, primary, 80);
 }
+
+@media (min-width: 600px) and (max-width: 959.98px) {
+  .mat-toolbar-row, .mat-toolbar-single-row {
+      height: var(--mat-toolbar-mobile-height);
+  }
+}

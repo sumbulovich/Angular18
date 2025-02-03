@@ -1,26 +1,32 @@
-import { JsonPipe } from '@angular/common';
-import { Component, DestroyRef, InputSignal, OnInit, inject, input } from '@angular/core';
+import { Component, DestroyRef, InputSignal, OnInit, PLATFORM_ID, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { Task, TaskStatus } from '../../models/task.model';
+import { getBrowserLocale } from '@app/shared/utils/locale.utils';
 
 @Component({
   standalone: true,
-  providers: [provideNativeDateAdapter()],
+  providers: [
+    provideNativeDateAdapter(),
+    {
+      provide: MAT_DATE_LOCALE,
+      deps: [PLATFORM_ID],
+      useFactory: getBrowserLocale
+    }
+  ],
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    JsonPipe
   ],
   templateUrl: './task-dialog.component.html',
-  styleUrl: './task-dialog.component.scss'
+  styleUrl: './task-dialog.component.scss',
 })
 export class TaskDialogComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
