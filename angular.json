@@ -188,6 +188,7 @@
       "@angular-eslint/schematics",
       "@cypress/schematic",
       "@schematics/angular"
-    ]
+    ],
+    "analytics": false
   }
 }

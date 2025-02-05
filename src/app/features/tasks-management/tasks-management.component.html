@@ -3,7 +3,7 @@
     fixedTopGap="56" [opened]="!isMobile()" class="py-4 pr-4">
     <nav class="flex flex-col gap-2">
       @for (user of users; track user._id) {
-      <app-user [user]="user" (click)="sidenav.close()" />
+      <app-user [user]="user" />
       }
     </nav>
   </mat-sidenav>
