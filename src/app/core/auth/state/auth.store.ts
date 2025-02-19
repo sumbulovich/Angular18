@@ -6,7 +6,7 @@ import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { CookieService } from 'ngx-cookie-service';
 import { pipe, switchMap, tap } from "rxjs";
 import { AuthUser } from "../models/authUser.model";
-import { AuthService } from "../services/auth.service";
+import { AuthGraphqlService } from "../services/authGraphql.service";
 
 
 interface AuthState {
@@ -30,7 +30,7 @@ export const AuthStore = signalStore(
   withComputed((authState) => ({
     isAuth: computed(() => !!authState.user()),
   })),
-  withMethods((authState, authService = inject(AuthService), cookieService = inject(CookieService), router = inject(Router)) => ({
+  withMethods((authState, authService = inject(AuthGraphqlService), cookieService = inject(CookieService), router = inject(Router)) => ({
     login: rxMethod<{ email: string, password: string }>(
       pipe(
         tap(() => patchState(authState, { inProgress: true, error: undefined })),
