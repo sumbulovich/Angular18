@@ -39,6 +39,12 @@ export const routes: Routes = [
     providers: [PlacesStore, UserPlacesStore, PlacesService]
   },
   {
+    path: 'library',
+    data: { title: 'Library' },
+    loadComponent: () => import('./features/library/library.component').then(m => m.LibraryComponent),
+    title: 'Library'
+  },
+  {
     path: 'login',
     // Feature-level effects and features are registered here
     // providers: [

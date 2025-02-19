@@ -79,8 +79,8 @@ export const AuthStore = signalStore(
     ),
     logout(error?: string): void {
       patchState(authState, { user: undefined });
-      router.navigate(['login'], { queryParams: { error } });
       cookieService.delete('token');
+      router.navigate(['login'], { queryParams: { error } });
     },
     checkSession(): void {
       const token = cookieService.get('token');

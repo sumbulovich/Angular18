@@ -1,4 +1,3 @@
-import { Breakpoints } from '@angular/cdk/layout';
 import { Component, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
