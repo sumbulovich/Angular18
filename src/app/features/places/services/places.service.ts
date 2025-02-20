@@ -10,22 +10,28 @@ export class PlacesService {
   private readonly url: string = `${environment.apiUrl}/api/places`;
 
   getPlaces(): Observable<Place[]> {
-    return this.httpService.get<{ places: Place[] }>(`${this.url}`)
-      .pipe((map((m) => m.places)));
+    return this.httpService
+      .get<{ places: Place[] }>(`${this.url}`)
+      .pipe(map((m) => m.places));
   }
 
   getUserPlaces(): Observable<Place[]> {
-    return this.httpService.get<{ places: Place[] }>(`${this.url}/user-places`)
-      .pipe((map((m) => m.places)));
+    return this.httpService
+      .get<{ places: Place[] }>(`${this.url}/user-places`)
+      .pipe(map((m) => m.places));
   }
 
   addUserPlace(place: Place): Observable<Place[]> {
-    return this.httpService.put<{ userPlaces: Place[] }>(`${this.url}/user-places`, { placeId: place.id })
-      .pipe((map((m) => m.userPlaces)));
+    return this.httpService
+      .put<{
+        userPlaces: Place[];
+      }>(`${this.url}/user-places`, { placeId: place.id })
+      .pipe(map((m) => m.userPlaces));
   }
 
   deleteUserPlace(place: Place): Observable<Place[]> {
-    return this.httpService.delete<{ userPlaces: Place[] }>(`${this.url}/user-places/${place.id}`)
-      .pipe((map((m) => m.userPlaces)));
+    return this.httpService
+      .delete<{ userPlaces: Place[] }>(`${this.url}/user-places/${place.id}`)
+      .pipe(map((m) => m.userPlaces));
   }
 }

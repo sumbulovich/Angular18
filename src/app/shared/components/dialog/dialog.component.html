@@ -6,13 +6,20 @@
 </div>
 <mat-dialog-content>
   @if (data?.content; as content) {
-  <p [innerHTML]="content"></p>
+    <p [innerHTML]="content"></p>
   }
-  <ng-container *ngComponentOutlet="data?.component; inputs: data?.componentInputs" />
+  <ng-container
+    *ngComponentOutlet="data?.component; inputs: data?.componentInputs"
+  />
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button cdkFocusInitial [color]="data?.btnColor" (click)="onSubmit()">
-    {{ data?.btnText || 'Confirm' }}
+  <button
+    mat-flat-button
+    cdkFocusInitial
+    [color]="data?.btnColor"
+    (click)="onSubmit()"
+  >
+    {{ data?.btnText || "Confirm" }}
   </button>
   <button mat-stroked-button [mat-dialog-close]="false">Cancel</button>
 </mat-dialog-actions>

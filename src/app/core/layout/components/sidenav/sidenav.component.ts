@@ -9,7 +9,7 @@ import { routes } from '@app/app.routes';
   standalone: true,
   imports: [MatSidenavModule, MatListModule, RouterModule],
   templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.scss'
+  styleUrl: './sidenav.component.scss',
 })
 export class SidenavComponent {
   routes = routes;

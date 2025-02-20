@@ -1,14 +1,18 @@
 <mat-accordion>
   @for (ticket of ticketsStore.entities(); track ticket._id) {
-  @if ($first) {
-  <mat-divider></mat-divider>
-  }
-  <app-ticket [ticket]="ticket" [className]="$even ? 'bg-primary/[.3]' : 'bg-primary/[.1]'"
-    (close)="closeTicket(ticket)" (delete)="deleteTicket(ticket)"></app-ticket>
-  @if ($last) {
-  <mat-divider></mat-divider>
-  }
+    @if ($first) {
+      <mat-divider></mat-divider>
+    }
+    <app-ticket
+      [ticket]="ticket"
+      [className]="$even ? 'bg-primary/[.3]' : 'bg-primary/[.1]'"
+      (close)="closeTicket(ticket)"
+      (delete)="deleteTicket(ticket)"
+    ></app-ticket>
+    @if ($last) {
+      <mat-divider></mat-divider>
+    }
   } @empty {
-  <p class="px-3">No tickets available</p>
+    <p class="px-3">No tickets available</p>
   }
 </mat-accordion>

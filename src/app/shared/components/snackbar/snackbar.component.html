@@ -1,17 +1,26 @@
-<span [ngClass]="{
-  'border-l-4 border-solid': data?.type,
-  'border-error': data?.type === 'error',
-  'border-primary': data?.type === 'info',
-  'border-success': data?.type === 'success'
-}" matSnackBarLabel>
+<span
+  [ngClass]="{
+    'border-l-4 border-solid': data?.type,
+    'border-error': data?.type === 'error',
+    'border-primary': data?.type === 'info',
+    'border-success': data?.type === 'success',
+  }"
+  matSnackBarLabel
+>
   @if (data?.title; as title) {
-  <p [innerHTML]="title" class="font-bold"></p>
+    <p [innerHTML]="title" class="font-bold"></p>
   }
   <div [innerHTML]="data?.content"></div>
 </span>
-<ng-container *ngComponentOutlet="data?.component; inputs: data?.componentInputs" />
+<ng-container
+  *ngComponentOutlet="data?.component; inputs: data?.componentInputs"
+/>
 <span matSnackBarActions class="items-start">
-  <button mat-icon-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+  <button
+    mat-icon-button
+    matSnackBarAction
+    (click)="snackBarRef.dismissWithAction()"
+  >
     <mat-icon>close</mat-icon>
   </button>
 </span>

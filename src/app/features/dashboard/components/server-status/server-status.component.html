@@ -4,32 +4,35 @@
     <mat-card-title>Server status</mat-card-title>
     <div class="flex-grow flex justify-end">
       <button mat-flat-button (click)="toggleStatus()">
-        {{ isPaused ? 'Resume' : 'Pause' }}
+        {{ isPaused ? "Resume" : "Pause" }}
       </button>
     </div>
   </mat-card-header>
   <mat-card-content>
     <p>
       Status <span class="mat-body-small">({{ interval() }}s)</span>:
-      <span [ngClass]="{
+      <span
+        [ngClass]="{
           'text-success dark:!text-success-dark': status() === 'online',
           'text-error dark:!text-error-dark': status() === 'offline',
-          'opacity-50': status() === 'paused'
-        }">
-        {{ status$ | async }}  <!-- {{ status() }} -->
+          'opacity-50': status() === 'paused',
+        }"
+      >
+        {{ status$ | async }}
+        <!-- {{ status() }} -->
       </span>
     </p>
     <p class="mat-body-medium">
       @switch (status()) {
-      @case ('online') {
-      All systems are operational.
-      }
-      @case ('offline') {
-      Functionality should be restored soon.
-      }
-      @default {
-      Server status connection is paused.
-      }
+        @case ("online") {
+          All systems are operational.
+        }
+        @case ("offline") {
+          Functionality should be restored soon.
+        }
+        @default {
+          Server status connection is paused.
+        }
       }
     </p>
   </mat-card-content>

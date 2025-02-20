@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [MatButtonModule, MatIconModule, RouterModule],
   templateUrl: './sort.component.html',
-  styleUrl: './sort.component.scss'
+  styleUrl: './sort.component.scss',
 })
 export class SortComponent {
   order: InputSignal<'asc' | 'desc'> = input.required<'asc' | 'desc'>();

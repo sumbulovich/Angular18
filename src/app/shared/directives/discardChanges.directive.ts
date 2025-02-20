@@ -6,16 +6,15 @@ import { DialogComponent } from '../components/dialog/dialog.component';
   selector: '[discardChanges]',
   standalone: true,
   host: {
-    '(mousedown)': 'openDialog($event)'
-  }
-
+    '(mousedown)': 'openDialog($event)',
+  },
 })
 export class DiscardChangesDirective {
   @Input() discardChangesDisabled?: boolean;
   @Input() discardChangesMessage = 'Do you want discard changes?';
   private dialog = inject(MatDialog);
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef) {}
 
   openDialog(event: MouseEvent): void {
     if (this.discardChangesDisabled) return;
@@ -24,8 +23,8 @@ export class DiscardChangesDirective {
       data: {
         title: 'Discard changes',
         content: this.discardChangesMessage,
-        btnText: 'Discard'
-      }
+        btnText: 'Discard',
+      },
     });
     dialogRef.afterClosed().subscribe((value: any) => {
       if (value) (this.el.nativeElement as any).click();

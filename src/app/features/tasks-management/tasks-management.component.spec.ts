@@ -8,9 +8,8 @@ describe('TasksManagement', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TasksManagementComponent]
-    })
-    .compileComponents();
+      imports: [TasksManagementComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TasksManagementComponent);
     component = fixture.componentInstance;

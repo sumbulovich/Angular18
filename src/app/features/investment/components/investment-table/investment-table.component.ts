@@ -8,11 +8,19 @@ import { CurrencyTransformPipe } from '../../pipes/currency-converter.pipe';
   standalone: true,
   imports: [CurrencyPipe, MatTableModule, CurrencyTransformPipe],
   templateUrl: './investment-table.component.html',
-  styleUrl: './investment-table.component.scss'
+  styleUrl: './investment-table.component.scss',
 })
 export class InvestmentTableComponent {
-  displayedColumns: string[] = ['year', 'interest', 'valueEndOfYear', 'annualInvestment', 'totalInterest', 'totalAmountInvested'];
-  dataSource: InputSignal<Record<string, number>[]> = input.required<Record<string, number>[]>();
+  displayedColumns: string[] = [
+    'year',
+    'interest',
+    'valueEndOfYear',
+    'annualInvestment',
+    'totalInterest',
+    'totalAmountInvested',
+  ];
+  dataSource: InputSignal<Record<string, number>[]> =
+    input.required<Record<string, number>[]>();
   currency: InputSignal<string> = input.required<string>();
   currencyValue: InputSignal<number> = input.required<number>();
 }

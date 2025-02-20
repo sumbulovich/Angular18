@@ -1,7 +1,20 @@
-import { APP_INITIALIZER, ApplicationConfig, inject, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
+import {
+  APP_INITIALIZER,
+  ApplicationConfig,
+  inject,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withRouterConfig,
+} from '@angular/router';
 
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
@@ -22,10 +35,17 @@ export const appConfig: ApplicationConfig = {
     provideExperimentalZonelessChangeDetection(),
 
     // Enabling routes and give access to route params with Input Binding (also to children routes)
-    provideRouter(routes, withComponentInputBinding(), withRouterConfig({ paramsInheritanceStrategy: 'always' })),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+    ),
 
     provideAnimationsAsync(),
-    provideHttpClient(withFetch(), withInterceptors([errorInterceptor, authInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([errorInterceptor, authInterceptor]),
+    ),
 
     // root-level effects and features are registered here
     provideStore(),
@@ -37,13 +57,15 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: initializeAppFactory,
       deps: [AuthService],
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 };
 
 // Provide an initializer function that returns a Promise
-function initializeAppFactory(authService: AuthService): () => Observable<AuthUser> {
+function initializeAppFactory(
+  authService: AuthService,
+): () => Observable<AuthUser> {
   const authStore = inject(AuthStore);
   return () => {
     authStore.checkSession();
@@ -52,8 +74,8 @@ function initializeAppFactory(authService: AuthService): () => Observable<AuthUs
       tap((user) => authStore.setProfile(user)),
       catchError((error) => {
         authStore.logout();
-        return throwError(() => new Error(error))
-      })
+        return throwError(() => new Error(error));
+      }),
     );
-  }
+  };
 }

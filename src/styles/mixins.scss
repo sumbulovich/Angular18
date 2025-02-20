@@ -1,5 +1,5 @@
-@use '@angular/material' as mat;
-@use './m3-theme';
+@use "@angular/material" as mat;
+@use "./m3-theme";
 @use "sass:selector";
 
 /// Gets a color from a theme object. This function can take 2 or 3 arguments. If 2 arguments are
@@ -32,15 +32,15 @@
 }
 
 @mixin theme-color($property, $color, $hue, $opacity: 1) {
-   // Apply the dark theme by default
-   @include color(m3-theme.$dark-theme, $color, 100 - $hue, $property, $opacity);
+  // Apply the dark theme by default
+  @include color(m3-theme.$dark-theme, $color, 100 - $hue, $property, $opacity);
 
-   // Apply the light theme only when the user prefers light themes.
-   @media (prefers-color-scheme: light) {
+  // Apply the light theme only when the user prefers light themes.
+  @media (prefers-color-scheme: light) {
     @at-root html:not([dark-theme]) :host #{&} {
-       @include color(m3-theme.$light-theme, $color, $hue, $property, $opacity);
-     }
-   }
+      @include color(m3-theme.$light-theme, $color, $hue, $property, $opacity);
+    }
+  }
 }
 
 @mixin theme-typography($property, $typescale) {

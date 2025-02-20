@@ -1,7 +1,15 @@
 import { A11yModule } from '@angular/cdk/a11y';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,18 +21,24 @@ import { map, Observable } from 'rxjs';
 import { Permission } from '../../models/authUser.model';
 import { AuthStore } from '../../state/auth.store';
 
-function confirmPasswordValidator(passwordField: string, confirmPasswordField: string): ValidatorFn {
+function confirmPasswordValidator(
+  passwordField: string,
+  confirmPasswordField: string,
+): ValidatorFn {
   return (control: AbstractControl): Record<string, boolean> | null => {
     const password = control?.get(passwordField);
     const confirmPassword = control?.get(confirmPasswordField);
     if (password?.value !== confirmPassword?.value) {
-      confirmPassword?.setErrors({ ...confirmPassword?.errors, 'passwordMismatch': true })
-      return { 'passwordMismatch': true };
+      confirmPassword?.setErrors({
+        ...confirmPassword?.errors,
+        passwordMismatch: true,
+      });
+      return { passwordMismatch: true };
     }
     const errors = control.errors;
     if (errors) {
       delete errors['passwordMismatch'];
-      confirmPassword?.setErrors(Object.keys(errors).length ? errors : null)
+      confirmPassword?.setErrors(Object.keys(errors).length ? errors : null);
     }
     return null;
   };
@@ -33,9 +47,21 @@ function confirmPasswordValidator(passwordField: string, confirmPasswordField: s
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatRadioModule, MatCheckboxModule, AsyncPipe, A11yModule, JsonPipe],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    AsyncPipe,
+    A11yModule,
+    JsonPipe,
+  ],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+  styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
   private readonly authStore = inject(AuthStore);
@@ -44,12 +70,18 @@ export class SignupComponent {
     email: new FormControl<string>('', Validators.required),
     name: new FormControl<string>('', Validators.required),
     lastName: new FormControl<string>('', Validators.required),
-    passwords: new FormGroup({
-      password: new FormControl<string>('', [Validators.required, Validators.minLength(4)]),
-      repeatPassword: new FormControl<string>('', [Validators.required]),
-    }, confirmPasswordValidator('password', 'repeatPassword')),
+    passwords: new FormGroup(
+      {
+        password: new FormControl<string>('', [
+          Validators.required,
+          Validators.minLength(4),
+        ]),
+        repeatPassword: new FormControl<string>('', [Validators.required]),
+      },
+      confirmPasswordValidator('password', 'repeatPassword'),
+    ),
     permission: new FormControl<Permission>('user', Validators.required),
-    hobbies: new FormArray<FormControl<boolean>>([])
+    hobbies: new FormArray<FormControl<boolean>>([]),
   });
   successEmail$?: Observable<string>;
   hobbies: string[] = ['fishing', 'hiking', 'programming'];
@@ -59,8 +91,12 @@ export class SignupComponent {
       if (this.authStore.inProgress()) this.form.disable();
       else this.form.enable();
     });
-    this.successEmail$ = this.route.queryParamMap.pipe(map((paramMap) => paramMap.get('success') || ''))
-    this.hobbies.forEach(() => this.form.controls.hobbies.push(new FormControl()))
+    this.successEmail$ = this.route.queryParamMap.pipe(
+      map((paramMap) => paramMap.get('success') || ''),
+    );
+    this.hobbies.forEach(() =>
+      this.form.controls.hobbies.push(new FormControl()),
+    );
   }
 
   onSubmit(): void {

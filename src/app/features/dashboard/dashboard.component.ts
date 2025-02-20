@@ -6,9 +6,13 @@ import { TicketsComponent } from './components/tickets/tickets.component';
 
 @Component({
   standalone: true,
-  imports: [ServerStatusComponent, TicketsComponent, MatToolbarModule, MatButtonModule],
+  imports: [
+    ServerStatusComponent,
+    TicketsComponent,
+    MatToolbarModule,
+    MatButtonModule,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
-}
+export class DashboardComponent {}

@@ -3,5 +3,6 @@ import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 
 // Set AppComponent on index.html
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, appConfig).catch((err) =>
+  console.error(err),
+);

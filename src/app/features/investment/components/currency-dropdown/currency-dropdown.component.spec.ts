@@ -8,9 +8,8 @@ describe('CurrencyDropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CurrencyDropdownComponent]
-    })
-    .compileComponents();
+      imports: [CurrencyDropdownComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CurrencyDropdownComponent);
     component = fixture.componentInstance;

@@ -1,8 +1,15 @@
 import { computed } from '@angular/core';
-import { signalStoreFeature, type, withComputed, withState } from '@ngrx/signals';
+import {
+  signalStoreFeature,
+  type,
+  withComputed,
+  withState,
+} from '@ngrx/signals';
 import { EntityId, EntityState } from '@ngrx/signals/entities';
 
-export interface SelectedEntityState { selectedEntityId: EntityId | undefined };
+export interface SelectedEntityState {
+  selectedEntityId: EntityId | undefined;
+}
 
 export function withSelectedEntity<Entity>() {
   return signalStoreFeature(
@@ -13,6 +20,6 @@ export function withSelectedEntity<Entity>() {
         const selectedId = selectedEntityId();
         return selectedId ? entityMap()[selectedId] : undefined;
       }),
-    }))
+    })),
   );
 }

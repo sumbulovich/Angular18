@@ -9,15 +9,17 @@ import { MatTooltip } from '@angular/material/tooltip';
     // @HostBinding('class') className = 'truncate';
     class: 'truncate',
     // @HostListener('mouseenter', ['$event'])
-    '(mouseenter)': 'setTooltipState()'
-  }
+    '(mouseenter)': 'setTooltipState()',
+  },
 })
 export class EllipsisTooltipDirective implements OnInit, OnDestroy {
   @Input() ellipsisTooltipDisabled?: boolean | '';
   private observer?: MutationObserver;
 
-  constructor(private matTooltip: MatTooltip, private el: ElementRef<HTMLElement>) {
-  }
+  constructor(
+    private matTooltip: MatTooltip,
+    private el: ElementRef<HTMLElement>,
+  ) {}
 
   // @HostBinding('class') className = 'truncate';
   // @HostListener('mouseenter', ['$event'])
@@ -28,8 +30,11 @@ export class EllipsisTooltipDirective implements OnInit, OnDestroy {
    */
   setTooltipState(): void {
     // If the disabled flag is true then don't do anything
-    const isTooltipDisabled = this.ellipsisTooltipDisabled || this.ellipsisTooltipDisabled === '';
-    this.matTooltip.disabled = isTooltipDisabled || this.el.nativeElement.offsetWidth >= this.el.nativeElement.scrollWidth;
+    const isTooltipDisabled =
+      this.ellipsisTooltipDisabled || this.ellipsisTooltipDisabled === '';
+    this.matTooltip.disabled =
+      isTooltipDisabled ||
+      this.el.nativeElement.offsetWidth >= this.el.nativeElement.scrollWidth;
   }
 
   ngOnInit(): void {
@@ -37,10 +42,13 @@ export class EllipsisTooltipDirective implements OnInit, OnDestroy {
     if (this.matTooltip.message) return;
 
     // Create a new instance of MutationObserver
-    if (typeof MutationObserver === "undefined") return;
+    if (typeof MutationObserver === 'undefined') return;
     this.observer = new MutationObserver((mutations: MutationRecord[]) => {
-      mutations.forEach(mutation => {
-        if (mutation.type === 'characterData' || mutation.type === 'childList') {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'characterData' ||
+          mutation.type === 'childList'
+        ) {
           this.matTooltip.message = this.el.nativeElement.textContent || '';
         }
       });
@@ -49,7 +57,7 @@ export class EllipsisTooltipDirective implements OnInit, OnDestroy {
     this.observer.observe(this.el.nativeElement, {
       characterData: true,
       childList: true,
-      subtree: true
+      subtree: true,
     });
   }
 

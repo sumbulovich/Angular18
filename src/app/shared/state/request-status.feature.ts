@@ -1,4 +1,3 @@
-
 import { computed } from '@angular/core';
 import { signalStoreFeature, withComputed, withState } from '@ngrx/signals';
 
@@ -9,7 +8,9 @@ export type RequestStatus =
   | 'completed'
   | { error: string };
 
-export interface RequestStatusState { requestStatus: RequestStatus };
+export interface RequestStatusState {
+  requestStatus: RequestStatus;
+}
 
 export function withRequestStatus() {
   return signalStoreFeature(
@@ -22,7 +23,7 @@ export function withRequestStatus() {
         const status = requestStatus();
         return typeof status === 'object' ? status.error : null;
       }),
-    }))
+    })),
   );
 }
 
