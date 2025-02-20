@@ -8,7 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   standalone: true,
   imports: [MatButtonModule, MatTooltipModule, MatIconModule],
   templateUrl: './info.component.html',
-  styleUrl: './info.component.scss'
+  styleUrl: './info.component.scss',
 })
 export class InfoComponent {
   text: InputSignal<string> = input.required<string>();

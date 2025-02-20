@@ -8,11 +8,14 @@ import { User } from '../../models/user.model';
   standalone: true,
   imports: [RouterModule, MatCardModule],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  styleUrl: './user.component.scss',
 })
 export class UserComponent {
   // Use signals instead of @Input({ required: true }) @Output()
-  user: InputSignal<User> = input.required<User>()
+  user: InputSignal<User> = input.required<User>();
   // Use computed signal instead of a getter
-  imagePath: Signal<string> = computed(() => `https://ui-avatars.com/api/?name=${this.user().name}&background=random`);
+  imagePath: Signal<string> = computed(
+    () =>
+      `https://ui-avatars.com/api/?name=${this.user().name}&background=random`,
+  );
 }

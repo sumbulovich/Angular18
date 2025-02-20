@@ -18,7 +18,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     tap((response: any) => {
       if (response?.body?.errors) {
         throw new HttpErrorResponse({
-          error: { message: response?.body?.errors.map((err: any) => err.message).join(', ') }
+          error: {
+            message: response?.body?.errors
+              .map((err: any) => err.message)
+              .join(', '),
+          },
         });
       }
     }),
@@ -32,6 +36,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       else snackbarService.open('error', e.statusText, errorMessage); // Open snackbar
 
       return throwError(() => e);
-    })
+    }),
   );
 };

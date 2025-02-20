@@ -6,24 +6,30 @@
     <form class="flex flex-col" (ngSubmit)="onSubmit()" [formGroup]="form">
       <mat-form-field appearance="outline" class="mb-2">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" cdkFocusInitial>
+        <input matInput formControlName="name" cdkFocusInitial />
         <mat-error>Required</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="mb-2">
         <mat-label>Last name</mat-label>
-        <input matInput formControlName="lastName" cdkFocusInitial>
+        <input matInput formControlName="lastName" cdkFocusInitial />
         <mat-error>Required</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="mb-2">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email">
+        <input matInput formControlName="email" />
       </mat-form-field>
-      <mat-radio-group color="primary" formControlName="permission" class="mb-4">
+      <mat-radio-group
+        color="primary"
+        formControlName="permission"
+        class="mb-4"
+      >
         <mat-label class="me-3" class="opacity-40">Role:</mat-label>
         <mat-radio-button value="user" class="me-3">User</mat-radio-button>
         <mat-radio-button value="admin" class="me-3">Admin</mat-radio-button>
       </mat-radio-group>
-      <button mat-flat-button type="submit" [disabled]="form.disabled">Save</button>
+      <button mat-flat-button type="submit" [disabled]="form.disabled">
+        Save
+      </button>
     </form>
   </mat-card-content>
 </mat-card>

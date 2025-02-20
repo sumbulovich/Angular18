@@ -1,6 +1,9 @@
-@if(order() === 'asc') {
-<a mat-button routerLink="./" [queryParams]="{order: 'desc'}">{{label()}} <mat-icon iconPositionEnd>arrow_upward</mat-icon></a>
+@if (order() === "asc") {
+  <a mat-button routerLink="./" [queryParams]="{ order: 'desc' }"
+    >{{ label() }} <mat-icon iconPositionEnd>arrow_upward</mat-icon></a
+  >
 } @else {
-<a mat-button routerLink="./" [queryParams]="{order: 'asc'}">{{label()}} <mat-icon
-    iconPositionEnd>arrow_downward</mat-icon></a>
+  <a mat-button routerLink="./" [queryParams]="{ order: 'asc' }"
+    >{{ label() }} <mat-icon iconPositionEnd>arrow_downward</mat-icon></a
+  >
 }

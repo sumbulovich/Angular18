@@ -1,36 +1,78 @@
 <form (ngSubmit)="onSubmit()" #form="ngForm" class="flex flex-col">
   <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
-    <input matInput type="text" name="title" ngModel required [disabled]="ticketsStore.isLoading()" />
+    <input
+      matInput
+      type="text"
+      name="title"
+      ngModel
+      required
+      [disabled]="ticketsStore.isLoading()"
+    />
     <mat-error>Required</mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Request</mat-label>
-    <textarea matInput type="text" name="request" ngModel required [disabled]="ticketsStore.isLoading()"></textarea>
+    <textarea
+      matInput
+      type="text"
+      name="request"
+      ngModel
+      required
+      [disabled]="ticketsStore.isLoading()"
+    ></textarea>
     <mat-error>Required</mat-error>
   </mat-form-field>
   <div class="mb-2">
-    @if(!image.value) {
-    <button mat-button type="button" (click)="filePicker.click()">Add image</button>
+    @if (!image.value) {
+      <button mat-button type="button" (click)="filePicker.click()">
+        Add image
+      </button>
     } @else {
-    <img [src]="image.value" alt="image preview" class="mb-2 cursor-pointer" (mousedown)="filePicker.click()">
-    <button mat-button type="button" color="warn" (click)="onResetImage();">Remove image</button>
+      <img
+        [src]="image.value"
+        alt="image preview"
+        class="mb-2 cursor-pointer"
+        (mousedown)="filePicker.click()"
+      />
+      <button mat-button type="button" color="warn" (click)="onResetImage()">
+        Remove image
+      </button>
     }
-    <input name="image" ngModel #image="ngModel" class="hidden">
-    <input type="file" accept="image/png, image/gif, image/jpeg" class="hidden"
-    (change)="onImagePicked($event)" #filePicker>
+    <input name="image" ngModel #image="ngModel" class="hidden" />
+    <input
+      type="file"
+      accept="image/png, image/gif, image/jpeg"
+      class="hidden"
+      (change)="onImagePicked($event)"
+      #filePicker
+    />
   </div>
   <div>
-    <button mat-stroked-button type="submit" class="me-2" saveChanges
-      [saveChangesDisabled]="!!form.invalid || !isFormUpdated() || !ticket()" [disabled]="ticketsStore.isLoading()">
+    <button
+      mat-stroked-button
+      type="submit"
+      class="me-2"
+      saveChanges
+      [saveChangesDisabled]="!!form.invalid || !isFormUpdated() || !ticket()"
+      [disabled]="ticketsStore.isLoading()"
+    >
       @if (ticket()) {
-      Save
+        Save
       } @else {
-      Create
+        Create
       }
     </button>
-    <button mat-stroked-button type="button" color="warn" discardChanges
-      [discardChangesDisabled]="!isFormUpdated()" routerLink="../"
-      [disabled]="ticketsStore.isLoading()">Cancel</button>
+    <button
+      mat-stroked-button
+      type="button"
+      color="warn"
+      discardChanges
+      [discardChangesDisabled]="!isFormUpdated()"
+      routerLink="../"
+      [disabled]="ticketsStore.isLoading()"
+    >
+      Cancel
+    </button>
   </div>
 </form>

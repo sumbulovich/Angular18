@@ -9,38 +9,66 @@
   <ng-container matColumnDef="interest">
     <th mat-header-cell *matHeaderCellDef class="text-center">Interest</th>
     <td mat-cell *matCellDef="let element" class="text-end">
-      {{ element.interest | currencyConverter:currencyValue() | currency:currency()  }}
+      {{
+        element.interest
+          | currencyConverter: currencyValue()
+          | currency: currency()
+      }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="valueEndOfYear">
-    <th mat-header-cell *matHeaderCellDef class="text-center">Value end of year</th>
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      Value end of year
+    </th>
     <td mat-cell *matCellDef="let element" class="text-end">
-      {{ element.valueEndOfYear | currencyConverter:currencyValue() | currency:currency() }}
+      {{
+        element.valueEndOfYear
+          | currencyConverter: currencyValue()
+          | currency: currency()
+      }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="annualInvestment">
-    <th mat-header-cell *matHeaderCellDef class="text-center">Annual investment</th>
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      Annual investment
+    </th>
     <td mat-cell *matCellDef="let element" class="text-end">
-      {{ element.annualInvestment | currencyConverter:currencyValue() | currency:currency() }}
+      {{
+        element.annualInvestment
+          | currencyConverter: currencyValue()
+          | currency: currency()
+      }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="totalInterest">
-    <th mat-header-cell *matHeaderCellDef class="text-center">Total interest</th>
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      Total interest
+    </th>
     <td mat-cell *matCellDef="let element" class="text-end">
-      {{ element.totalInterest | currencyConverter:currencyValue() | currency:currency() }}
+      {{
+        element.totalInterest
+          | currencyConverter: currencyValue()
+          | currency: currency()
+      }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="totalAmountInvested">
-    <th mat-header-cell *matHeaderCellDef class="text-center">Total amount invested</th>
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      Total amount invested
+    </th>
     <td mat-cell *matCellDef="let element" class="text-end">
-      {{ element.totalAmountInvested | currencyConverter:currencyValue()| currency:currency() }}
+      {{
+        element.totalAmountInvested
+          | currencyConverter: currencyValue()
+          | currency: currency()
+      }}
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>

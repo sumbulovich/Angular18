@@ -8,8 +8,7 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 export class WebsocketService {
   private socket$?: WebSocketSubject<string>;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
-  }
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   startConnection(): void {
     // Check if running in the browser

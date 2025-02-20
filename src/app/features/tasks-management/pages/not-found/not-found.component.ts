@@ -1,10 +1,11 @@
 import { Component, input, InputSignal } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   standalone: true,
-  imports: [],
+  imports: [MatCardModule],
   templateUrl: './not-found.component.html',
-  styleUrl: './not-found.component.scss'
+  styleUrl: './not-found.component.scss',
 })
 export class NotFoundComponent {
   // This input is gotten from the parent route "/:userId" (withComponentInputBinding)

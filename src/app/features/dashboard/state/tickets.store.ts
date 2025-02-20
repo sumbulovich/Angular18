@@ -1,28 +1,43 @@
-import { inject } from "@angular/core";
-import { PageEvent } from "@angular/material/paginator";
-import { withPagination } from "@app/shared/state/pagination.feature";
-import { setCompleted, setError, setLoading, withRequestStatus } from "@app/shared/state/request-status.feature";
-import { withSelectedEntity } from "@app/shared/state/selected-entity.feature";
-import { withStorageSync } from "@app/shared/state/storage-sync.feature";
-import { tapResponse } from "@ngrx/operators";
-import { patchState, signalState, signalStore, withHooks, withMethods, withState } from "@ngrx/signals";
-import { SelectEntityId, setAllEntities, setEntity, withEntities } from "@ngrx/signals/entities";
-import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { pipe, switchMap, tap } from "rxjs";
-import { Ticket } from "../models/ticket.model";
-import { TicketsService } from "../services/tickets.service";
-
+import { inject } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { withPagination } from '@app/shared/state/pagination.feature';
+import {
+  setCompleted,
+  setError,
+  setLoading,
+  withRequestStatus,
+} from '@app/shared/state/request-status.feature';
+import { withSelectedEntity } from '@app/shared/state/selected-entity.feature';
+import { withStorageSync } from '@app/shared/state/storage-sync.feature';
+import { tapResponse } from '@ngrx/operators';
+import {
+  patchState,
+  signalState,
+  signalStore,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import {
+  SelectEntityId,
+  setAllEntities,
+  setEntity,
+  withEntities,
+} from '@ngrx/signals/entities';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { pipe, switchMap, tap } from 'rxjs';
+import { Ticket } from '../models/ticket.model';
+import { TicketsService } from '../services/tickets.service';
 
 interface TicketsState {
   // Custom Store properties
-  customProperty?: any
+  customProperty?: any;
 }
 
 const initialSate = signalState<TicketsState>({});
 
 // Set custom Entity Identifier, by default is id
 const selectId: SelectEntityId<Ticket> = (ticket) => ticket._id!;
-
 
 export const TicketsStore = signalStore(
   // { providedIn: 'root' },   // Providing store at the root level
@@ -39,13 +54,16 @@ export const TicketsStore = signalStore(
         switchMap((pageEvent?: PageEvent) => {
           return ticketsService.getTickets(pageEvent).pipe(
             tapResponse({
-              next: ({ tickets, pageEvent }) => patchState(store, setAllEntities(tickets, { selectId }), { pageEvent }),
+              next: ({ tickets, pageEvent }) =>
+                patchState(store, setAllEntities(tickets, { selectId }), {
+                  pageEvent,
+                }),
               error: (e: Error) => patchState(store, setError(e.message)),
-              finalize: () => patchState(store, setCompleted())
-            })
+              finalize: () => patchState(store, setCompleted()),
+            }),
           );
-        })
-      )
+        }),
+      ),
     ),
     loadTicket: rxMethod<string>(
       pipe(
@@ -53,13 +71,14 @@ export const TicketsStore = signalStore(
         switchMap((ticketId: string) => {
           return ticketsService.getTicket(ticketId).pipe(
             tapResponse({
-              next: (ticket) => patchState(store, setEntity(ticket, { selectId })),
+              next: (ticket) =>
+                patchState(store, setEntity(ticket, { selectId })),
               error: (e: Error) => patchState(store, setError(e.message)),
-              finalize: () => patchState(store, setCompleted())
-            })
+              finalize: () => patchState(store, setCompleted()),
+            }),
           );
-        })
-      )
+        }),
+      ),
     ),
     addTicket: rxMethod<Ticket>(
       pipe(
@@ -67,13 +86,16 @@ export const TicketsStore = signalStore(
         switchMap((ticket: Ticket) => {
           return ticketsService.addTicket(ticket).pipe(
             tapResponse({
-              next: ({ tickets, pageEvent }) => patchState(store, setAllEntities(tickets, { selectId }), { pageEvent }),
+              next: ({ tickets, pageEvent }) =>
+                patchState(store, setAllEntities(tickets, { selectId }), {
+                  pageEvent,
+                }),
               error: (e: Error) => patchState(store, setError(e.message)),
               finalize: () => patchState(store, setCompleted()),
-            })
+            }),
           );
-        })
-      )
+        }),
+      ),
     ),
     editTicket: rxMethod<Ticket>(
       pipe(
@@ -81,13 +103,16 @@ export const TicketsStore = signalStore(
         switchMap((ticket: Ticket) => {
           return ticketsService.editTicket(ticket).pipe(
             tapResponse({
-              next: ({ tickets, pageEvent }) => patchState(store, setAllEntities(tickets, { selectId }), { pageEvent }),
+              next: ({ tickets, pageEvent }) =>
+                patchState(store, setAllEntities(tickets, { selectId }), {
+                  pageEvent,
+                }),
               error: (e: Error) => patchState(store, setError(e.message)),
               finalize: () => patchState(store, setCompleted()),
-            })
+            }),
           );
-        })
-      )
+        }),
+      ),
     ),
     deleteTicket: rxMethod<Ticket>(
       pipe(
@@ -95,23 +120,24 @@ export const TicketsStore = signalStore(
         switchMap((ticket: Ticket) => {
           return ticketsService.deleteTicket(ticket._id!).pipe(
             tapResponse({
-              next: ({ tickets, pageEvent }) => patchState(store, setAllEntities(tickets, { selectId }), { pageEvent }),
+              next: ({ tickets, pageEvent }) =>
+                patchState(store, setAllEntities(tickets, { selectId }), {
+                  pageEvent,
+                }),
               error: (e: Error) => patchState(store, setError(e.message)),
               finalize: () => patchState(store, setCompleted()),
-            })
+            }),
           );
-        })
-      )
+        }),
+      ),
     ),
     setSelectedEntityId(id?: string): void {
       patchState(store, { selectedEntityId: id });
-    }
+    },
   })),
   withHooks({
     onInit(store) {
       store.loadTickets(store.pageEvent());
-    }
+    },
   }),
 );
-
-

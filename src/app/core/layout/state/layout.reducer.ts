@@ -1,6 +1,6 @@
-import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
-import { setBreakpoint, setDarkTheme } from "./layout.actions";
-import { Breakpoints } from "@angular/cdk/layout";
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
+import { setBreakpoint, setDarkTheme } from './layout.actions';
+import { Breakpoints } from '@angular/cdk/layout';
 
 interface LayoutState {
   isDarkTheme: boolean;
@@ -9,8 +9,8 @@ interface LayoutState {
 
 const initialSate: LayoutState = {
   isDarkTheme: false,
-  breakpoint: Breakpoints.Large
-}
+  breakpoint: Breakpoints.Large,
+};
 
 const reducer = createReducer(
   initialSate,
@@ -22,9 +22,8 @@ export const layoutFeature = createFeature({
   name: 'layoutFeature',
   reducer,
   extraSelectors: ({ selectBreakpoint }) => ({
-    selectIsMobile: createSelector(
-      selectBreakpoint,
-      (breakpoint) => [Breakpoints.Small, Breakpoints.XSmall].includes(breakpoint),
+    selectIsMobile: createSelector(selectBreakpoint, (breakpoint) =>
+      [Breakpoints.Small, Breakpoints.XSmall].includes(breakpoint),
     ),
   }),
 });

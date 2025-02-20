@@ -3,11 +3,15 @@
     <mat-card-title>
       <div ellipsisTooltip matTooltip>{{ task().title }}</div>
     </mat-card-title>
-    <div [class]="
+    <div
+      [class]="
         'whitespace-nowrap ' +
-        (isExpired() ? 'text-error dark:!text-error-dark' : 'text-success dark:!text-success-dark')
-      ">
-      Due date: <time>{{ task().dueDate | date: 'shortDate' }}</time>
+        (isExpired()
+          ? 'text-error dark:!text-error-dark'
+          : 'text-success dark:!text-success-dark')
+      "
+    >
+      Due date: <time>{{ task().dueDate | date: "shortDate" }}</time>
     </div>
   </mat-card-header>
   <mat-card-content>
@@ -15,11 +19,21 @@
   </mat-card-content>
   <mat-card-actions class="justify-between">
     <div class="flex">
-      <div matTooltip="Only available for logged users" [matTooltipDisabled]="authUser()?.permission === 'user'">
-        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="small-5">
+      <div
+        matTooltip="Only available for logged users"
+        [matTooltipDisabled]="authUser()?.permission === 'user'"
+      >
+        <mat-form-field
+          appearance="outline"
+          subscriptSizing="dynamic"
+          class="small-5"
+        >
           <mat-label>Status</mat-label>
-          <mat-select [value]="task().status" [disabled]="authUser()?.permission !== 'user'"
-            (valueChange)="updateStatus($event)">
+          <mat-select
+            [value]="task().status"
+            [disabled]="authUser()?.permission !== 'user'"
+            (valueChange)="updateStatus($event)"
+          >
             <mat-option value="open">Open</mat-option>
             <mat-option value="in progress">In progress</mat-option>
             <mat-option value="done">Done</mat-option>
@@ -28,16 +42,36 @@
       </div>
     </div>
     @if (task().creator === authUser()?._id) {
-    <div class="flex">
-      <div matTooltip="Only available for admins" [matTooltipDisabled]="authUser()?.permission === 'admin'">
-        <button mat-flat-button class="secondary" class="ms-2" (click)="edit.emit()"
-          [disabled]="authUser()?.permission !== 'admin'">Edit</button>
+      <div class="flex">
+        <div
+          matTooltip="Only available for admins"
+          [matTooltipDisabled]="authUser()?.permission === 'admin'"
+        >
+          <button
+            mat-flat-button
+            class="secondary"
+            class="ms-2"
+            (click)="edit.emit()"
+            [disabled]="authUser()?.permission !== 'admin'"
+          >
+            Edit
+          </button>
+        </div>
+        <div
+          matTooltip="Only available for admins"
+          [matTooltipDisabled]="authUser()?.permission === 'admin'"
+        >
+          <button
+            mat-flat-button
+            color="warn"
+            class="ms-2"
+            (click)="delete.emit()"
+            [disabled]="authUser()?.permission !== 'admin'"
+          >
+            Delete
+          </button>
+        </div>
       </div>
-      <div matTooltip="Only available for admins" [matTooltipDisabled]="authUser()?.permission === 'admin'">
-        <button mat-flat-button color="warn" class="ms-2" (click)="delete.emit()"
-          [disabled]="authUser()?.permission !== 'admin'">Delete</button>
-      </div>
-    </div>
     }
   </mat-card-actions>
 </mat-card>

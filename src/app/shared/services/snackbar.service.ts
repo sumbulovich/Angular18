@@ -3,17 +3,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SnackbarService {
-  private snackBar = inject(MatSnackBar)
+  private snackBar = inject(MatSnackBar);
 
-  open(type: 'info' | 'success' | 'error', title: string, content:string): void {
+  open(
+    type: 'info' | 'success' | 'error',
+    title: string,
+    content: string,
+  ): void {
     this.snackBar.openFromComponent(SnackbarComponent, {
       duration: 5000,
       horizontalPosition: 'end',
       verticalPosition: 'top',
-      data: { title, content, type }
+      data: { title, content, type },
     });
   }
 }

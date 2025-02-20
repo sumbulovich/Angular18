@@ -1,23 +1,25 @@
-@use '@angular/material' as mat;
-@use './m3-theme';
+@use "@angular/material" as mat;
+@use "./m3-theme";
 
 // Import CDK overlay styles
-@import '@angular/cdk/overlay-prebuilt.css';
+@import "@angular/cdk/overlay-prebuilt.css";
 
 @include mat.core();
 
-$base-theme: mat.define-theme((
-  typography: (
-    brand-family: #{"Roboto, sans-serif"},
-    plain-family: #{"Roboto, sans-serif"},
-    bold-weight: 300,
-    medium-weight: 200,
-    regular-weight: 100,
-  ),
-  density: (
-    scale: 0
-  ),
-));
+$base-theme: mat.define-theme(
+  (
+    typography: (
+      brand-family: #{"Roboto, sans-serif"},
+      plain-family: #{"Roboto, sans-serif"},
+      bold-weight: 300,
+      medium-weight: 200,
+      regular-weight: 100,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
 
 html {
   // Apply the dark theme by default
@@ -33,7 +35,9 @@ html {
     // typography and density styles.
     &:not([dark-theme]) {
       @include mat.all-component-colors(m3-theme.$light-theme);
-      @include mat.color-variants-backwards-compatibility(m3-theme.$light-theme);
+      @include mat.color-variants-backwards-compatibility(
+        m3-theme.$light-theme
+      );
     }
   }
 
@@ -46,5 +50,5 @@ html {
     }
   }
 
-  @import './components';
+  @import "./components";
 }

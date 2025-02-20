@@ -12,37 +12,53 @@ export const routes: Routes = [
   {
     path: 'tasks',
     data: { title: 'Tasks management' },
-    loadComponent: () => import('./features/tasks-management/tasks-management.component').then(m => m.TasksManagementComponent),
+    loadComponent: () =>
+      import('./features/tasks-management/tasks-management.component').then(
+        (m) => m.TasksManagementComponent,
+      ),
     title: 'Tasks management',
-    loadChildren: () => import('./features/tasks-management/task-management.routes'),
-    providers: [TasksService]
+    loadChildren: () =>
+      import('./features/tasks-management/task-management.routes'),
+    providers: [TasksService],
   },
   {
     path: 'investment',
     data: { title: 'Investment calculator' },
-    loadComponent: () => import('./features/investment/investment.component').then(m => m.InvestmentComponent),
-    title: 'Investment calculator'
+    loadComponent: () =>
+      import('./features/investment/investment.component').then(
+        (m) => m.InvestmentComponent,
+      ),
+    title: 'Investment calculator',
   },
   {
     path: 'dashboard',
     data: { title: 'Dashboard' },
-    loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent,
+      ),
     title: 'Dashboard',
     loadChildren: () => import('./features/dashboard/dashboard.routes'),
-    providers: [TicketsStore, TicketsService]
+    providers: [TicketsStore, TicketsService],
   },
   {
     path: 'places',
     data: { title: 'Places' },
-    loadComponent: () => import('./features/places/places.component').then(m => m.PlacesComponent),
+    loadComponent: () =>
+      import('./features/places/places.component').then(
+        (m) => m.PlacesComponent,
+      ),
     title: 'Places',
-    providers: [PlacesStore, UserPlacesStore, PlacesService]
+    providers: [PlacesStore, UserPlacesStore, PlacesService],
   },
   {
     path: 'library',
     data: { title: 'Library' },
-    loadComponent: () => import('./features/library/library.component').then(m => m.LibraryComponent),
-    title: 'Library'
+    loadComponent: () =>
+      import('./features/library/library.component').then(
+        (m) => m.LibraryComponent,
+      ),
+    title: 'Library',
   },
   {
     path: 'login',
@@ -51,30 +67,39 @@ export const routes: Routes = [
     //   provideState(authFeature),
     //   provideEffects(AuthEffects)
     // ],
-    loadComponent: () => import('./core/auth/components/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () =>
+      import('./core/auth/components/login/login.component').then(
+        (m) => m.LoginComponent,
+      ),
     canMatch: [UnAuthGuard],
-    title: 'Login'
+    title: 'Login',
   },
   {
     path: 'signup',
-    loadComponent: () => import('./core/auth/components/signup/signup.component').then(m => m.SignupComponent),
+    loadComponent: () =>
+      import('./core/auth/components/signup/signup.component').then(
+        (m) => m.SignupComponent,
+      ),
     canMatch: [UnAuthGuard],
-    title: 'Signup'
+    title: 'Signup',
   },
   {
     path: 'profile',
-    loadComponent: () => import('./core/auth/components/profile/profile.component').then(m => m.ProfileComponent),
+    loadComponent: () =>
+      import('./core/auth/components/profile/profile.component').then(
+        (m) => m.ProfileComponent,
+      ),
     canMatch: [AuthGuard],
-    title: 'Profile'
+    title: 'Profile',
   },
   {
     path: '',
     redirectTo: 'tasks',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   // not found
   {
     path: '**',
-    redirectTo: 'tasks'
-  }
+    redirectTo: 'tasks',
+  },
 ];

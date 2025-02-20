@@ -28,9 +28,12 @@ export function withStorageSync(
 
         effect(() => {
           const state: Record<string, any> = getState(store);
-          storage.setItem(id, JSON.stringify(key ? { [key]: state[key] } : state));
+          storage.setItem(
+            id,
+            JSON.stringify(key ? { [key]: state[key] } : state),
+          );
         });
-      }
+      },
     }),
   );
 }

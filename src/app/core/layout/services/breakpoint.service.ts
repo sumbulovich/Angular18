@@ -9,16 +9,20 @@ export class BreakpointService {
   private store = inject(Store);
 
   observeBreakpoints() {
-    this.breakpointObserver.observe([
-      Breakpoints.XSmall,
-      Breakpoints.Small,
-      Breakpoints.Medium,
-      Breakpoints.Large,
-      Breakpoints.XLarge
-    ]).subscribe(result => {
-      // Check which breakpoint is active and update the store
-      const breakpoint = Object.keys(result.breakpoints).find((key) => result.breakpoints[key]);
-      if (breakpoint) this.store.dispatch(setBreakpoint({ breakpoint }));
-    });
+    this.breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .subscribe((result) => {
+        // Check which breakpoint is active and update the store
+        const breakpoint = Object.keys(result.breakpoints).find(
+          (key) => result.breakpoints[key],
+        );
+        if (breakpoint) this.store.dispatch(setBreakpoint({ breakpoint }));
+      });
   }
 }

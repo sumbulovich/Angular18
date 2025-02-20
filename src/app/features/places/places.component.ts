@@ -9,9 +9,14 @@ import { UserPlacesStore } from './state/userPlaces.store';
 
 @Component({
   standalone: true,
-  imports: [EllipsisTooltipDirective, MatTooltipModule, MatProgressSpinnerModule, MatCardModule],
+  imports: [
+    EllipsisTooltipDirective,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+  ],
   templateUrl: './places.component.html',
-  styleUrl: './places.component.scss'
+  styleUrl: './places.component.scss',
 })
 export class PlacesComponent implements OnInit {
   placesStore = inject(PlacesStore);

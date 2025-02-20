@@ -14,7 +14,7 @@ import { BreakpointService } from './core/layout/services/breakpoint.service';
   imports: [RouterOutlet, HeaderComponent, MatSidenavModule, SidenavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [BreakpointService] // This service will be used only here
+  providers: [BreakpointService], // This service will be used only here
 })
 export class AppComponent {
   private store = inject(Store);

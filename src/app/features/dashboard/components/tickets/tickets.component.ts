@@ -12,9 +12,17 @@ import { AddTicketComponent } from '../add-ticket/add-ticket.component';
 @Component({
   selector: 'app-tickets',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatButtonModule, MatListModule, MatExpansionModule, MatPaginatorModule, RouterModule],
+  imports: [
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    RouterModule,
+  ],
   templateUrl: './tickets.component.html',
-  styleUrl: './tickets.component.scss'
+  styleUrl: './tickets.component.scss',
 })
 export class TicketsComponent {
   readonly ticketsStore = inject(TicketsStore);
@@ -25,6 +33,6 @@ export class TicketsComponent {
   }
 
   onRouterActivate<T>(component: T): void {
-    this.isEditing.set(component instanceof AddTicketComponent)
+    this.isEditing.set(component instanceof AddTicketComponent);
   }
 }

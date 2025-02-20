@@ -5,18 +5,21 @@ import { Observable } from 'rxjs';
 import { AuthUser } from '../models/authUser.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private httpService: HttpService = inject(HttpService);
   private readonly url: string = `${environment.apiUrl}/api/auth`;
 
   signup(user: Partial<AuthUser>): Observable<void> {
-    return this.httpService.post<void>(`${this.url}/signup`, user)
+    return this.httpService.post<void>(`${this.url}/signup`, user);
   }
 
   login(email: string, password: string): Observable<AuthUser> {
-    return this.httpService.post<AuthUser>(`${this.url}/login`, { email, password });
+    return this.httpService.post<AuthUser>(`${this.url}/login`, {
+      email,
+      password,
+    });
   }
 
   loadProfile(): Observable<AuthUser> {
@@ -24,6 +27,9 @@ export class AuthService {
   }
 
   updateProfile(name: string, lastName: string): Observable<void> {
-    return this.httpService.put<void>(`${this.url}/profile`, { name, lastName });
+    return this.httpService.put<void>(`${this.url}/profile`, {
+      name,
+      lastName,
+    });
   }
 }

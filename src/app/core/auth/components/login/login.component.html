@@ -3,34 +3,64 @@
     <mat-card-title class="mb-3">Authentication form</mat-card-title>
   </mat-card-header>
   <mat-card-content class="flex flex-col">
-    <form class="flex flex-col" (ngSubmit)="onSubmit()" #form="ngForm" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+    <form
+      class="flex flex-col"
+      (ngSubmit)="onSubmit()"
+      #form="ngForm"
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
+    >
       <mat-form-field appearance="outline" class="mb-2">
         <mat-label>Email</mat-label>
-        <input matInput name="email" ngModel #email="ngModel" required email [disabled]="authStore.inProgress()" cdkFocusInitial>
-        @if (email.hasError('required')) {
+        <input
+          matInput
+          name="email"
+          ngModel
+          #email="ngModel"
+          required
+          email
+          [disabled]="authStore.inProgress()"
+          cdkFocusInitial
+        />
+        @if (email.hasError("required")) {
           <mat-error>Required</mat-error>
         }
-        @if (email.hasError('email')) {
+        @if (email.hasError("email")) {
           <mat-error>Email formal</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" class="mb-2">
         <mat-label>Password</mat-label>
-        <input matInput type="password" name="password" ngModel #password="ngModel" required minlength="4" [disabled]="authStore.inProgress()">
-        @if (password.hasError('required')) {
+        <input
+          matInput
+          type="password"
+          name="password"
+          ngModel
+          #password="ngModel"
+          required
+          minlength="4"
+          [disabled]="authStore.inProgress()"
+        />
+        @if (password.hasError("required")) {
           <mat-error>Required</mat-error>
         }
-        @if (password.hasError('minlength')) {
+        @if (password.hasError("minlength")) {
           <mat-error>Min length is 4</mat-error>
         }
       </mat-form-field>
-      <button mat-flat-button type="submit" [disabled]="authStore.inProgress()">Login</button>
+      <button mat-flat-button type="submit" [disabled]="authStore.inProgress()">
+        Login
+      </button>
     </form>
   </mat-card-content>
 </mat-card>
 
 @if (errorMessage$ | async; as errorMessage) {
-  <mat-card appearance="outlined" [style.maxWidth.px]="500" class="m-auto mt-5 bg-error/30 dark:bg-error/30">
+  <mat-card
+    appearance="outlined"
+    [style.maxWidth.px]="500"
+    class="m-auto mt-5 bg-error/30 dark:bg-error/30"
+  >
     <mat-card-header>
       <mat-card-title class="mb-3">Authentication error!</mat-card-title>
     </mat-card-header>

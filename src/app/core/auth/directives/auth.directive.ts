@@ -1,10 +1,17 @@
-import { Directive, TemplateRef, ViewContainerRef, effect, inject, input } from '@angular/core';
+import {
+  Directive,
+  TemplateRef,
+  ViewContainerRef,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 import { AuthStore } from '../state/auth.store';
 import { Permission } from '../models/authUser.model';
 
 @Directive({
   selector: '[appAuth]',
-  standalone: true
+  standalone: true,
 })
 export class AuthDirective {
   isAuth = input.required<Permission | boolean>({ alias: 'appAuth' });
@@ -14,12 +21,14 @@ export class AuthDirective {
 
   constructor() {
     effect(() => {
-      if (this.isAuth() === this.authStore.isAuth() || this.isAuth() === this.authStore.user()?.permission) {
+      if (
+        this.isAuth() === this.authStore.isAuth() ||
+        this.isAuth() === this.authStore.user()?.permission
+      ) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainerRef.clear();
       }
-    })
+    });
   }
-
 }

@@ -1,25 +1,45 @@
 <mat-expansion-panel class="!rounded-none {{ className() }}">
   <mat-expansion-panel-header>
     <mat-panel-title class="flex flex-row">
-      <mat-icon inline [style.fontSize.px]="16" class="me-2" [ngClass]="{
-        'text-error dark:!text-error-dark': ticket().status === 'open',
-        'text-success dark:!text-success-dark': ticket().status === 'closed'
-      }">circle</mat-icon>
+      <mat-icon
+        inline
+        [style.fontSize.px]="16"
+        class="me-2"
+        [ngClass]="{
+          'text-error dark:!text-error-dark': ticket().status === 'open',
+          'text-success dark:!text-success-dark': ticket().status === 'closed',
+        }"
+        >circle</mat-icon
+      >
       {{ ticket().title }}
     </mat-panel-title>
     <mat-panel-description class="grow-0">
-      @if (ticket().status === 'open') {
-      <button mat-mini-fab color="primary" (click)="close.emit(); $event.stopPropagation()" class="me-2">
-        <mat-icon>check</mat-icon>
-      </button>
-      <button mat-mini-fab color="primary" [routerLink]="[ticket()._id]" class="me-2">
-        <mat-icon>edit</mat-icon>
-      </button>
-      }
-      @else {
-      <button mat-mini-fab color="primary" (click)="delete.emit(); $event.stopPropagation()" class="me-2">
-        <mat-icon>delete</mat-icon>
-      </button>
+      @if (ticket().status === "open") {
+        <button
+          mat-mini-fab
+          color="primary"
+          (click)="close.emit(); $event.stopPropagation()"
+          class="me-2"
+        >
+          <mat-icon>check</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          color="primary"
+          [routerLink]="[ticket()._id]"
+          class="me-2"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      } @else {
+        <button
+          mat-mini-fab
+          color="primary"
+          (click)="delete.emit(); $event.stopPropagation()"
+          class="me-2"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
       }
     </mat-panel-description>
   </mat-expansion-panel-header>

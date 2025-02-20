@@ -3,7 +3,7 @@ import { Task } from '@sumbulnpm/storybook-taskbox-lib';
 import { timer } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LibraryService {
   public readonly tasks: WritableSignal<Task[]> = signal([]);
@@ -27,7 +27,7 @@ export class LibraryService {
           { id: '6', title: 'Task 6', state: 'TASK_INBOX' },
         ]);
       },
-      complete: () => this.isLoading.set(false)
+      complete: () => this.isLoading.set(false),
     });
   }
 
@@ -50,5 +50,4 @@ export class LibraryService {
       return [...tasks];
     });
   }
-
 }

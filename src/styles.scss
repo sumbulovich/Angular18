@@ -1,9 +1,12 @@
 @tailwind base;
 
 // Wrap into selector as material styles
-html { @tailwind utilities; }
+html {
+  @tailwind utilities;
+}
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -12,7 +15,9 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-*, ::before, ::after {
+*,
+::before,
+::after {
   border-style: none;
 }
 
