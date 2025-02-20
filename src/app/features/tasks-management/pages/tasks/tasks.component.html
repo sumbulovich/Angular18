@@ -1,7 +1,7 @@
 <mat-card appearance="outlined">
   <mat-card-header class="flex flex-row justify-between items-center mb-3">
     <mat-card-title class="flex flex-row items-center">
-      <p ellipsisTooltip matTooltip class="!mb-0">{{ user.name }}'s Tasks</p>
+      <p ellipsisTooltip matTooltip class="!mb-0">{{ user()?.name }}'s Tasks</p>
       <app-info
         text="User is injected as InputSignal via resolvers and withComponentInputBinding"
       />
